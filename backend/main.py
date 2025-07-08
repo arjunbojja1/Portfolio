@@ -64,4 +64,12 @@ profile_data = {
     "email": "arjunbojja1@gmail.com",
     "linkedin": "https://www.linkedin.com/in/arjun-bojja/",
     "github_user": "arjunbojja1",
+    "about": {
+        "passion": "I'm passionate about making technology more usable and accessible to everyone. I love building products that solve real-world problems and improve people's lives.",
+        "seeking": "I'm currently seeking Software Engineering and Product Management internships where I can apply my skills to build impactful solutions.",
+    },
+    "skills": {
+        "Languages & Frameworks": ["Python", "Java", "Lua", "JavaScript", "TypeScript", "MySQL", "R", "React", "FastAPI", "Node.js", "Express", "RESTful APIs", "Serverless Framework"],
+        "Tools & Libraries": ["AWS (Lambda, ECS, Fargate, CLI)", "Docker", "DigitalOcean", "Git/GitHub", "Visual Studio Code", "SQLite3", "PyTest", "Pandas", "NumPy", "Jupyter Notebooks", "TensorFlow", "PyTorch", "Matplotlib", "Uvicorn", "New Relic"]
+    }
 }
