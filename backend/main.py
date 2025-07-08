@@ -110,6 +110,16 @@ projects_data = [
         ],
         "challenge": "A key achievement was designing and deploying real-time queue and order management systems, which improved operational efficiency by 25% and boosted gameplay interactivity."
     },
+    {
+        "title": "StuddyBuddy Scheduler",
+        "github_link": "https://github.com/arjunbojjal/studybuddy-scheduler",
+        "description": [
+            "Developed a full-stack scheduling application using ReactPy and FastAPI, incorporating multiple sophisticated scheduling algorithms to optimize user time management.",
+            "Designed an intuitive user interface with interactive calendar views and integrated motivational quotes via the ZenQuotes API to enhance user engagement.",
+            "Ensured code quality and reliability by writing comprehensive unit tests with PyTest and visualized data insights using Matplotlib."
+        ],
+        "challenge": "The most interesting technical challenge was delivering the project under a tight deadline while mastering the novel ReactPy framework for the frontend."
+    }
 ]
 
 # API Endpoints
