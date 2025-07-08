@@ -55,3 +55,13 @@ class ContactForm(BaseModel):
     name: str
     email: EmailStr
     message: str
+
+# API Data
+profile_data = {
+    "name": "Arjun Bojja",
+    "title": "Aspiring Software Engineer & Product Manager",
+    "location": "Herndon, VA",
+    "email": "arjunbojja1@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/arjun-bojja/",
+    "github_user": "arjunbojja1",
+}
