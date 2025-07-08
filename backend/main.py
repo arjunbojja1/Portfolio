@@ -71,5 +71,13 @@ profile_data = {
     "skills": {
         "Languages & Frameworks": ["Python", "Java", "Lua", "JavaScript", "TypeScript", "MySQL", "R", "React", "FastAPI", "Node.js", "Express", "RESTful APIs", "Serverless Framework"],
         "Tools & Libraries": ["AWS (Lambda, ECS, Fargate, CLI)", "Docker", "DigitalOcean", "Git/GitHub", "Visual Studio Code", "SQLite3", "PyTest", "Pandas", "NumPy", "Jupyter Notebooks", "TensorFlow", "PyTorch", "Matplotlib", "Uvicorn", "New Relic"]
+    },
+    "education": {
+        "degree": "Bachelor of Science in Information Science",
+        "university": "University of Maryland, College Park",
+        "gpa": "4.0/4.0",
+        "grad_year": 2027,
+        "awards": ["Presidential Scholar", "Distinguished Dean's List (Fall 2024, Spring 2025)"],
+        "coursework": ["Database Design (MySQL)", "Machine Learning in Communication", "Statistics for Information Science (R)", "Object-Oriented Programming for Information Science", "Organizations, Management, and Teamwork", "Information Organization", "Entrepreneurial Opportunity Analysis"]
     }
 }
