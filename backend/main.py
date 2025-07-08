@@ -43,6 +43,13 @@ class Project(BaseModel):
     description: str
     challenge: str | None = None
 class ProfileData(BaseModel):
-    pass
+    name: str
+    title: str
+    email: str
+    linkedin: str
+    github_user: str
+    about: dict
+    skills: dict[str, list[str]]
+    education: Education
 class ContactForm(BaseModel):
     pass
