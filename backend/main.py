@@ -37,7 +37,11 @@ class Experience(BaseModel):
     description: str
 
 class Project(BaseModel):
-    pass
+    title: str
+    github_link: str | None = None
+    external_link: str | None = None
+    description: str
+    challenge: str | None = None
 class ProfileData(BaseModel):
     pass
 class ContactForm(BaseModel):
