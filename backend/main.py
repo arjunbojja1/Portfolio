@@ -98,3 +98,22 @@ experience_data = [
         ]
     }
 ]
+
+projects_data = []
+
+# API Endpoints
+@app.get("/api/profile", response_model=ProfileData)
+async def get_profile():
+    return profile_data
+
+@app.get("/api/experience", response_model=list[Experience])
+async def get_experience():
+    return experience_data
+
+@app.get("/api/projects", response_model=list[Project])
+async def get_projects():
+    return projects_data
+
+@app.post("/api/contact", response_model=dict)
+async def submit_contact_form(contact: ContactForm):
+    pass
