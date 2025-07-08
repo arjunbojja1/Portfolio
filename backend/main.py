@@ -99,7 +99,18 @@ experience_data = [
     }
 ]
 
-projects_data = []
+projects_data = [
+    {
+        "title": "Gochi (Roblox)",
+        "external_link": "https://www.roblox.com/communities/5874921/goch",
+        "description": [
+            "Spearheaded the development and successful launch of the company's inaugural product, a Roblox-based Korean BBQ restaurant simulation, attracting over 1,000 active users within the first month.",
+            "Directed a development team to design and implement robust Node.js and Express backend systems, seamlessly integrating in-game metrics with third-party analytics platforms.",
+            "Optimized server-client communication by implementing the Knit framework, reducing latency by 20% and significantly enhancing user experience."
+        ],
+        "challenge": "A key achievement was designing and deploying real-time queue and order management systems, which improved operational efficiency by 25% and boosted gameplay interactivity."
+    },
+]
 
 # API Endpoints
 @app.get("/api/profile", response_model=ProfileData)
