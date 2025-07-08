@@ -52,4 +52,6 @@ class ProfileData(BaseModel):
     skills: dict[str, list[str]]
     education: Education
 class ContactForm(BaseModel):
-    pass
+    name: str
+    email: EmailStr
+    message: str
