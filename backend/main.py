@@ -81,3 +81,20 @@ profile_data = {
         "coursework": ["Database Design (MySQL)", "Machine Learning in Communication", "Statistics for Information Science (R)", "Object-Oriented Programming for Information Science", "Organizations, Management, and Teamwork", "Information Organization", "Entrepreneurial Opportunity Analysis"]
     }
 }
+
+experience_data = [
+    {
+        "role": "Software Engineer Intern",
+        "company": "Capital One",
+        "duration": "June 2025 - August 2025",
+        "location": "McLean, VA",
+        "description": [
+            "Developed a cloud-native synthetic monitoring application using Python, AWS Lambda, and Fargate on ECS, enhancing the health assessment of internal websites and APIs.",
+            "Engineered scalable, Dockerized services deployed via AWS Fargate, enabling event-driven health checks triggered manually and on scheduled intervals.",
+            "Integrated New Relic for comprehensive performance metric capture and visualization, ensuring reliability and accurate telemetry of monitored systems.",
+            "Designed and deployed robust RESTful endpoints with FastAPI, facilitating manual API-based trigger execution and system validation.",
+            "Automated infrastructure deployment and monitoring by leveraging AWS CLI and the Serverless Framework, streamlining operational workflows.",
+            "Collaborated effectively within the Business Cards and Payments Tech team as part of Capital One's Technology Early Internship Program (TEIP)."
+        ]
+    }
+]
