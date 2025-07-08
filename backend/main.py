@@ -23,7 +23,12 @@ app.add_middleware(
 
 # Pydantic Models
 class Education(BaseModel):
-    pass
+    degree: str
+    university: str
+    gpa: str
+    grad_year: int
+    awards: list[str]
+    coursework: list[str]
 class Experience(BaseModel):
     pass
 class Project(BaseModel):
