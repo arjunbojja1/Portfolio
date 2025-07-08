@@ -30,7 +30,12 @@ class Education(BaseModel):
     awards: list[str]
     coursework: list[str]
 class Experience(BaseModel):
-    pass
+    role: str
+    company: str
+    duration: str
+    location: str
+    description: str
+
 class Project(BaseModel):
     pass
 class ProfileData(BaseModel):
