@@ -20,3 +20,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Pydantic Models
+class Education(BaseModel):
+    pass
+class Experience(BaseModel):
+    pass
+class Project(BaseModel):
+    pass
+class ProfileData(BaseModel):
+    pass
+class ContactForm(BaseModel):
+    pass
