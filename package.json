@@ -1,0 +1,14 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Full-stack portfolio application",
+  "scripts": {
+    "start": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "backend": "cd backend && python app.py",
+    "install-all": "cd frontend && npm install && cd ../backend && pip install -r requirements.txt"
+  },
+  "keywords": ["portfolio", "react", "python", "full-stack"],
+  "author": "Arjun Bojja",
+  "license": "MIT"
+}
