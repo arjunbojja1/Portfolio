@@ -10,7 +10,6 @@ import Footer from './components/Footer';
 import { LoadingSpinner, ErrorFallback } from './components/LoadingComponents';
 import './App.css';
 
-// Particles Component
 const Particles: React.FC = () => {
   return (
     <div className="particles-container">
@@ -29,7 +28,6 @@ const Particles: React.FC = () => {
   );
 };
 
-// Code Rain Component (Matrix-style background)
 const CodeRain: React.FC = () => {
   const codeSnippets = [
     'const portfolio = new Developer();',
@@ -63,7 +61,6 @@ const CodeRain: React.FC = () => {
   );
 };
 
-// Scroll to Top Button Component
 const ScrollToTop: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -94,7 +91,6 @@ const ScrollToTop: React.FC = () => {
   );
 };
 
-// Define TypeScript interfaces for our API data
 interface ProfileData {
   name: string;
   title: string;
@@ -130,7 +126,6 @@ interface ProjectData {
   challenge?: string;
 }
 
-// Set the base URL for the API
 const API_URL = 'http://localhost:8000/api';
 
 const App: React.FC = () => {
@@ -164,23 +159,20 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Initial data fetch
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  // Auto-refresh every 30 seconds when in development mode
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
       const interval = setInterval(() => {
         fetchData();
-      }, 30000); // 30 seconds
+      }, 30000);
 
       return () => clearInterval(interval);
     }
   }, [fetchData]);
 
-  // Enhanced loading state
   if (loading && !profile) {
     return (
       <div className="App">
@@ -191,7 +183,6 @@ const App: React.FC = () => {
     );
   }
 
-  // Enhanced error state
   if (error) {
     return (
       <div className="App">

@@ -13,17 +13,14 @@ import logging
 from datetime import datetime
 from typing import Optional
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
-# Load environment variables
 load_dotenv()
 
-# --- App Setup ---
 app = FastAPI(
     title="Arjun Bojja's Portfolio API",
     description="A dynamic portfolio API built with FastAPI",
@@ -31,15 +28,12 @@ app = FastAPI(
     docs_url="/docs" if os.getenv("DEBUG", "False").lower() == "true" else None
 )
 
-# Add startup event
 @app.on_event("startup")
 async def startup_event():
     logger.info("Portfolio API is starting up...")
     logger.info(f"Debug mode: {DEBUG}")
     logger.info(f"CORS origins: {origins}")
 
-# --- CORS Configuration ---
-# This allows your React frontend to communicate with this API
 origins = [
     "http://localhost:3000",
     "localhost:3000"
@@ -53,7 +47,6 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# --- Email Configuration ---
 SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 SMTP_USERNAME = os.getenv("SMTP_USERNAME")
@@ -62,7 +55,6 @@ SMTP_FROM_EMAIL = os.getenv("SMTP_FROM_EMAIL")
 SMTP_TO_EMAIL = os.getenv("SMTP_TO_EMAIL", "arjunbojja1@gmail.com")
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-# Add request logging middleware
 @app.middleware("http")
 async def log_requests(request, call_next):
     start_time = datetime.now()
@@ -76,7 +68,6 @@ async def log_requests(request, call_next):
     )
     return response
 
-# --- Dynamic Data Loading Function ---
 def reload_data():
     """Reload data from data.py file - allows for hot updates!"""
     try:
@@ -89,7 +80,6 @@ def reload_data():
         
         from data import profile_data, experience_data, projects_data
         
-        # Validate data integrity
         if not profile_data or not isinstance(profile_data, dict):
             raise ValueError("Invalid profile_data structure")
         
@@ -98,7 +88,6 @@ def reload_data():
         
     except Exception as e:
         logger.error(f"Error reloading data: {e}")
-        # Fallback to default data if file has issues
         return get_fallback_data()
 
 def get_fallback_data():
@@ -131,13 +120,11 @@ def get_fallback_data():
 async def send_email(name: str, email: str, message: str):
     """Send email using SMTP with proper SSL handling"""
     try:
-        # Create message
         msg = MIMEMultipart()
         msg['From'] = SMTP_FROM_EMAIL
         msg['To'] = SMTP_TO_EMAIL
         msg['Subject'] = f"Portfolio Contact Form - Message from {name}"
         
-        # Create email body
         email_body = f"""
 New message from your portfolio contact form:
 
@@ -152,12 +139,10 @@ This message was sent from your portfolio website.
         
         msg.attach(MIMEText(email_body, 'plain'))
         
-        # Create SSL context that bypasses certificate verification for development
         context = ssl.create_default_context()
         context.check_hostname = False
         context.verify_mode = ssl.CERT_NONE
         
-        # Send email with bypassed SSL verification
         server = aiosmtplib.SMTP(
             hostname=SMTP_HOST, 
             port=SMTP_PORT,
@@ -197,7 +182,6 @@ This message was sent from your portfolio website.
             print(f"📧 From: {SMTP_FROM_EMAIL}")
         return False
 
-# --- Pydantic Models (Data Structures) ---
 class Education(BaseModel):
     degree: str
     university: str
@@ -236,7 +220,6 @@ class ContactForm(BaseModel):
     email: EmailStr
     message: str
 
-# --- API Endpoints with Dynamic Data Loading ---
 @app.get("/api/profile", response_model=ProfileData)
 async def get_profile():
     try:
@@ -264,11 +247,9 @@ async def get_projects():
         logger.error(f"Error fetching projects: {e}")
         raise HTTPException(status_code=500, detail="Failed to load projects data")
 
-# Health check endpoint
 @app.get("/api/health")
 async def health_check():
     try:
-        # Test data loading
         profile_data, experience_data, projects_data = reload_data()
         return {
             "status": "healthy",
@@ -288,12 +269,10 @@ async def contact(form: ContactForm):
     try:
         logger.info(f"Contact form submission from: {form.name} <{form.email}>")
         
-        # Validate email configuration
         if not all([SMTP_USERNAME, SMTP_PASSWORD, SMTP_FROM_EMAIL]):
             logger.error("Email configuration incomplete")
             raise HTTPException(status_code=500, detail="Email service not configured")
         
-        # Send the email
         email_sent = await send_email(form.name, form.email, form.message)
         
         if email_sent:
@@ -309,7 +288,6 @@ async def contact(form: ContactForm):
         logger.error(f"Contact form error: {str(e)}")
         raise HTTPException(status_code=500, detail="An error occurred while sending your message.")
 
-# Development endpoint to manually reload data
 @app.post("/api/reload")
 async def reload_portfolio_data():
     """Manually reload data from data.py - useful for development"""
