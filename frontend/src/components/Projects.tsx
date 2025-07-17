@@ -107,29 +107,37 @@ const Projects: React.FC<Props> = ({ data, loading, onRefresh }) => {
             
             <div className="project-footer">
               <div className="project-links">
-                {project.github_link && (
-                  <a 
-                    href={project.github_link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="btn btn-secondary"
-                    aria-label={`View ${project.title} on GitHub`}
-                  >
-                    <span className="btn-icon">📁</span>
-                    GitHub
-                  </a>
-                )}
-                {project.external_link && (
-                  <a 
-                    href={project.external_link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="btn btn-primary"
-                    aria-label={`Visit ${project.title} website`}
-                  >
-                    <span className="btn-icon">🚀</span>
-                    Live Demo
-                  </a>
+                {project.title === "Portfolio Website" ? (
+                  <div className="current-viewing">
+                    <span className="viewing-text">🌟 Currently Viewing!</span>
+                  </div>
+                ) : (
+                  <>
+                    {project.github_link && (
+                      <a 
+                        href={project.github_link} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="btn btn-secondary"
+                        aria-label={`View ${project.title} on GitHub`}
+                      >
+                        <span className="btn-icon">📁</span>
+                        GitHub
+                      </a>
+                    )}
+                    {project.external_link && (
+                      <a 
+                        href={project.external_link} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="btn btn-primary"
+                        aria-label={`Visit ${project.title} website`}
+                      >
+                        <span className="btn-icon">🚀</span>
+                        Live Demo
+                      </a>
+                    )}
+                  </>
                 )}
               </div>
             </div>
