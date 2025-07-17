@@ -88,6 +88,9 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
             <div className="gallery-item">
               <img src="/dinner_picture.png" alt="Dinner with friends" className="personal-photo hover-glow" />
             </div>
+            <div className="gallery-item">
+              <img src="/manzar.png" alt="Manzar" className="personal-photo hover-glow" />
+            </div>
           </div>
         </div>
 

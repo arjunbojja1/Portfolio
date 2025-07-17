@@ -57,7 +57,7 @@ const Experience: React.FC<Props> = ({ data, loading, onRefresh }) => {
                 <h4>{job.company}</h4>
                 <div className="timeline-experience-meta">
                   <span className="duration">{job.duration}</span>
-                  <span className="location">📍 {job.location}</span>
+                  <span className="location">{job.location}</span>
                 </div>
               </div>
               
