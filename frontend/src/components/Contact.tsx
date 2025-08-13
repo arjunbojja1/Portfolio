@@ -49,11 +49,24 @@ const Contact: React.FC<Props> = ({ email, apiUrl }) => {
     setStatus({ type: '', message: '' });
     
     try {
-      const response = await axios.post(`${apiUrl}/contact`, formData);
+      // Use the apiUrl prop that's passed from App.tsx which already has the correct Firebase Function URL
+      const response = await axios.post(apiUrl, formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
       setStatus({ type: 'success', message: response.data.message });
       setFormData({ name: '', email: '', message: '' });
     } catch (error: any) {
-      const errorMessage = error.response?.data?.detail || 'There was an error sending your message. Please try again.';
+      let errorMessage = 'There was an error sending your message. Please try again.';
+      
+      if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      } else if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      }
+      
       setStatus({ type: 'error', message: errorMessage });
     } finally {
       setIsSubmitting(false);

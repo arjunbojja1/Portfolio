@@ -122,11 +122,23 @@ interface ProjectData {
   title: string;
   github_link?: string;
   external_link?: string;
+  technologies?: string[]; // Add this missing field
   description: string[];
   challenge?: string;
 }
 
-const API_URL = 'http://localhost:8000/api';
+// Firebase Functions URLs - using the actual deployed URLs
+const getApiUrl = () => {
+  // In production, use the actual Firebase Functions URLs
+  if (process.env.NODE_ENV === 'production') {
+    // Base URL for Firebase Functions
+    return 'https://us-central1-arjun-bojja-portfolio.cloudfunctions.net';
+  }
+  // In development, fall back to local backend if available
+  return 'http://localhost:8000/api';
+};
+
+const API_URL = getApiUrl();
 
 const App: React.FC = () => {
   const [profile, setProfile] = useState<ProfileData | null>(null);
@@ -139,11 +151,28 @@ const App: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
+      
+      // Use the correct Firebase Functions URLs from the deployment output
+      let profileUrl, experienceUrl, projectsUrl;
+      
+      if (process.env.NODE_ENV === 'production') {
+        // Use the actual deployed Firebase Function URLs from the deployment output
+        profileUrl = 'https://get-profile-twb6hlto6a-uc.a.run.app';
+        experienceUrl = 'https://get-experience-twb6hlto6a-uc.a.run.app';
+        projectsUrl = 'https://get-projects-twb6hlto6a-uc.a.run.app';
+      } else {
+        // Development URLs
+        profileUrl = `${API_URL}/profile`;
+        experienceUrl = `${API_URL}/experience`;
+        projectsUrl = `${API_URL}/projects`;
+      }
+      
       const [profileRes, experienceRes, projectsRes] = await Promise.all([
-        axios.get(`${API_URL}/profile`),
-        axios.get(`${API_URL}/experience`),
-        axios.get(`${API_URL}/projects`),
+        axios.get(profileUrl),
+        axios.get(experienceUrl),
+        axios.get(projectsUrl),
       ]);
+      
       setProfile(profileRes.data);
       setExperience(experienceRes.data);
       setProjects(projectsRes.data);
@@ -178,7 +207,7 @@ const App: React.FC = () => {
       <div className="App">
         <Particles />
         <CodeRain />
-        <LoadingSpinner message="Loading your portfolio..." />
+        <LoadingSpinner message="Loading portfolio..." />
       </div>
     );
   }
@@ -212,7 +241,13 @@ const App: React.FC = () => {
           />
           <Experience data={experience} loading={loading} onRefresh={fetchData} />
           <Projects data={projects} loading={loading} onRefresh={fetchData} />
-          <Contact email={profile.email} apiUrl={API_URL} />
+          <Contact 
+            email={profile.email} 
+            apiUrl={process.env.NODE_ENV === 'production' 
+              ? 'https://contact-form-twb6hlto6a-uc.a.run.app' 
+              : `${API_URL}/contact`
+            } 
+          />
           <Footer linkedin={profile.linkedin} github={`https://github.com/${profile.github_user}`} />
           <ScrollToTop />
         </>

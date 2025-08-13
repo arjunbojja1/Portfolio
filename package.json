@@ -1,14 +1,32 @@
 {
   "name": "portfolio",
   "version": "1.0.0",
-  "description": "Full-stack portfolio application",
+  "description": "Full-stack portfolio application with Firebase backend",
   "scripts": {
     "start": "cd frontend && npm start",
-    "build": "cd frontend && npm run build",
-    "backend": "cd backend && python app.py",
-    "install-all": "cd frontend && npm install && cd ../backend && pip install -r requirements.txt"
+    "build": "cd frontend && npm run build && cp -r frontend/build/* public/",
+    "backend": "cd backend && python main.py",
+    "install-all": "cd frontend && npm install && cd ../functions && pip install -r requirements.txt",
+    "firebase:serve": "firebase serve",
+    "firebase:deploy": "npm run build && firebase deploy",
+    "firebase:deploy:functions": "firebase deploy --only functions",
+    "firebase:deploy:hosting": "npm run build && firebase deploy --only hosting",
+    "dev": "concurrently \"npm run start\" \"npm run backend\"",
+    "test": "cd frontend && npm test",
+    "docker:build": "docker build -t arjun-portfolio .",
+    "docker:run": "docker run -p 3000:3000 arjun-portfolio",
+    "docker:dev": "docker-compose up --build"
   },
-  "keywords": ["portfolio", "react", "python", "full-stack"],
+  "keywords": [
+    "portfolio",
+    "react",
+    "python",
+    "full-stack",
+    "firebase"
+  ],
   "author": "Arjun Bojja",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
 }
