@@ -7,20 +7,48 @@ import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import { LoadingSpinner, ErrorFallback } from './components/LoadingComponents';
+import { NetflixLoader, LoadingSpinner, ErrorFallback } from './components/LoadingComponents';
+import { motion, AnimatePresence } from 'framer-motion';
 import './App.css';
 
-const Particles: React.FC = () => {
+// Enhanced Particles Component
+const NetflixParticles: React.FC = () => {
   return (
-    <div className="particles-container">
-      {[...Array(50)].map((_, i) => (
-        <div
+    <div className="netflix-particles-container">
+      {[...Array(80)].map((_, i) => (
+        <motion.div
           key={i}
-          className="particle"
+          className="netflix-particle"
+          initial={{ 
+            opacity: 0,
+            scale: 0,
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight 
+          }}
+          animate={{ 
+            opacity: [0, 1, 0],
+            scale: [0, 1, 0],
+            x: [
+              Math.random() * window.innerWidth,
+              Math.random() * window.innerWidth,
+              Math.random() * window.innerWidth
+            ],
+            y: [
+              Math.random() * window.innerHeight,
+              Math.random() * window.innerHeight + 100,
+              Math.random() * window.innerHeight + 200
+            ]
+          }}
+          transition={{ 
+            duration: 8 + Math.random() * 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: Math.random() * 5
+          }}
           style={{
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 10}s`,
-            animationDuration: `${10 + Math.random() * 20}s`
+            background: `radial-gradient(circle, ${
+              Math.random() > 0.5 ? '#00d4ff' : '#00ff88'
+            } 0%, transparent 70%)`
           }}
         />
       ))}
@@ -28,34 +56,45 @@ const Particles: React.FC = () => {
   );
 };
 
-const CodeRain: React.FC = () => {
+// Enhanced Code Rain with Netflix styling
+const NetflixCodeRain: React.FC = () => {
   const codeSnippets = [
-    'const portfolio = new Developer();',
-    'function createAwesome() { return magic; }',
-    'let skills = [...languages, ...frameworks];',
-    'while(learning) { knowledge++; }',
-    'git commit -m "another cool feature"',
-    'npm install awesome-portfolio',
-    'async function buildFuture() { await dreams; }',
-    'const motivation = coffee * code;',
-    'if(opportunity) { skills.apply(); }',
-    'React.useEffect(() => { beAmazing(); }, []);'
+    'const portfolio = () => experience',
+    'async function innovate() { return solutions; }',
+    'let skills = [...frontend, ...backend, ...ai];',
+    'while(creating) { value++; }',
+    'git push origin future',
+    'npm run build-dreams',
+    'const impact = code * creativity;',
+    'if(challenge) { overcome(); }',
+    'React.useEffect(() => { inspire(); }, [passion]);',
+    'const success = persistence + learning;'
   ];
 
   return (
-    <div className="code-rain">
-      {[...Array(10)].map((_, i) => (
-        <div
+    <div className="netflix-code-rain">
+      {[...Array(15)].map((_, i) => (
+        <motion.div
           key={i}
-          className="code-line"
+          className="netflix-code-line"
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ 
+            y: window.innerHeight + 100,
+            opacity: [0, 1, 1, 0]
+          }}
+          transition={{
+            duration: 6 + Math.random() * 3,
+            repeat: Infinity,
+            delay: Math.random() * 8,
+            ease: "linear"
+          }}
           style={{
-            left: `${i * 10}%`,
-            animationDelay: `${Math.random() * 5}s`,
-            animationDuration: `${8 + Math.random() * 4}s`
+            left: `${(i / 15) * 100}%`,
+            color: Math.random() > 0.7 ? '#00d4ff' : 'rgba(0, 212, 255, 0.3)'
           }}
         >
           {codeSnippets[Math.floor(Math.random() * codeSnippets.length)]}
-        </div>
+        </motion.div>
       ))}
     </div>
   );
@@ -81,13 +120,19 @@ const ScrollToTop: React.FC = () => {
   };
 
   return (
-    <button
-      className={`scroll-to-top ${isVisible ? 'visible' : ''}`}
+    <motion.button
+      className={`scroll-to-top-netflix ${isVisible ? 'visible' : ''}`}
       onClick={scrollToTop}
       aria-label="Scroll to top"
+      whileHover={{ scale: 1.1, y: -2 }}
+      whileTap={{ scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+      transition={{ duration: 0.3 }}
     >
-      ↑
-    </button>
+      <span className="scroll-icon">↑</span>
+      <div className="scroll-glow"></div>
+    </motion.button>
   );
 };
 
@@ -122,19 +167,15 @@ interface ProjectData {
   title: string;
   github_link?: string;
   external_link?: string;
-  technologies?: string[]; // Add this missing field
+  technologies?: string[];
   description: string[];
   challenge?: string;
 }
 
-// Firebase Functions URLs - using the actual deployed URLs
 const getApiUrl = () => {
-  // In production, use the actual Firebase Functions URLs
   if (process.env.NODE_ENV === 'production') {
-    // Base URL for Firebase Functions
     return 'https://us-central1-arjun-bojja-portfolio.cloudfunctions.net';
   }
-  // In development, fall back to local backend if available
   return 'http://localhost:8000/api';
 };
 
@@ -146,22 +187,21 @@ const App: React.FC = () => {
   const [projects, setProjects] = useState<ProjectData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showNetflixLoader, setShowNetflixLoader] = useState(true);
+  const [appReady, setAppReady] = useState(false);
 
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       
-      // Use the correct Firebase Functions URLs from the deployment output
       let profileUrl, experienceUrl, projectsUrl;
       
       if (process.env.NODE_ENV === 'production') {
-        // Use the actual deployed Firebase Function URLs from the deployment output
         profileUrl = 'https://get-profile-twb6hlto6a-uc.a.run.app';
         experienceUrl = 'https://get-experience-twb6hlto6a-uc.a.run.app';
         projectsUrl = 'https://get-projects-twb6hlto6a-uc.a.run.app';
       } else {
-        // Development URLs
         profileUrl = `${API_URL}/profile`;
         experienceUrl = `${API_URL}/experience`;
         projectsUrl = `${API_URL}/projects`;
@@ -202,22 +242,36 @@ const App: React.FC = () => {
     }
   }, [fetchData]);
 
+  const handleNetflixLoaderComplete = () => {
+    setShowNetflixLoader(false);
+    setTimeout(() => setAppReady(true), 300);
+  };
+
+  // Show Netflix loader first
+  if (showNetflixLoader) {
+    return <NetflixLoader onComplete={handleNetflixLoaderComplete} />;
+  }
+
+  // Show loading state for data
   if (loading && !profile) {
     return (
-      <div className="App">
-        <Particles />
-        <CodeRain />
-        <LoadingSpinner message="Loading portfolio..." />
+      <div className="app-netflix">
+        <NetflixParticles />
+        <NetflixCodeRain />
+        <div className="loading-overlay">
+          <LoadingSpinner message="Loading portfolio data..." />
+        </div>
       </div>
     );
   }
 
+  // Show error state
   if (error) {
     return (
-      <div className="App">
-        <Particles />
-        <CodeRain />
-        <div className="container">
+      <div className="app-netflix">
+        <NetflixParticles />
+        <NetflixCodeRain />
+        <div className="error-overlay">
           <ErrorFallback error={error} onRetry={fetchData} />
         </div>
       </div>
@@ -225,34 +279,48 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="App">
-      <Particles />
-      <CodeRain />
-      {profile && (
-        <>
-          <Navbar />
-          <Hero name={profile.name} title={profile.title} />
-          <About 
-            passion={profile.about.passion} 
-            seeking={profile.about.seeking}
-            location={profile.location}
-            skills={profile.skills}
-            education={profile.education}
-          />
-          <Experience data={experience} loading={loading} onRefresh={fetchData} />
-          <Projects data={projects} loading={loading} onRefresh={fetchData} />
-          <Contact 
-            email={profile.email} 
-            apiUrl={process.env.NODE_ENV === 'production' 
-              ? 'https://contact-form-twb6hlto6a-uc.a.run.app' 
-              : `${API_URL}/contact`
-            } 
-          />
-          <Footer linkedin={profile.linkedin} github={`https://github.com/${profile.github_user}`} />
-          <ScrollToTop />
-        </>
-      )}
-    </div>
+    <AnimatePresence>
+      <motion.div 
+        className="app-netflix"
+        initial={{ opacity: 0 }}
+        animate={appReady ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        {/* Background Effects */}
+        <NetflixParticles />
+        <NetflixCodeRain />
+        
+        {/* Main Content */}
+        {profile && appReady && (
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+          >
+            <Navbar />
+            <Hero name={profile.name} title={profile.title} />
+            <About 
+              passion={profile.about.passion} 
+              seeking={profile.about.seeking}
+              location={profile.location}
+              skills={profile.skills}
+              education={profile.education}
+            />
+            <Experience data={experience} loading={loading} onRefresh={fetchData} />
+            <Projects data={projects} loading={loading} onRefresh={fetchData} />
+            <Contact 
+              email={profile.email} 
+              apiUrl={process.env.NODE_ENV === 'production' 
+                ? 'https://contact-form-twb6hlto6a-uc.a.run.app' 
+                : `${API_URL}/contact`
+              } 
+            />
+            <Footer linkedin={profile.linkedin} github={`https://github.com/${profile.github_user}`} />
+            <ScrollToTop />
+          </motion.div>
+        )}
+      </motion.div>
+    </AnimatePresence>
   );
 };
 
