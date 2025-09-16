@@ -4,7 +4,7 @@
   "description": "Full-stack portfolio application with Firebase backend",
   "scripts": {
     "start": "cd frontend && npm start",
-    "build": "cd frontend && npm run build && cp -r frontend/build/* public/",
+    "build": "cd frontend && npm run build && cd .. && cp -r frontend/build/* .",
     "backend": "cd backend && python main.py",
     "install-all": "cd frontend && npm install && cd ../functions && pip install -r requirements.txt",
     "firebase:serve": "firebase serve",
