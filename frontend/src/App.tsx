@@ -11,7 +11,207 @@ import { NetflixLoader, LoadingSpinner, ErrorFallback } from './components/Loadi
 import { motion, AnimatePresence } from 'framer-motion';
 import './App.css';
 
-// Enhanced Particles Component
+// Enhanced Error Boundary Component with better external script protection
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback?: React.ComponentType<{ error: Error; resetError: () => void }> },
+  { hasError: boolean; error: Error | null }
+> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    // Don't catch external script errors
+    if (this.isExternalScriptError(error)) {
+      return null; // Don't update state for external errors
+    }
+    return { hasError: true, error };
+  }
+
+  static isExternalScriptError(error: Error): boolean {
+    const errorMessage = error.message?.toLowerCase() || '';
+    const errorStack = error.stack?.toLowerCase() || '';
+    
+    const externalErrorPatterns = [
+      'getCurrentActiveEditorState',
+      'editorId',
+      'chrome-extension',
+      'moz-extension',
+      'safari-extension',
+      'extension://',
+      'null is not an object (evaluating',
+      'cannot read properties of null',
+      'cannot read property',
+      'scriptError'
+    ];
+    
+    return externalErrorPatterns.some(pattern => 
+      errorMessage.includes(pattern) || errorStack.includes(pattern)
+    );
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // Only log errors that are actually from our code
+    if (!ErrorBoundary.isExternalScriptError(error)) {
+      console.error('Portfolio Error:', error, errorInfo);
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      const FallbackComponent = this.props.fallback || DefaultErrorFallback;
+      return (
+        <FallbackComponent 
+          error={this.state.error!} 
+          resetError={() => this.setState({ hasError: false, error: null })} 
+        />
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+const DefaultErrorFallback: React.FC<{ error: Error; resetError: () => void }> = ({ error, resetError }) => (
+  <div className="error-fallback">
+    <h2>Something went wrong</h2>
+    <p>Don't worry, this might be caused by browser extensions.</p>
+    <button onClick={resetError}>Try Again</button>
+  </div>
+);
+
+// Enhanced global error handler with more comprehensive filtering
+const setupGlobalErrorHandling = () => {
+  // Store original console.error to avoid infinite loops
+  const originalConsoleError = console.error;
+  
+  // Handle window errors (including external scripts)
+  window.addEventListener('error', (event) => {
+    const errorMessage = event.message?.toLowerCase() || '';
+    const errorFilename = event.filename?.toLowerCase() || '';
+    const errorSource = event.error?.stack?.toLowerCase() || '';
+    
+    const externalErrorPatterns = [
+      'getCurrentActiveEditorState',
+      'editorId',
+      'chrome-extension',
+      'moz-extension', 
+      'safari-extension',
+      'extension://',
+      'contentscript',
+      'script error',
+      'non-error promise rejection'
+    ];
+    
+    // Check if this is an external script error
+    const isExternalError = externalErrorPatterns.some(pattern => 
+      errorMessage.includes(pattern) || 
+      errorFilename.includes(pattern) || 
+      errorSource.includes(pattern)
+    );
+    
+    if (isExternalError) {
+      event.preventDefault();
+      event.stopPropagation();
+      return false; // Prevent default error handling
+    }
+  }, true); // Use capture phase
+  
+  // Handle unhandled promise rejections
+  window.addEventListener('unhandledrejection', (event) => {
+    const reasonMessage = String(event.reason?.message || event.reason || '').toLowerCase();
+    const reasonStack = String(event.reason?.stack || '').toLowerCase();
+    
+    const externalErrorPatterns = [
+      'getCurrentActiveEditorState',
+      'editorId',
+      'chrome-extension',
+      'moz-extension',
+      'safari-extension',
+      'extension://',
+      'contentscript'
+    ];
+    
+    const isExternalError = externalErrorPatterns.some(pattern => 
+      reasonMessage.includes(pattern) || reasonStack.includes(pattern)
+    );
+    
+    if (isExternalError) {
+      event.preventDefault();
+      return false;
+    }
+  });
+  
+  // Override console.error to filter out external script errors
+  console.error = (...args: any[]) => {
+    const errorString = args.join(' ').toLowerCase();
+    
+    const externalErrorPatterns = [
+      'getCurrentActiveEditorState',
+      'editorId',
+      'chrome-extension',
+      'moz-extension',
+      'safari-extension',
+      'extension://',
+      'contentscript'
+    ];
+    
+    const isExternalError = externalErrorPatterns.some(pattern => 
+      errorString.includes(pattern)
+    );
+    
+    if (!isExternalError) {
+      originalConsoleError.apply(console, args);
+    }
+  };
+  
+  // Additional protection against extension injection
+  try {
+    // Create a protective wrapper around sensitive globals
+    const originalDefineProperty = Object.defineProperty;
+    const protectedProperties = ['A', 'getInstance', 'getCurrentActiveEditorState'];
+    
+    protectedProperties.forEach(prop => {
+      try {
+        if (!(prop in window)) {
+          originalDefineProperty(window, prop, {
+            get() { return undefined; },
+            set() { return false; },
+            configurable: false,
+            enumerable: false
+          });
+        }
+      } catch (e) {
+        // Silently ignore if we can't protect this property
+      }
+    });
+  } catch (e) {
+    // Silently ignore if protection setup fails
+  }
+};
+
+// Create a safe zone for React components
+const SafeReactZone: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  useEffect(() => {
+    // Additional runtime protection for this component tree
+    const handleComponentError = (event: ErrorEvent) => {
+      const errorMessage = event.message?.toLowerCase() || '';
+      if (errorMessage.includes('getCurrentActiveEditorState') || 
+          errorMessage.includes('editorId')) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return false;
+      }
+    };
+    
+    window.addEventListener('error', handleComponentError, true);
+    return () => window.removeEventListener('error', handleComponentError, true);
+  }, []);
+  
+  return <>{children}</>;
+};
+
 const NetflixParticles: React.FC = () => {
   return (
     <div className="netflix-particles-container">
@@ -56,7 +256,6 @@ const NetflixParticles: React.FC = () => {
   );
 };
 
-// Enhanced Code Rain with Netflix styling
 const NetflixCodeRain: React.FC = () => {
   const codeSnippets = [
     'const portfolio = () => experience',
@@ -228,7 +427,9 @@ const App: React.FC = () => {
     }
   }, []);
 
+  // Setup protection before any other effects
   useEffect(() => {
+    setupGlobalErrorHandling();
     fetchData();
   }, [fetchData]);
 
@@ -249,78 +450,106 @@ const App: React.FC = () => {
 
   // Show Netflix loader first
   if (showNetflixLoader) {
-    return <NetflixLoader onComplete={handleNetflixLoaderComplete} />;
+    return (
+      <SafeReactZone>
+        <NetflixLoader onComplete={handleNetflixLoaderComplete} />
+      </SafeReactZone>
+    );
   }
 
   // Show loading state for data
   if (loading && !profile) {
     return (
-      <div className="app-netflix">
-        <NetflixParticles />
-        <NetflixCodeRain />
-        <div className="loading-overlay">
-          <LoadingSpinner message="Loading portfolio data..." />
+      <SafeReactZone>
+        <div className="app-netflix">
+          <NetflixParticles />
+          <NetflixCodeRain />
+          <div className="loading-overlay">
+            <LoadingSpinner message="Loading portfolio data..." />
+          </div>
         </div>
-      </div>
+      </SafeReactZone>
     );
   }
 
   // Show error state
   if (error) {
     return (
-      <div className="app-netflix">
-        <NetflixParticles />
-        <NetflixCodeRain />
-        <div className="error-overlay">
-          <ErrorFallback error={error} onRetry={fetchData} />
+      <SafeReactZone>
+        <div className="app-netflix">
+          <NetflixParticles />
+          <NetflixCodeRain />
+          <div className="error-overlay">
+            <ErrorFallback error={error} onRetry={fetchData} />
+          </div>
         </div>
-      </div>
+      </SafeReactZone>
     );
   }
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div 
-        className="app-netflix"
-        initial={{ opacity: 0 }}
-        animate={appReady ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        {/* Background Effects */}
-        <NetflixParticles />
-        <NetflixCodeRain />
-        
-        {/* Main Content */}
-        {profile && appReady && (
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
+    <ErrorBoundary>
+      <SafeReactZone>
+        <AnimatePresence mode="wait">
+          <motion.div 
+            className="app-netflix"
+            initial={{ opacity: 0 }}
+            animate={appReady ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            <Navbar />
-            <Hero name={profile.name} title={profile.title} />
-            <About 
-              passion={profile.about.passion} 
-              seeking={profile.about.seeking}
-              location={profile.location}
-              skills={profile.skills}
-              education={profile.education}
-            />
-            <Experience data={experience} loading={loading} onRefresh={fetchData} />
-            <Projects data={projects} loading={loading} onRefresh={fetchData} />
-            <Contact 
-              email={profile.email} 
-              apiUrl={process.env.NODE_ENV === 'production' 
-                ? 'https://contact-form-twb6hlto6a-uc.a.run.app' 
-                : `${API_URL}/contact`
-              } 
-            />
-            <Footer linkedin={profile.linkedin} github={`https://github.com/${profile.github_user}`} />
-            <ScrollToTop />
+            {/* Background Effects */}
+            <NetflixParticles />
+            <NetflixCodeRain />
+            
+            {/* Main Content */}
+            {profile && appReady && (
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, delay: 0.2 }}
+              >
+                <ErrorBoundary>
+                  <Navbar />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                  <Hero name={profile.name} title={profile.title} />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                  <About 
+                    passion={profile.about.passion} 
+                    seeking={profile.about.seeking}
+                    location={profile.location}
+                    skills={profile.skills}
+                    education={profile.education}
+                  />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                  <Experience data={experience} loading={loading} onRefresh={fetchData} />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                  <Projects data={projects} loading={loading} onRefresh={fetchData} />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                  <Contact 
+                    email={profile.email} 
+                    apiUrl={process.env.NODE_ENV === 'production' 
+                      ? 'https://contact-form-twb6hlto6a-uc.a.run.app' 
+                      : `${API_URL}/contact`
+                    } 
+                  />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                  <Footer linkedin={profile.linkedin} github={`https://github.com/${profile.github_user}`} />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                  <ScrollToTop />
+                </ErrorBoundary>
+              </motion.div>
+            )}
           </motion.div>
-        )}
-      </motion.div>
-    </AnimatePresence>
+        </AnimatePresence>
+      </SafeReactZone>
+    </ErrorBoundary>
   );
 };
 

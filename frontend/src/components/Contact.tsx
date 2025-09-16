@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import React, { useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import axios from 'axios';
 
 interface Props {
@@ -12,7 +11,8 @@ const Contact: React.FC<Props> = ({ email, apiUrl }) => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.1 });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

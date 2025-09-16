@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 
 interface NavbarProps {
   onRefresh?: () => void;
@@ -19,7 +17,6 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
 
       // Determine active section based on scroll position
       const sections = ['home', 'about', 'experience', 'projects', 'contact'];
-      const sectionElements = sections.map(id => document.getElementById(id));
       
       // Check if we're near the bottom of the page for contact section
       const windowHeight = window.innerHeight;
@@ -32,11 +29,10 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
       }
       
       // Find the section that's currently in view
-      for (let i = sectionElements.length - 1; i >= 0; i--) {
-        const element = sectionElements[i];
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const element = document.getElementById(sections[i]);
         if (element) {
           const rect = element.getBoundingClientRect();
-          // More sensitive detection - section is active if it's visible in viewport
           if (rect.top <= windowHeight / 2 && rect.bottom >= 0) {
             setActiveSection(sections[i]);
             break;
@@ -46,42 +42,28 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
-  // Safe navigation function to prevent JavaScript errors
-  const handleNavClick = (section: string, event: React.MouseEvent<HTMLAnchorElement>) => {
+  // Simple, reliable navigation handler
+  const handleNavClick = (section: string, event: React.MouseEvent) => {
     event.preventDefault();
-    setActiveSection(section);
-    closeMenu();
+    event.stopPropagation();
     
-    // Smooth scroll to section
-    try {
-      const targetElement = document.getElementById(section);
-      if (targetElement) {
-        targetElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      } else if (section === 'home') {
-        // If home section doesn't exist, scroll to top
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      }
-    } catch (error) {
-      console.warn('Navigation scroll failed:', error);
-      // Fallback to regular navigation
-      window.location.hash = section;
+    setActiveSection(section);
+    setIsMenuOpen(false);
+    
+    // Navigate to section
+    const targetElement = document.getElementById(section);
+    if (targetElement) {
+      const offsetTop = targetElement.offsetTop - 80;
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+    } else if (section === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -93,231 +75,98 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
   ];
 
   return (
-    <motion.nav 
-      className={`navbar-netflix ${scrolled ? 'scrolled' : ''}`}
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-    >
-      {/* Liquid Glass Background */}
-      <div className="navbar-glass-bg">
-        <div className="glass-reflection"></div>
-        <div className="noise-texture"></div>
-      </div>
-
+    <nav className={`navbar-simple ${scrolled ? 'scrolled' : ''}`}>
       {/* Brand Logo */}
-      <motion.a 
+      <a 
         href="#home" 
-        className="nav-brand-netflix" 
+        className="nav-brand" 
         onClick={(e) => handleNavClick('home', e)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
       >
         <div className="brand-logo">
-          <motion.span 
-            className="brand-bracket"
-            animate={{ 
-              textShadow: [
-                "0 0 10px #00d4ff",
-                "0 0 20px #00d4ff, 0 0 30px #00d4ff",
-                "0 0 10px #00d4ff"
-              ]
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            {'<'}
-          </motion.span>
+          <span className="brand-bracket">{'<'}</span>
           <span className="brand-initials">AB</span>
-          <motion.span 
-            className="brand-bracket"
-            animate={{ 
-              textShadow: [
-                "0 0 10px #00d4ff",
-                "0 0 20px #00d4ff, 0 0 30px #00d4ff",
-                "0 0 10px #00d4ff"
-              ]
-            }}
-            transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-          >
-            {' />'}
-          </motion.span>
+          <span className="brand-bracket">{' />'}</span>
         </div>
-        <div className="brand-glow"></div>
-      </motion.a>
+      </a>
 
       {/* Desktop Navigation */}
       <div className="nav-desktop">
-        <ul className="nav-links-netflix">
-          {navItems.map((item, index) => (
-            <motion.li 
-              key={item.id}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <motion.a
+        <ul className="nav-links">
+          {navItems.map((item) => (
+            <li key={item.id}>
+              <a
                 href={`#${item.id}`}
-                className={`nav-link-netflix ${activeSection === item.id ? 'active' : ''}`}
+                className={`nav-link ${activeSection === item.id ? 'active' : ''}`}
                 onClick={(e) => handleNavClick(item.id, e)}
-                whileHover={{ y: -2 }}
-                whileTap={{ y: 0 }}
               >
                 <span className="nav-icon">{item.icon}</span>
                 <span className="nav-text">{item.label}</span>
-                {activeSection === item.id && (
-                  <motion.div
-                    className="nav-indicator"
-                    layoutId="activeIndicator"
-                    initial={false}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
-                )}
-              </motion.a>
-            </motion.li>
+              </a>
+            </li>
           ))}
         </ul>
       </div>
 
       {/* Mobile Menu Button */}
-      <motion.button 
-        className="mobile-menu-btn-netflix"
-        onClick={toggleMenu}
+      <button 
+        className="mobile-menu-btn"
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
         aria-label="Toggle navigation menu"
         aria-expanded={isMenuOpen}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
       >
-        <div className="hamburger-netflix">
-          <motion.span
-            animate={isMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-            transition={{ duration: 0.3 }}
-          />
-          <motion.span
-            animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          />
-          <motion.span
-            animate={isMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-            transition={{ duration: 0.3 }}
-          />
+        <div className={`hamburger ${isMenuOpen ? 'active' : ''}`}>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-      </motion.button>
+      </button>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            className="mobile-menu-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            onClick={closeMenu}
-          >
-            <motion.div
-              className="mobile-menu-content"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Mobile Menu Header */}
-              <div className="mobile-menu-header">
-                <div className="mobile-brand">
-                  <span className="brand-text">Portfolio</span>
-                </div>
-                <motion.button
-                  className="close-btn"
-                  onClick={closeMenu}
-                  whileHover={{ scale: 1.1, rotate: 90 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  ✕
-                </motion.button>
-              </div>
-
-              {/* Mobile Menu Items */}
-              <ul className="mobile-nav-links">
-                {navItems.map((item, index) => (
-                  <motion.li
-                    key={item.id}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                  >
-                    <motion.a
-                      href={`#${item.id}`}
-                      className={`mobile-nav-link ${activeSection === item.id ? 'active' : ''}`}
-                      onClick={(e) => handleNavClick(item.id, e)}
-                      whileHover={{ x: 10 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <span className="mobile-nav-icon">{item.icon}</span>
-                      <span className="mobile-nav-text">{item.label}</span>
-                      <span className="mobile-nav-arrow">→</span>
-                    </motion.a>
-                  </motion.li>
-                ))}
-              </ul>
-
-              {/* Mobile CTA */}
-              <motion.div
-                className="mobile-cta"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.4 }}
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="mobile-menu" onClick={() => setIsMenuOpen(false)}>
+          <div className="mobile-menu-content" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-menu-header">
+              <span className="mobile-brand">Portfolio</span>
+              <button
+                className="close-btn"
+                onClick={() => setIsMenuOpen(false)}
               >
-                <motion.a
-                  href="#contact"
-                  className="mobile-cta-btn"
-                  onClick={(e) => handleNavClick('contact', e)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Let's Work Together
-                </motion.a>
-              </motion.div>
+                ✕
+              </button>
+            </div>
 
-              {/* Decorative Elements */}
-              <div className="mobile-menu-decoration">
-                {[...Array(20)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="decoration-particle"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ 
-                      opacity: [0, 1, 0],
-                      scale: [0, 1, 0],
-                      rotate: 360
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      delay: i * 0.2
-                    }}
-                    style={{
-                      left: `${Math.random() * 100}%`,
-                      top: `${Math.random() * 100}%`
-                    }}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <ul className="mobile-nav-links">
+              {navItems.map((item) => (
+                <li key={item.id}>
+                  <a
+                    href={`#${item.id}`}
+                    className={`mobile-nav-link ${activeSection === item.id ? 'active' : ''}`}
+                    onClick={(e) => handleNavClick(item.id, e)}
+                  >
+                    <span className="mobile-nav-icon">{item.icon}</span>
+                    <span className="mobile-nav-text">{item.label}</span>
+                    <span className="mobile-nav-arrow">→</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mobile-cta">
+              <a
+                href="#contact"
+                className="mobile-cta-btn"
+                onClick={(e) => handleNavClick('contact', e)}
+              >
+                Let's Work Together
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Progress Indicator */}
-      <motion.div
-        className="scroll-progress"
-        style={{
-          scaleX: scrolled ? 1 : 0,
-          transformOrigin: "0%"
-        }}
-        transition={{ duration: 0.3 }}
-      />
-    </motion.nav>
+      <div className={`scroll-progress ${scrolled ? 'visible' : ''}`}></div>
+    </nav>
   );
 };
 

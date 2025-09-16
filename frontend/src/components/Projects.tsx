@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import React, { useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { SkeletonCard, ErrorFallback } from './LoadingComponents';
 
 interface ProjectData {
@@ -21,7 +20,8 @@ interface Props {
 // Enhanced Project Card Component
 const ProjectCard: React.FC<{ project: ProjectData; index: number }> = ({ project, index }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.2 });
 
   // Calculate project impact metrics based on description content
   const getProjectMetrics = (description: string[]) => {
@@ -212,7 +212,8 @@ const ProjectCard: React.FC<{ project: ProjectData; index: number }> = ({ projec
 
 const Projects: React.FC<Props> = ({ data, loading, onRefresh }) => {
   const [filter, setFilter] = useState<string>('all');
-  const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.1 });
   
   // Extract unique technologies for filtering
   const allTechs = Array.from(new Set(data.flatMap(project => project.technologies || [])));

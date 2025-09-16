@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 interface Education {
   degree: string;
@@ -88,11 +87,8 @@ const ProfessionalTerminal: React.FC<{ skills: string[] }> = ({ skills }) => {
 
 const About: React.FC<Props> = ({ passion, seeking, location, skills, education }) => {
   const allSkills = skills ? Object.values(skills).flat() : [];
-  const { ref, inView } = useInView({ 
-    threshold: 0.1, 
-    triggerOnce: true,
-    rootMargin: '50px 0px'
-  });
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.1 });
   
   return (
     <section id="about" className="section-netflix">
@@ -241,9 +237,9 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
               
               <div className="personal-gallery-compact">
                 {[
-                  { src: "/beach_picture.png", alt: "Beach day", caption: "Recharging by the ocean" },
-                  { src: "/dinner_picture.png", alt: "Team dinner", caption: "Building connections" },
-                  { src: "/manzar.png", alt: "Adventure", caption: "Exploring new horizons" }
+                  { src: "/beach_picture.png", alt: "Beach day", caption: "" },
+                  { src: "/dinner_picture.png", alt: "Team dinner", caption: "" },
+                  { src: "/manzar.png", alt: "Adventure", caption: "" }
                 ].map((image, index) => (
                   <motion.div
                     key={`gallery-${index}`}

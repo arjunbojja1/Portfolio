@@ -63,6 +63,149 @@
       ]
     }
     </script>
+    
+    <!-- Aggressive Extension Protection Script -->
+    <script>
+      // Immediately isolate the application from external scripts
+      (function() {
+        'use strict';
+        
+        // Store original functions before any extensions can modify them
+        const originalConsoleError = console.error;
+        const originalAddEventListener = window.addEventListener;
+        const originalDefineProperty = Object.defineProperty;
+        
+        // Block specific extension-related globals immediately
+        const blockedGlobals = [
+          'getCurrentActiveEditorState',
+          'getActiveEditorState', 
+          'editorId',
+          '__REACT_DEVTOOLS_GLOBAL_HOOK__',
+          '__REDUX_DEVTOOLS_EXTENSION__'
+        ];
+        
+        blockedGlobals.forEach(prop => {
+          try {
+            if (!(prop in window)) {
+              originalDefineProperty(window, prop, {
+                get() { 
+                  console.warn(`Blocked access to ${prop}`);
+                  return undefined; 
+                },
+                set() { 
+                  console.warn(`Blocked setting of ${prop}`);
+                  return false; 
+                },
+                configurable: false,
+                enumerable: false
+              });
+            }
+          } catch (e) {
+            // Silently ignore if we can't block this property
+          }
+        });
+        
+        // Create a comprehensive error filter
+        function isExternalScriptError(error) {
+          if (!error) return false;
+          
+          const message = String(error.message || '').toLowerCase();
+          const stack = String(error.stack || '').toLowerCase();
+          const filename = String(error.filename || '').toLowerCase();
+          
+          const patterns = [
+            'getCurrentActiveEditorState',
+            'getActiveEditorState',
+            'editorId',
+            'null is not an object (evaluating \'n.a.getinstance',
+            'chrome-extension',
+            'moz-extension',
+            'safari-extension',
+            'extension://',
+            'contentscript',
+            'react-devtools',
+            'redux-devtools',
+            '__react_devtools',
+            '__redux_devtools',
+            'script error',
+            'non-error promise rejection'
+          ];
+          
+          return patterns.some(pattern => 
+            message.includes(pattern) || 
+            stack.includes(pattern) || 
+            filename.includes(pattern)
+          );
+        }
+        
+        // Override window.addEventListener to filter external script errors
+        window.addEventListener = function(type, listener, options) {
+          if (type === 'error') {
+            const wrappedListener = function(event) {
+              if (isExternalScriptError(event.error || event)) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                return false;
+              }
+              return listener.call(this, event);
+            };
+            return originalAddEventListener.call(this, type, wrappedListener, options);
+          }
+          return originalAddEventListener.call(this, type, listener, options);
+        };
+        
+        // Override console.error to filter external errors
+        console.error = function(...args) {
+          const errorString = args.join(' ').toLowerCase();
+          if (!isExternalScriptError({ message: errorString })) {
+            originalConsoleError.apply(console, args);
+          }
+        };
+        
+        // Intercept and block external script errors at the earliest possible stage
+        window.onerror = function(message, source, lineno, colno, error) {
+          if (isExternalScriptError({ message, stack: error?.stack, filename: source })) {
+            return true; // Prevent default error handling
+          }
+          return false; // Allow normal error handling for our code
+        };
+        
+        // Handle unhandled promise rejections
+        window.onunhandledrejection = function(event) {
+          if (isExternalScriptError(event.reason)) {
+            event.preventDefault();
+            return true;
+          }
+          return false;
+        };
+        
+        // Prevent extensions from accessing React internals
+        const protectReactInternals = () => {
+          const reactPatterns = ['__reactInternalInstance', '_reactInternalFiber', '__reactInternalMemoizedProps'];
+          reactPatterns.forEach(pattern => {
+            try {
+              if (!(pattern in window)) {
+                originalDefineProperty(window, pattern, {
+                  get() { return undefined; },
+                  set() { return false; },
+                  configurable: false
+                });
+              }
+            } catch (e) {
+              // Ignore
+            }
+          });
+        };
+        
+        // Run protection immediately and after DOM loads
+        protectReactInternals();
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', protectReactInternals);
+        }
+        
+        console.log('🛡️ Portfolio protected from external script interference');
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

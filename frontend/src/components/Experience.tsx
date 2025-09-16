@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import React, { useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { SkeletonTimeline, ErrorFallback } from './LoadingComponents';
 
 interface ExperienceData {
@@ -19,7 +18,8 @@ interface Props {
 
 // Enhanced Timeline Item Component
 const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boolean }> = ({ job, index, isLast }) => {
-  const { ref, inView } = useInView({ threshold: 0.3, triggerOnce: true });
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.3 });
   const [isHovered, setIsHovered] = useState(false);
 
   // Extract key achievements and metrics from description
@@ -230,7 +230,8 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
 
 // Career Stats Component
 const CareerStats: React.FC<{ data: ExperienceData[] }> = ({ data }) => {
-  const { ref, inView } = useInView({ threshold: 0.3, triggerOnce: true });
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.3 });
 
   const stats = [
     { 
@@ -285,7 +286,8 @@ const CareerStats: React.FC<{ data: ExperienceData[] }> = ({ data }) => {
 };
 
 const Experience: React.FC<Props> = ({ data, loading, onRefresh }) => {
-  const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.1 });
 
   if (loading && data.length === 0) {
     return (

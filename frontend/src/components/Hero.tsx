@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { useInView as useInViewObserver } from 'react-intersection-observer';
 
 interface Props {
   name: string;
@@ -103,7 +102,8 @@ const FloatingOrbs: React.FC = () => {
 // 3D Holographic Card for Profile Image
 const HolographicProfile: React.FC<{ imageSrc: string; name: string }> = ({ imageSrc, name }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { ref, inView } = useInViewObserver({ threshold: 0.3 });
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
     <motion.div 
@@ -185,6 +185,8 @@ const HolographicProfile: React.FC<{ imageSrc: string; name: string }> = ({ imag
 
 const Hero: React.FC<Props> = ({ name, title }) => {
   const containerRef = useRef<HTMLElement>(null);
+  const heroRef = useRef(null);
+  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -194,7 +196,7 @@ const Hero: React.FC<Props> = ({ name, title }) => {
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   
-  const { ref: heroRef, inView } = useInViewObserver({ threshold: 0.1 });
+  const inView = useInView(heroRef, { once: true, amount: 0.1 });
 
   // Simplified smooth scroll function to avoid runtime errors
   const handleSmoothScroll = (targetId: string) => {
