@@ -151,22 +151,7 @@ const HolographicProfile: React.FC<{ imageSrc: string; name: string }> = ({ imag
           className="profile-image"
         />
         
-        {/* Holographic Scan Lines */}
-        <div className="scan-lines">
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="scan-line"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: [0, 1, 0] }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                delay: i * 0.2
-              }}
-            />
-          ))}
-        </div>
+        {/* Removed the blue scan lines that were here */}
       </motion.div>
       
       {/* Floating Particles around Profile */}
@@ -211,6 +196,21 @@ const Hero: React.FC<Props> = ({ name, title }) => {
   
   const { ref: heroRef, inView } = useInViewObserver({ threshold: 0.1 });
 
+  // Simplified smooth scroll function to avoid runtime errors
+  const handleSmoothScroll = (targetId: string) => {
+    try {
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    } catch (error) {
+      console.warn('Smooth scroll failed:', error);
+    }
+  };
+
   return (
     <motion.section 
       ref={containerRef}
@@ -247,7 +247,7 @@ const Hero: React.FC<Props> = ({ name, title }) => {
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              <div className="intro-label">Hello, I'm</div>
+              <div className="intro-label">Information Science Student & Software Engineering Intern</div>
             </motion.div>
 
             <motion.div
@@ -257,21 +257,24 @@ const Hero: React.FC<Props> = ({ name, title }) => {
               transition={{ duration: 1, delay: 0.7 }}
             >
               <h1 className="hero-name-netflix">
-                {name.split('').map((char, index) => (
-                  <motion.span
-                    key={index}
-                    className="name-char"
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ 
-                      duration: 0.6, 
-                      delay: 0.9 + index * 0.1,
-                      ease: "easeOut"
-                    }}
-                  >
-                    {char === ' ' ? '\u00A0' : char}
-                  </motion.span>
-                ))}
+                <span className="greeting">Hello, I'm</span>
+                <span className="name">
+                  {name.split('').map((char, index) => (
+                    <motion.span
+                      key={index}
+                      className="name-char"
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={inView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ 
+                        duration: 0.6, 
+                        delay: 0.9 + index * 0.1,
+                        ease: "easeOut"
+                      }}
+                    >
+                      {char === ' ' ? '\u00A0' : char}
+                    </motion.span>
+                  ))}
+                </span>
               </h1>
             </motion.div>
 
@@ -281,7 +284,32 @@ const Hero: React.FC<Props> = ({ name, title }) => {
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 1.5 }}
             >
-              <CinematicTypewriter text={title} delay={2000} />
+              <CinematicTypewriter text="Building cloud-native systems with Python, AWS, and modern web technologies. Seeking internship opportunities to drive innovation and create meaningful impact." delay={200} />
+            </motion.div>
+
+            {/* Professional Highlights */}
+            <motion.div
+              className="hero-highlights"
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 2 }}
+            >
+              <div className="highlight-item">
+                <span className="highlight-number">4.0</span>
+                <span className="highlight-text">GPA</span>
+              </div>
+              <div className="highlight-item">
+                <span className="highlight-number">Capital One</span>
+                <span className="highlight-text">Intern</span>
+              </div>
+              <div className="highlight-item">
+                <span className="highlight-number">3</span>
+                <span className="highlight-text">Featured Projects</span>
+              </div>
+              <div className="highlight-item">
+                <span className="highlight-number">Full-Stack</span>
+                <span className="highlight-text">Developer</span>
+              </div>
             </motion.div>
 
             {/* Action Buttons */}
@@ -291,48 +319,23 @@ const Hero: React.FC<Props> = ({ name, title }) => {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 2.5 }}
             >
-              <motion.a 
-                href="#projects" 
+              <button 
+                onClick={() => handleSmoothScroll('projects')}
                 className="netflix-btn primary"
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: "0 20px 40px rgba(229, 9, 20, 0.4)"
-                }}
-                whileTap={{ scale: 0.95 }}
               >
                 <span className="btn-icon">▶</span>
                 View My Work
                 <div className="btn-glow"></div>
-              </motion.a>
+              </button>
               
-              <motion.a 
-                href="#contact" 
+              <button 
+                onClick={() => handleSmoothScroll('contact')}
                 className="netflix-btn secondary"
-                whileHover={{ 
-                  scale: 1.05,
-                  backgroundColor: "rgba(255, 255, 255, 0.1)"
-                }}
-                whileTap={{ scale: 0.95 }}
               >
                 <span className="btn-icon">✉</span>
                 Get In Touch
                 <div className="btn-shimmer"></div>
-              </motion.a>
-            </motion.div>
-
-            {/* Scroll Indicator */}
-            <motion.div
-              className="scroll-indicator"
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 1, delay: 3 }}
-            >
-              <motion.div
-                className="scroll-dot"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-              <span className="scroll-text">Scroll to explore</span>
+              </button>
             </motion.div>
           </div>
         </div>

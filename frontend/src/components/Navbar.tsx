@@ -57,9 +57,32 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
     setIsMenuOpen(false);
   };
 
-  const handleNavClick = (section: string) => {
+  // Safe navigation function to prevent JavaScript errors
+  const handleNavClick = (section: string, event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
     setActiveSection(section);
     closeMenu();
+    
+    // Smooth scroll to section
+    try {
+      const targetElement = document.getElementById(section);
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      } else if (section === 'home') {
+        // If home section doesn't exist, scroll to top
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+    } catch (error) {
+      console.warn('Navigation scroll failed:', error);
+      // Fallback to regular navigation
+      window.location.hash = section;
+    }
   };
 
   const navItems = [
@@ -86,7 +109,7 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
       <motion.a 
         href="#home" 
         className="nav-brand-netflix" 
-        onClick={() => handleNavClick('home')}
+        onClick={(e) => handleNavClick('home', e)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -135,7 +158,7 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
               <motion.a
                 href={`#${item.id}`}
                 className={`nav-link-netflix ${activeSection === item.id ? 'active' : ''}`}
-                onClick={() => handleNavClick(item.id)}
+                onClick={(e) => handleNavClick(item.id, e)}
                 whileHover={{ y: -2 }}
                 whileTap={{ y: 0 }}
               >
@@ -226,7 +249,7 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
                     <motion.a
                       href={`#${item.id}`}
                       className={`mobile-nav-link ${activeSection === item.id ? 'active' : ''}`}
-                      onClick={() => handleNavClick(item.id)}
+                      onClick={(e) => handleNavClick(item.id, e)}
                       whileHover={{ x: 10 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -248,7 +271,7 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
                 <motion.a
                   href="#contact"
                   className="mobile-cta-btn"
-                  onClick={() => handleNavClick('contact')}
+                  onClick={(e) => handleNavClick('contact', e)}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

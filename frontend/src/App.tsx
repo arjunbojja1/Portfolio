@@ -22,21 +22,21 @@ const NetflixParticles: React.FC = () => {
           initial={{ 
             opacity: 0,
             scale: 0,
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight 
+            x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
+            y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800)
           }}
           animate={{ 
             opacity: [0, 1, 0],
             scale: [0, 1, 0],
             x: [
-              Math.random() * window.innerWidth,
-              Math.random() * window.innerWidth,
-              Math.random() * window.innerWidth
+              Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
+              Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
+              Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200)
             ],
             y: [
-              Math.random() * window.innerHeight,
-              Math.random() * window.innerHeight + 100,
-              Math.random() * window.innerHeight + 200
+              Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800),
+              Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800) + 100,
+              Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800) + 200
             ]
           }}
           transition={{ 
@@ -79,7 +79,7 @@ const NetflixCodeRain: React.FC = () => {
           className="netflix-code-line"
           initial={{ y: -100, opacity: 0 }}
           animate={{ 
-            y: window.innerHeight + 100,
+            y: (typeof window !== 'undefined' ? window.innerHeight : 800) + 100,
             opacity: [0, 1, 1, 0]
           }}
           transition={{
@@ -279,7 +279,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       <motion.div 
         className="app-netflix"
         initial={{ opacity: 0 }}

@@ -96,17 +96,17 @@ Reply to: {email}
 # Profile data (moved from data.py)
 profile_data = {
     "name": "Arjun Bojja",
-    "title": "Aspiring Software Engineer & Product Manager",
+    "title": "Information Science Student & Software Engineering Intern",
     "location": "Herndon, VA", 
     "email": "arjunbojja1@gmail.com",
     "linkedin": "https://www.linkedin.com/in/arjun-bojja/",
     "github_user": "arjunbojja1",
     "about": {
-        "passion": "I'm passionate about making technology more usable and accessible for everyone.",
-        "seeking": "I am currently seeking Software Engineering and Product Management internships where I can apply my skills to build impactful solutions."
+        "passion": "Information Science student (4.0 GPA) with internship experience at Capital One building cloud-native systems using Python, AWS, and Docker. Skilled in backend development, algorithms, and scalable application design.",
+        "seeking": "Seeking software engineering and product management internship opportunities in cloud systems, backend development, and data-driven applications."
     },
     "skills": {
-        "Languages & Frameworks": ["Python", "Java", "Lua", "JavaScript", "TypeScript", "MySQL", "R", "React", "FastAPI", "Node.js", "Express", "RESTful APIs", "Serverless Framework"],
+        "Languages & Frameworks": ["Python", "Java", "JavaScript", "TypeScript", "MySQL", "React", "FastAPI", "Node.js", "Express", "REST APIs", "Serverless Framework", "R", "Lua"],
         "Tools & Libraries": ["AWS (Lambda, ECS, Fargate, CLI)", "Docker", "DigitalOcean", "Git/GitHub", "Visual Studio Code", "SQLite3", "PyTest", "Pandas", "NumPy", "Jupyter Notebooks", "TensorFlow", "PyTorch", "Matplotlib", "Uvicorn", "New Relic"]
     },
     "education": {
@@ -115,7 +115,7 @@ profile_data = {
         "gpa": "4.0/4.0",
         "grad_year": 2027,
         "awards": ["Presidential Scholar", "Distinguished Dean's List (Fall 2024, Spring 2025)"],
-        "coursework": ["Database Design (MySQL)", "Machine Learning in Communication", "Statistics for Information Science (R)", "Object-Oriented Programming for Information Science", "Organizations, Management, and Teamwork", "Information Organization", "Entrepreneurial Opportunity Analysis"]
+        "coursework": ["Data Structures and Algorithms", "Database Design (MySQL)", "Machine Learning in Communication", "Statistics for Information Science (R)", "Object-Oriented Programming for Information Science", "Organizations, Management, and Teamwork", "Information Organization", "Entrepreneurial Opportunity Analysis"]
     }
 }
 
@@ -126,51 +126,51 @@ experience_data = [
         "duration": "Jun 2025 - Aug 2025",
         "location": "McLean, VA",
         "description": [
-            "Developed a cloud-native synthetic monitoring application using Python, AWS Lambda, and Fargate on ECS, enhancing the health assessment of internal websites and APIs.",
-            "Engineered scalable, Dockerized services deployed via AWS Fargate, enabling event-driven health checks triggered manually and on scheduled intervals.", 
-            "Integrated New Relic for comprehensive performance metric capture and visualization, ensuring reliability and accurate telemetry of monitored systems.",
-            "Designed and deployed robust RESTful endpoints with FastAPI, facilitating manual API-based trigger execution and system validation.",
-            "Automated infrastructure deployment and monitoring by leveraging AWS CLI and the Serverless Framework, streamlining operational workflows.",
-            "Collaborated effectively within the Business Cards and Payments Tech team as part of Capital One's Technology Early Internship Program (TEIP)."
+            "Built and deployed a cloud-native monitoring tool (Python, AWS Lambda, ECS Fargate) that improved API/site uptime and reduced downtime risk, ensuring 24/7 uptime for internal business apps used by 500+ employees.",
+            "Designed Dockerized, event-driven services for automated health checks, cutting manual monitoring time by ~40%.",
+            "Integrated New Relic dashboards for telemetry and performance metrics, accelerating incident response time.",
+            "Collaborated with a 6-person Business Cards & Payments Tech team to deliver production-ready systems."
         ]
     },
 ]
 
 projects_data = [
     {
-        "title": "Gochi (Roblox)",
-        "external_link": "https://www.roblox.com/communities/5874921/goch",
-        "technologies": ["Lua", "Node.js", "Express", "JavaScript", "Roblox Studio", "Analytics"],
-        "description": [
-            "Spearheaded the development and successful launch of the company's inaugural product, a Roblox-based Korean BBQ restaurant simulation, attracting over 1,000 active users within the first month.",
-            "Directed a development team to design and implement robust Node.js and Express backend systems, seamlessly integrating in-game metrics with third-party analytics platforms.",
-            "Optimized server-client communication by implementing the Knit framework, reducing latency by 20% and significantly enhancing user experience."
-        ],
-        "challenge": "A key achievement was designing and deploying real-time queue and order management systems, which improved operational efficiency by 25% and boosted gameplay interactivity."
-    },
-    {
         "title": "StudyBuddy Scheduler",
         "github_link": "https://github.com/arjunbojja1/studybuddy_scheduler",
-        "technologies": ["Python", "ReactPy", "FastAPI", "PyTest", "Matplotlib", "REST API"],
+        "technologies": ["Python", "ReactPy", "FastAPI", "PyTest", "Matplotlib", "ZenQuotes API", "CSV", "TXT"],
         "description": [
-            "Developed a full-stack scheduling application using ReactPy and FastAPI, incorporating multiple sophisticated scheduling algorithms to optimize user time management.",
-            "Designed an intuitive user interface with interactive calendar views and integrated motivational quotes via the ZenQuotes API to enhance user engagement.",
-            "Ensured code quality and reliability by writing comprehensive unit tests with PyTest and visualized data insights using Matplotlib."
+            "Developed a full-stack scheduling app (ReactPy, FastAPI) with multiple scheduling algorithms to optimize study time.",
+            "Enhanced user engagement by integrating ZenQuotes API for daily motivational content.",
+            "Added schedule export (CSV/TXT) and unit testing with PyTest for reliability.",
+            "Visualized productivity insights using Matplotlib to help users track time allocation."
         ],
-        "challenge": "The most interesting technical challenge was delivering the project under a tight deadline while mastering the novel ReactPy framework for the frontend."
+        "challenge": "The most interesting technical challenge was implementing multiple scheduling algorithms while maintaining an intuitive user interface and ensuring reliable data export functionality."
+    },
+    {
+        "title": "Gochi (Roblox)",
+        "external_link": "https://www.roblox.com/communities/5874921/goch",
+        "technologies": ["Lua", "Node.js", "Express", "JavaScript", "Roblox Studio", "Analytics APIs", "Knit Framework"],
+        "description": [
+            "Launched a Roblox game that attracted 1,000+ active users in its first month.",
+            "Directed a 5-person team to build a Node.js/Express backend integrated with Lua game logic and analytics APIs.",
+            "Reduced in-game latency by 20% using the Knit framework, improving gameplay experience.",
+            "Implemented queue/order management systems that boosted efficiency by 25%."
+        ],
+        "challenge": "As Technical Director & Programmer, the key challenge was coordinating backend systems with real-time game mechanics while managing a development team and ensuring optimal performance for 1,000+ concurrent users."
     },
     {
         "title": "Portfolio Website",
         "github_link": "https://github.com/arjunbojja1/portfolio",
         "external_link": "https://arjunbojja.dev",
-        "technologies": ["React", "TypeScript", "FastAPI", "Python", "CSS3", "Docker", "AWS"],
+        "technologies": ["React", "TypeScript", "Firebase Functions", "Python", "CSS3", "Firebase Hosting"],
         "description": [
-            "Built a modern, responsive portfolio website using React and TypeScript with a FastAPI backend for dynamic content management.",
+            "Built a modern, responsive portfolio website using React and TypeScript with Firebase Functions backend for dynamic content management.",
             "Implemented advanced UI features including skeleton loading states, animated components, and glassmorphism design effects.",
             "Integrated real-time contact form with email notifications and comprehensive error handling for optimal user experience.",
-            "Deployed using containerized architecture with Docker and AWS for scalable, reliable hosting."
+            "Deployed using Firebase hosting with serverless functions for scalable, reliable performance."
         ],
-        "challenge": "Created an engaging user experience with smooth animations and interactive elements while maintaining excellent performance and accessibility standards."
+        "challenge": "Created an engaging user experience with smooth animations and interactive elements while maintaining excellent performance and accessibility standards across all devices."
     }
 ]
 

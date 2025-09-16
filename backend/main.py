@@ -201,6 +201,7 @@ class Project(BaseModel):
     title: str
     github_link: str | None = None
     external_link: str | None = None
+    technologies: list[str] | None = None
     description: list[str]
     challenge: str | None = None
 
