@@ -289,21 +289,13 @@ const Hero: React.FC<Props> = ({ name, title }) => {
               <CinematicTypewriter text="Building cloud-native systems with Python, AWS, and modern web technologies. Seeking internship opportunities to drive innovation and create meaningful impact." delay={200} />
             </motion.div>
 
-            {/* Professional Highlights */}
+            {/* Professional Highlights
             <motion.div
               className="hero-highlights"
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 2 }}
             >
-              <div className="highlight-item">
-                <span className="highlight-number">4.0</span>
-                <span className="highlight-text">GPA</span>
-              </div>
-              <div className="highlight-item">
-                <span className="highlight-number">Capital One</span>
-                <span className="highlight-text">Intern</span>
-              </div>
               <div className="highlight-item">
                 <span className="highlight-number">3</span>
                 <span className="highlight-text">Featured Projects</span>
@@ -312,7 +304,11 @@ const Hero: React.FC<Props> = ({ name, title }) => {
                 <span className="highlight-number">Full-Stack</span>
                 <span className="highlight-text">Developer</span>
               </div>
-            </motion.div>
+              <div className="highlight-item">
+                <span className="highlight-number">Open Source</span>
+                <span className="highlight-text">Contributor</span>
+              </div>
+            </motion.div> */}
 
             {/* Action Buttons */}
             <motion.div 

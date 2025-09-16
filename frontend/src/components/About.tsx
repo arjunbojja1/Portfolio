@@ -151,20 +151,23 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
                   <h4>{education.degree}</h4>
                   <p className="university">{education.university}</p>
                   <div className="education-metrics">
-                    <span className="gpa-badge">GPA: {education.gpa}</span>
                     <span className="grad-badge">Class of {education.grad_year}</span>
                   </div>
                 </div>
                 
                 {education.awards && education.awards.length > 0 && (
                   <div className="education-group">
-                    <h4>🏆 Awards & Honors</h4>
+                    <h4>🏆 Academic Recognition</h4>
                     <div className="education-tags">
                       {education.awards.map((award, index) => (
                         <span key={index} className="education-tag award-tag">
                           {award}
                         </span>
                       ))}
+                      {/* Subtle GPA mention here */}
+                      <span className="education-tag award-tag">
+                        {education.gpa} GPA
+                      </span>
                     </div>
                   </div>
                 )}
@@ -223,37 +226,6 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
               </div>
             </motion.div>
           </div>
-
-          {/* Personal Touch - Simplified */}
-          <motion.div 
-            className="personal-section"
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 1 }}
-          >
-            <div className="personal-card">
-              <h3>Beyond the Code</h3>
-              <p>When I'm not building software, you'll find me exploring new technologies, contributing to open source projects, or enjoying the outdoors. I believe in continuous learning and bringing creativity to every challenge.</p>
-              
-              <div className="personal-gallery-compact">
-                {[
-                  { src: "/beach_picture.png", alt: "Beach day", caption: "" },
-                  { src: "/dinner_picture.png", alt: "Team dinner", caption: "" },
-                  { src: "/manzar.png", alt: "Adventure", caption: "" }
-                ].map((image, index) => (
-                  <motion.div
-                    key={`gallery-${index}`}
-                    className="gallery-item-compact"
-                    whileHover={{ scale: 1.05, rotate: index % 2 === 0 ? 2 : -2 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <img src={image.src} alt={image.alt} className="personal-photo-compact" />
-                    <div className="photo-caption">{image.caption}</div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
         </div>
       </div>
     </section>

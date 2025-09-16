@@ -356,32 +356,6 @@ const Experience: React.FC<Props> = ({ data, loading, onRefresh }) => {
               ))}
             </div>
           </motion.div>
-
-          {/* Call to Action */}
-          <motion.div
-            className="experience-cta"
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <div className="cta-content">
-              <h3>Ready for the Next Challenge</h3>
-              <p>
-                Looking to bring my experience in software engineering and product strategy 
-                to drive innovation and create meaningful impact in your organization.
-              </p>
-              <motion.a
-                href="#contact"
-                className="btn-netflix btn-netflix-primary"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="btn-icon">💬</span>
-                Let's Connect
-                <div className="btn-glow"></div>
-              </motion.a>
-            </div>
-          </motion.div>
         </motion.div>
       </div>
     </section>
