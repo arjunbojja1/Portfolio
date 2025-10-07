@@ -40,6 +40,20 @@ experience_data = [
 
 projects_data = [
     {
+        "title": "Niche - AI Event Discovery Platform",
+        "github_link": "https://github.com/arjunbojja1/Niche",
+        "technologies": ["React", "Node.js", "Python", "MongoDB", "Flask", "Machine Learning", "JWT", "Material-UI", "Express", "BCrypt", "Mongoose", "TensorFlow"],
+        "description": [
+            "Built a full-stack AI-powered platform connecting people with niche community events through intelligent recommendations and matching algorithms.",
+            "Developed proprietary 'Niche Score' algorithm evaluating events based on group size, category rarity, and community impact using Python and machine learning techniques.",
+            "Implemented collaborative filtering and content-based recommendation systems analyzing user preferences, location proximity, and social network connections.",
+            "Designed scalable MongoDB schema with GeoJSON support for location-based event discovery and optimized compound indexes for performance.",
+            "Created responsive React frontend with Material-UI components, featuring real-time updates, interactive maps, and comprehensive analytics dashboards.",
+            "Built secure authentication system with JWT tokens and BCrypt password hashing, ensuring data protection and user privacy."
+        ],
+        "challenge": "The primary technical challenge was developing an AI recommendation engine that accurately matches users with relevant niche events while balancing multiple factors like geographic proximity, interest alignment, and community connections. Implementing the proprietary Niche Score algorithm required careful optimization to process real-time data and provide personalized suggestions at scale."
+    },
+    {
         "title": "StudyBuddy Scheduler",
         "github_link": "https://github.com/arjunbojja1/studybuddy_scheduler",
         "technologies": ["Python", "ReactPy", "FastAPI", "PyTest", "Matplotlib", "ZenQuotes API", "CSV", "TXT"],
