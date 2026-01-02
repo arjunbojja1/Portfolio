@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { flushSync } from 'react-dom';
 import axios from 'axios';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -247,7 +248,7 @@ const NetflixParticles: React.FC = () => {
           }}
           style={{
             background: `radial-gradient(circle, ${
-              Math.random() > 0.5 ? '#00d4ff' : '#00ff88'
+              Math.random() > 0.5 ? 'rgba(0, 113, 227, 0.35)' : 'rgba(64, 201, 162, 0.35)'
             } 0%, transparent 70%)`
           }}
         />
@@ -289,7 +290,7 @@ const NetflixCodeRain: React.FC = () => {
           }}
           style={{
             left: `${(i / 15) * 100}%`,
-            color: Math.random() > 0.7 ? '#00d4ff' : 'rgba(0, 212, 255, 0.3)'
+            color: Math.random() > 0.7 ? 'rgba(0, 113, 227, 0.35)' : 'rgba(15, 23, 42, 0.25)'
           }}
         >
           {codeSnippets[Math.floor(Math.random() * codeSnippets.length)]}
@@ -388,6 +389,7 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showNetflixLoader, setShowNetflixLoader] = useState(true);
   const [appReady, setAppReady] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   const fetchData = useCallback(async () => {
     try {
@@ -434,6 +436,16 @@ const App: React.FC = () => {
   }, [fetchData]);
 
   useEffect(() => {
+    const storedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+    const initialTheme = storedTheme === 'light' || storedTheme === 'dark'
+      ? storedTheme
+      : (prefersDark ? 'dark' : 'light');
+    setTheme(initialTheme);
+    document.documentElement.setAttribute('data-theme', initialTheme);
+  }, []);
+
+  useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
       const interval = setInterval(() => {
         fetchData();
@@ -446,6 +458,37 @@ const App: React.FC = () => {
   const handleNetflixLoaderComplete = () => {
     setShowNetflixLoader(false);
     setTimeout(() => setAppReady(true), 300);
+  };
+
+  const handleToggleTheme = (event?: React.MouseEvent<HTMLButtonElement>) => {
+    const nextTheme = theme === 'light' ? 'dark' : 'light';
+    const root = document.documentElement;
+    const x = event?.clientX ?? window.innerWidth - 32;
+    const y = event?.clientY ?? 32;
+
+    root.style.setProperty('--vt-x', `${x}px`);
+    root.style.setProperty('--vt-y', `${y}px`);
+
+    const applyTheme = () => {
+      flushSync(() => {
+        setTheme(nextTheme);
+      });
+      localStorage.setItem('theme', nextTheme);
+      root.setAttribute('data-theme', nextTheme);
+    };
+
+    const doc = document as typeof document & { startViewTransition?: (callback: () => void) => void };
+    if (doc.startViewTransition) {
+      root.classList.add('theme-transitioning');
+      const transition = doc.startViewTransition(() => {
+        applyTheme();
+      }) as unknown as { finished?: Promise<void> };
+      transition.finished?.finally(() => {
+        root.classList.remove('theme-transitioning');
+      });
+    } else {
+      applyTheme();
+    }
   };
 
   // Show Netflix loader first
@@ -509,7 +552,7 @@ const App: React.FC = () => {
                 transition={{ duration: 1, delay: 0.2 }}
               >
                 <ErrorBoundary>
-                  <Navbar />
+                  <Navbar theme={theme} onToggleTheme={handleToggleTheme} />
                 </ErrorBoundary>
                 <ErrorBoundary>
                   <Hero name={profile.name} title={profile.title} />

@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 interface NavbarProps {
   onRefresh?: () => void;
+  theme: 'light' | 'dark';
+  onToggleTheme: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
+const Navbar: React.FC<NavbarProps> = ({ onRefresh, theme, onToggleTheme }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -74,6 +76,8 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
     { id: 'contact', label: 'Contact', icon: '📧' }
   ];
 
+  const nextTheme = theme === 'light' ? 'dark' : 'light';
+
   return (
     <nav className={`navbar-simple ${scrolled ? 'scrolled' : ''}`}>
       {/* Brand Logo */}
@@ -105,6 +109,15 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
             </li>
           ))}
         </ul>
+        <button
+          className="theme-toggle"
+          onClick={(event) => onToggleTheme(event)}
+          aria-label={`Switch to ${nextTheme} mode`}
+          aria-pressed={theme === 'dark'}
+        >
+          <span className="theme-toggle-icon">{theme === 'light' ? '🌙' : '☀️'}</span>
+          <span className="theme-toggle-text">{theme === 'light' ? 'Dark' : 'Light'}</span>
+        </button>
       </div>
 
       {/* Mobile Menu Button */}
@@ -127,6 +140,14 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh }) => {
           <div className="mobile-menu-content" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-menu-header">
               <span className="mobile-brand">Portfolio</span>
+              <button
+                className="theme-toggle mobile"
+                onClick={(event) => onToggleTheme(event)}
+                aria-label={`Switch to ${nextTheme} mode`}
+                aria-pressed={theme === 'dark'}
+              >
+                <span className="theme-toggle-icon">{theme === 'light' ? '🌙' : '☀️'}</span>
+              </button>
               <button
                 className="close-btn"
                 onClick={() => setIsMenuOpen(false)}

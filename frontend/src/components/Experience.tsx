@@ -25,52 +25,118 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
   // Extract key achievements and metrics from description
   const getJobMetrics = (description: string[]) => {
     const metrics: { value: string; context: string }[] = [];
-    
-    description.forEach(desc => {
-      // Look for numbers, percentages, or impact indicators with better context extraction
-      const percentageMatch = desc.match(/(\d+%)/g);
-      const numberMatch = desc.match(/(\d+x|\$\d+|\d+\+)/g);
-      
-      if (percentageMatch) {
-        percentageMatch.forEach(match => {
-          // Extract more context around the percentage
-          const beforeMatch = desc.substring(0, desc.indexOf(match)).split(' ').slice(-4).join(' ');
-          const afterMatch = desc.substring(desc.indexOf(match) + match.length).split(' ').slice(0, 4).join(' ');
-          
-          let context = '';
-          if (beforeMatch.includes('monitoring')) {
-            context = 'reduction in manual monitoring time';
-          } else if (beforeMatch.includes('latency')) {
-            context = 'latency improvement';
-          } else if (beforeMatch.includes('efficiency')) {
-            context = 'efficiency boost';
-          } else {
-            context = (beforeMatch + ' ' + afterMatch).trim() || 'improvement';
-          }
-          
-          metrics.push({
-            value: match,
-            context: context
-          });
-        });
+    const seen = new Set<string>();
+
+    const getContext = (desc: string) => {
+      const normalized = desc.toLowerCase();
+      const contextMap = [
+        { keywords: ['uptime', 'availability'], context: 'uptime improvement' },
+        { keywords: ['downtime risk'], context: 'downtime risk reduction' },
+        { keywords: ['downtime', 'outage'], context: 'downtime reduction' },
+        { keywords: ['latency', 'response time'], context: 'latency reduction' },
+        { keywords: ['throughput'], context: 'throughput increase' },
+        { keywords: ['efficiency'], context: 'efficiency gain' },
+        { keywords: ['performance', 'speed'], context: 'performance boost' },
+        { keywords: ['cost', 'costs', 'spend', 'budget'], context: 'cost reduction' },
+        { keywords: ['reliability', 'stability'], context: 'reliability improvement' },
+        { keywords: ['monitoring', 'alerting'], context: 'monitoring effort reduction' },
+        { keywords: ['adoption', 'engagement', 'coverage'], context: 'adoption growth' }
+      ];
+
+      for (const entry of contextMap) {
+        if (entry.keywords.some((keyword) => normalized.includes(keyword))) {
+          return entry.context;
+        }
       }
-      
-      if (numberMatch) {
-        numberMatch.forEach(match => {
-          const context = desc.split(match)[1]?.trim().substring(0, 30) + '...' || desc.substring(0, 30) + '...';
-          metrics.push({
-            value: match,
-            context: context
-          });
-        });
+
+      return 'measurable improvement';
+    };
+
+    const addMetric = (value: string, context: string) => {
+      const key = `${value}-${context}`;
+      if (!seen.has(key)) {
+        metrics.push({ value, context });
+        seen.add(key);
+      }
+    };
+
+    const cleanContext = (raw: string) => {
+      const trimmed = raw.replace(/\s+/g, ' ').trim();
+      const lower = trimmed.toLowerCase();
+      const lastComma = trimmed.lastIndexOf(',');
+      const lastSemicolon = trimmed.lastIndexOf(';');
+      const lastAnd = lower.lastIndexOf(' and ');
+      const lastWith = lower.lastIndexOf(' with ');
+      const lastUsing = lower.lastIndexOf(' using ');
+      const lastTo = lower.lastIndexOf(' to ');
+      const useAndSplit = trimmed.toLowerCase().startsWith('and ');
+      const splitIndex = Math.max(lastComma, lastSemicolon, useAndSplit ? lastAnd : -1, lastWith, lastUsing, lastTo);
+      let offset = 0;
+      if (splitIndex === lastComma || splitIndex === lastSemicolon) {
+        offset = 1;
+      } else if (splitIndex === lastAnd) {
+        offset = 5;
+      } else if (splitIndex === lastWith) {
+        offset = 6;
+      } else if (splitIndex === lastUsing) {
+        offset = 7;
+      } else if (splitIndex === lastTo) {
+        offset = 4;
+      }
+      let context = splitIndex >= 0 ? trimmed.slice(splitIndex + offset) : trimmed;
+      context = context.replace(/^[,\s]*(and|with|using|to)\s+/i, '');
+      context = context.replace(/[.,;:\s]+$/g, '');
+      return context.trim();
+    };
+
+    const metricPattern = /([^.;]*?)\bby\s*~?\s*(\d+%|\d+x|\$\d+(?:\.\d+)?[kKmM]?|\d+\+)/gi;
+
+    description.forEach((desc) => {
+      const cleanedDesc = desc.replace(/~/g, '');
+      let match: RegExpExecArray | null;
+      while ((match = metricPattern.exec(cleanedDesc)) !== null) {
+        const rawContext = cleanContext(match[1]);
+        const mappedContext = getContext(rawContext || cleanedDesc);
+        const context = mappedContext === 'measurable improvement' && rawContext ? rawContext : mappedContext;
+        addMetric(match[2], context);
       }
     });
-    
-    return metrics.slice(0, 2); // Limit to 2 key metrics
+
+    if (metrics.length === 0) {
+      description.forEach((desc) => {
+        const percentageMatch = desc.match(/(\d+%)/g);
+        const numberMatch = desc.match(/(\d+x|\$\d+(?:\.\d+)?[kKmM]?|\d+\+)/g);
+
+        if (percentageMatch) {
+          percentageMatch.forEach((match) => {
+            addMetric(match, getContext(desc));
+          });
+        }
+
+        if (numberMatch) {
+          numberMatch.forEach((match) => {
+            addMetric(match, getContext(desc));
+          });
+        }
+      });
+    }
+
+    return metrics.slice(0, 2);
   };
 
   const metrics = getJobMetrics(job.description);
   const isCurrentRole = index === 0;
+  const companyIconMap: Record<string, string> = {
+    'Capital One': '🏦',
+    'Roblox (Gochi)': '🕹️',
+    'Computer Science Honor Society': '💻'
+  };
+  const companyIcon = companyIconMap[job.company] || '🏢';
+  const timelineIcon = isCurrentRole ? '🚀' : companyIcon;
+
+  const focusText = isCurrentRole
+    ? 'Current focus: leadership, problem-solving, and innovation.'
+    : 'Focus areas: leadership, problem-solving, and innovation.';
 
   return (
     <motion.div
@@ -98,9 +164,7 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
           animate={inView ? { scale: 1, rotate: 0 } : {}}
           transition={{ duration: 0.5, delay: index * 0.2 + 0.5 }}
         >
-          <div className="node-icon">
-            {isCurrentRole ? '🚀' : index === 1 ? '💡' : '💼'}
-          </div>
+          <div className="node-icon">{timelineIcon}</div>
           {isCurrentRole && (
             <motion.div
               className="current-indicator"
@@ -147,7 +211,8 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: index * 0.2 + 0.5 }}
           >
-            {job.company}
+            <span className="company-icon" aria-hidden="true">{companyIcon}</span>
+            <span>{job.company}</span>
           </motion.h4>
 
           <motion.div
@@ -218,9 +283,7 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
         >
           <div className="skills-learned">
             <span className="skills-icon">🛠️</span>
-            <span className="skills-text">
-              {isCurrentRole ? 'Currently developing' : 'Skills developed'}: Leadership, Problem-solving, Innovation
-            </span>
+            <span className="skills-text">{focusText}</span>
           </div>
         </motion.div>
       </motion.div>
@@ -236,16 +299,16 @@ const CareerStats: React.FC<{ data: ExperienceData[] }> = ({ data }) => {
   const stats = [
     { 
       number: data.length.toString(), 
-      label: 'Professional Role', 
+      label: 'Professional Roles', 
       icon: '💼' 
     },
     { 
       number: '2+', 
-      label: 'Years Learning', 
+      label: 'Years Experience', 
       icon: '📈' 
     },
     { 
-      number: '10+', 
+      number: '15+', 
       label: 'Technologies Used', 
       icon: '⚡' 
     },
@@ -264,7 +327,7 @@ const CareerStats: React.FC<{ data: ExperienceData[] }> = ({ data }) => {
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8 }}
     >
-      <h3>Academic & Professional Journey</h3>
+      <h3>Career Snapshot</h3>
       <div className="stats-grid-career">
         {stats.map((stat, index) => (
           <motion.div
@@ -341,7 +404,7 @@ const Experience: React.FC<Props> = ({ data, loading, onRefresh }) => {
                 <h3>Career Timeline</h3>
               </div>
               <div className="timeline-description">
-                My professional journey showcasing growth, impact, and continuous learning
+                A timeline of growth, impact, and continuous learning.
               </div>
             </div>
 
