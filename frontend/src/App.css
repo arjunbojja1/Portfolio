@@ -1493,6 +1493,46 @@ section,
   margin: 0 0 0.5rem;
 }
 
+.project-demo {
+  padding: 1.2rem;
+  border-radius: var(--radius-md);
+  background: var(--surface-3);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.project-demo h4 {
+  margin: 0;
+}
+
+.demo-media {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-card);
+}
+
+.demo-placeholder {
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--surface-2);
+  color: var(--ink-500);
+  font-size: 0.95rem;
+}
+
+.demo-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.demo-link {
+  align-self: flex-start;
+}
+
 .project-challenge-enhanced {
   margin-top: 1.5rem;
   padding: 1rem;

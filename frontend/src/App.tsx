@@ -367,6 +367,9 @@ interface ProjectData {
   title: string;
   github_link?: string;
   external_link?: string;
+  demo?: { label: string; url: string };
+  demo_media?: { type: 'image' | 'video'; url: string; alt?: string };
+  demo_note?: string;
   technologies?: string[];
   description: string[];
   challenge?: string;

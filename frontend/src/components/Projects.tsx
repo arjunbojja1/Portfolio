@@ -6,6 +6,9 @@ interface ProjectData {
   title: string;
   github_link?: string;
   external_link?: string;
+  demo?: { label: string; url: string };
+  demo_media?: { type: 'image' | 'video'; url: string; alt?: string };
+  demo_note?: string;
   description: string[];
   challenge?: string;
   technologies?: string[];
@@ -22,6 +25,8 @@ const ProjectCard: React.FC<{ project: ProjectData; index: number }> = ({ projec
   const [isHovered, setIsHovered] = useState(false);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
+  const demoUrl = project.demo?.url || project.external_link;
+  const demoLabel = project.demo?.label || (project.external_link ? 'Live Demo' : 'View Demo');
 
   // Calculate project impact metrics based on description content
   const getProjectMetrics = (description: string[]) => {
@@ -141,6 +146,45 @@ const ProjectCard: React.FC<{ project: ProjectData; index: number }> = ({ projec
             <p>{project.challenge}</p>
           </motion.div>
         )}
+
+        <div className="project-demo">
+          <h4>🎬 Demo</h4>
+          {project.demo_media?.type === 'video' && (
+            <video
+              className="demo-media"
+              src={project.demo_media.url}
+              controls
+              preload="metadata"
+            />
+          )}
+          {project.demo_media?.type === 'image' && (
+            <img
+              className="demo-media"
+              src={project.demo_media.url}
+              alt={project.demo_media.alt || `${project.title} demo preview`}
+              loading="lazy"
+            />
+          )}
+          {!project.demo_media && (
+            <div className="demo-placeholder">
+              {project.demo_note || 'Demo coming soon.'}
+            </div>
+          )}
+          {demoUrl && (
+            <div className="demo-actions">
+              <a
+                href={demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-netflix btn-netflix-secondary demo-link"
+                aria-label={`View ${project.title} demo`}
+              >
+                <span className="btn-icon">🎞️</span>
+                {demoLabel}
+              </a>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Project Footer */}
@@ -180,19 +224,6 @@ const ProjectCard: React.FC<{ project: ProjectData; index: number }> = ({ projec
                 <span className="btn-icon">📁</span>
                 Source Code
                 <div className="btn-shimmer"></div>
-              </a>
-            )}
-            {project.external_link && (
-              <a
-                href={project.external_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-netflix btn-netflix-primary"
-                aria-label={`Visit ${project.title} live demo`}
-              >
-                <span className="btn-icon">🚀</span>
-                Live Demo
-                <div className="btn-glow"></div>
               </a>
             )}
           </div>
