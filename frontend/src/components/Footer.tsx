@@ -14,8 +14,8 @@ const Footer: React.FC<Props> = ({ linkedin, github }) => {
         <div className="footer-section footer-about">
           <h3>About</h3>
           <p>
-            Aspiring Software Engineer & Product Manager passionate about making technology 
-            more usable and accessible for everyone.
+            Aspiring Software Engineer passionate about building reliable, scalable systems
+            and turning complex problems into clean, impactful solutions.
           </p>
           <div className="footer-socials-new">
             <a href={linkedin} target="_blank" rel="noopener noreferrer" className="social-link">
