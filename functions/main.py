@@ -97,14 +97,14 @@ Reply to: {email}
 profile_data = {
     "name": "Arjun Bojja",
     "title": "Information Science Student & Software Engineering Intern",
-    "location": "Herndon, VA", 
+    "location": "Washington, D.C. Metro Area", 
     "email": "arjunbojja1@gmail.com",
     "phone": "571-471-0563",
     "linkedin": "https://www.linkedin.com/in/arjun-bojja/",
     "github_user": "arjunbojja1",
     "about": {
-        "passion": "Information Science student (4.0 GPA) with internship experience at Capital One building cloud-native, serverless systems using Python, AWS, and Docker. Skilled in backend development, algorithms, microservices architecture, and scalable application design.",
-        "seeking": "Seeking software engineering and product management internship opportunities in cloud systems, backend development, and data-driven applications."
+        "passion": "Information Science student with internship experience building cloud-native systems in Python and AWS. I enjoy turning messy operational problems into reliable, measurable services and clear developer experiences.",
+        "seeking": "Open to software engineering internships where I can ship real features, learn fast, and contribute to products people rely on."
     },
     "skills": {
         "Languages": ["Python", "Java", "JavaScript", "TypeScript", "Lua", "R", "SQL"],
@@ -117,7 +117,7 @@ profile_data = {
     "education": {
         "degree": "Bachelor of Science in Information Science",
         "university": "University of Maryland, College Park",
-        "gpa": "4.00",
+        "gpa": "3.88",
         "grad_year": 2027,
         "awards": ["Presidential Scholar", "Distinguished Dean's List (Fall 2024, Spring 2025)"],
         "coursework": ["Data Structures and Algorithms", "Database Design (MySQL)", "Object-Oriented Programming", "Machine Learning in Communication", "Statistics for Information Science (R)", "Information Organization", "Organizations, Management, and Teamwork", "Entrepreneurial Opportunity Analysis"]
@@ -125,6 +125,15 @@ profile_data = {
 }
 
 experience_data = [
+    {
+        "role": "Software Engineering Intern",
+        "company": "Microsoft",
+        "duration": "May 2026 - August 2026",
+        "location": "Mountain View, CA",
+        "description": [
+            "Incoming Software Engineering Intern for Summer 2026 in Mountain View, CA."
+        ]
+        },
     {
         "role": "Software Engineering Intern",
         "company": "Capital One",
