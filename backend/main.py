@@ -12,6 +12,7 @@ import sys
 import logging
 from datetime import datetime
 from typing import Optional
+from contextlib import asynccontextmanager
 
 logging.basicConfig(
     level=logging.INFO,
@@ -21,31 +22,14 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-app = FastAPI(
-    title="Arjun Bojja's Portfolio API",
-    description="A dynamic portfolio API built with FastAPI",
-    version="1.0.0",
-    docs_url="/docs" if os.getenv("DEBUG", "False").lower() == "true" else None
-)
-
-@app.on_event("startup")
-async def startup_event():
-    logger.info("Portfolio API is starting up...")
-    logger.info(f"Debug mode: {DEBUG}")
-    logger.info(f"CORS origins: {origins}")
-
-origins = [
+# Configuration
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "localhost:3000"
+    "localhost:3000",
+    "http://localhost:3001",
+    "localhost:3001"
 ]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"]
-)
 
 SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
@@ -53,7 +37,36 @@ SMTP_USERNAME = os.getenv("SMTP_USERNAME")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 SMTP_FROM_EMAIL = os.getenv("SMTP_FROM_EMAIL")
 SMTP_TO_EMAIL = os.getenv("SMTP_TO_EMAIL", "arjunbojja1@gmail.com")
-DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+
+# Lifespan event handler
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    logger.info("🚀 Portfolio API starting up...")
+    logger.info(f"📊 Debug mode: {DEBUG}")
+    logger.info(f"🔐 CORS origins: {ALLOWED_ORIGINS}")
+    logger.info(f"📧 Email configured: {bool(SMTP_USERNAME and SMTP_PASSWORD)}")
+    yield
+    # Shutdown
+    logger.info("🛑 Portfolio API shutting down...")
+
+# Create app with lifespan
+app = FastAPI(
+    title="Arjun Bojja's Portfolio API",
+    description="A dynamic portfolio API built with FastAPI",
+    version="1.0.0",
+    docs_url="/docs" if DEBUG else None,
+    lifespan=lifespan
+)
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 @app.middleware("http")
 async def log_requests(request, call_next):
@@ -71,6 +84,11 @@ async def log_requests(request, call_next):
 def reload_data():
     """Reload data from data.py file - allows for hot updates!"""
     try:
+        # Ensure backend directory is in path for data module import
+        backend_dir = os.path.dirname(os.path.abspath(__file__))
+        if backend_dir not in sys.path:
+            sys.path.insert(0, backend_dir)
+        
         if 'data' in sys.modules:
             importlib.reload(sys.modules['data'])
             logger.info("Data module reloaded successfully")
@@ -250,20 +268,61 @@ async def get_projects():
 
 @app.get("/api/health")
 async def health_check():
+    """
+    Health check endpoint for monitoring and load balancing.
+    Returns detailed status including data freshness and email configuration.
+    """
     try:
         profile_data, experience_data, projects_data = reload_data()
         return {
             "status": "healthy",
             "timestamp": datetime.now().isoformat(),
+            "uptime_seconds": 0,  # In production, track actual uptime
+            "checks": {
+                "data_loading": True,
+                "email_configured": bool(SMTP_USERNAME and SMTP_PASSWORD),
+                "cors_enabled": True
+            },
             "data_counts": {
                 "experience": len(experience_data),
                 "projects": len(projects_data)
             },
-            "email_configured": bool(SMTP_USERNAME and SMTP_PASSWORD)
+            "version": "1.0.0"
         }
     except Exception as e:
         logger.error(f"Health check failed: {e}")
         raise HTTPException(status_code=503, detail="Service unhealthy")
+
+@app.get("/api/metrics")
+async def metrics():
+    """
+    Observability metrics endpoint showing system health and performance.
+    Useful for monitoring dashboards and alerting systems.
+    """
+    try:
+        profile_data, experience_data, projects_data = reload_data()
+        
+        # In production, metrics would track actual performance data
+        return {
+            "timestamp": datetime.now().isoformat(),
+            "service": "portfolio-api",
+            "environment": "production" if not DEBUG else "development",
+            "metrics": {
+                "data_freshness": {
+                    "last_reload": datetime.now().isoformat(),
+                    "experience_count": len(experience_data),
+                    "projects_count": len(projects_data)
+                },
+                "configuration": {
+                    "debug_mode": DEBUG,
+                    "cors_origins_count": len(ALLOWED_ORIGINS),
+                    "email_service": "configured" if (SMTP_USERNAME and SMTP_PASSWORD) else "not_configured"
+                }
+            }
+        }
+    except Exception as e:
+        logger.error(f"Metrics endpoint error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch metrics")
 
 @app.post("/api/contact")
 async def contact(form: ContactForm):
@@ -304,4 +363,13 @@ async def reload_portfolio_data():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    
+    # Use import string for proper reload/workers support
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=DEBUG,
+        log_level="info" if not DEBUG else "debug",
+        access_log=True
+    )

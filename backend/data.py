@@ -1,30 +1,31 @@
 profile_data = {
     "name": "Arjun Bojja",
-    "title": "Information Science Student & Software Engineering Intern",
+    "title": "Backend & Cloud Infrastructure Engineer",
     "location": "Washington, D.C. Metro Area", 
     "email": "arjunbojja1@gmail.com",
     "phone": "571-471-0563",
     "linkedin": "https://www.linkedin.com/in/arjun-bojja/",
     "github_user": "arjunbojja1",
     "about": {
-        "passion": "Information Science student with internship experience building cloud-native systems in Python and AWS. I enjoy turning messy operational problems into reliable, measurable services and clear developer experiences.",
-        "seeking": "Open to software engineering internships where I can ship real features, learn fast, and contribute to products people rely on."
+        "passion": "Backend engineer passionate about designing reliable, observable systems that scale. I love turning operational chaos into measured, automated reliability—building the infrastructure that teams depend on.",
+        "seeking": "Seeking opportunities in Backend Engineering, SRE, or Cloud Infrastructure where I can ship reliable systems, own operational excellence, and drive measurable reliability improvements."
     },
     "skills": {
-        "Languages": ["Python", "Java", "JavaScript", "TypeScript", "Lua", "R", "SQL"],
-        "Frameworks": ["Flask", "FastAPI", "Express", "React", "React Native"],
-        "Cloud & DevOps": ["AWS (Lambda, ECS Fargate, DynamoDB, CloudWatch)", "Docker", "Serverless", "CI/CD (GitHub Actions)"],
-        "Databases & Architecture": ["MongoDB", "SQL", "Event-Driven Systems", "Microservices", "Caching"],
-        "Testing & Observability": ["PyTest", "Jest", "New Relic"],
-        "Other": ["Data Structures & Algorithms", "JWT Authentication", "AI/ML Fundamentals"]
+        "Backend & APIs": ["Python", "JavaScript/Node.js", "TypeScript", "FastAPI", "Express.js", "RESTful APIs"],
+        "Cloud & Infrastructure": ["AWS (Lambda, ECS Fargate, DynamoDB, CloudWatch)", "Docker", "Docker Compose", "Serverless Architecture", "CI/CD (GitHub Actions)"],
+        "Observability & Reliability": ["New Relic", "CloudWatch", "Custom Telemetry", "Structured Logging", "Health Checks", "Incident Response"],
+        "Data & Persistence": ["SQL", "MongoDB", "DynamoDB", "Event-Driven Systems", "Caching Patterns"],
+        "Systems Design": ["Microservices", "EventEmitters", "Async/Concurrency", "Rate Limiting", "Load Balancing"],
+        "Testing & Quality": ["PyTest", "Jest", "Unit Testing", "Integration Testing"],
+        "Other Languages": ["Java", "Lua", "R", "SQL"]
     },
     "education": {
         "degree": "Bachelor of Science in Information Science",
         "university": "University of Maryland, College Park",
         "gpa": "3.88",
         "grad_year": 2027,
-        "awards": ["Presidential Scholar", "Distinguished Dean's List (Fall 2024, Spring 2025)"],
-        "coursework": ["Data Structures and Algorithms", "Database Design (MySQL)", "Object-Oriented Programming", "Machine Learning in Communication", "Statistics for Information Science (R)", "Information Organization", "Organizations, Management, and Teamwork", "Entrepreneurial Opportunity Analysis"]
+        "awards": ["Presidential Scholar", "Dean's List (Fall 2024, Spring 2025, Fall 2025)"],
+        "coursework": ["Technologies, Infrastructure and Architecture", "Data Structures and Algorithms", "Data Science Techniques", "Database Design (MySQL)", "Object-Oriented Programming", "Machine Learning in Communication", "Statistics for Information Science (R)", "Information Organization", "Organizations, Management, and Teamwork", "Entrepreneurial Opportunity Analysis"]
     }
 }
 
@@ -44,33 +45,30 @@ experience_data = [
         "duration": "June 2025 - August 2025",
         "location": "McLean, VA",
         "description": [
-            "Built a serverless monitoring platform (Python, AWS Lambda, ECS Fargate, DynamoDB) to make system health visible and actionable, improving API and service uptime by ~25% and reducing downtime risk by ~60% across mission-critical systems supporting 1,000+ employees.",
-            "Designed event-driven health checks and recovery workflows, cutting manual monitoring effort by ~45% while improving signal quality for on-call response.",
-            "Implemented observability dashboards and alerting pipelines (New Relic, CloudWatch, custom telemetry), reducing mean time to detection (MTTD) by ~40% and accelerating incident response by ~35%.",
-            "Partnered with the Business Cards & Payments Tech team to align reliability work with compliance standards and 99.99% uptime SLOs."
+            "Owned full-stack development of a serverless health monitoring platform (Python, AWS Lambda, ECS Fargate, DynamoDB) that reduced system downtime risk by ~60% across mission-critical systems supporting 1,000+ employees.",
+            "Designed event-driven health checks with configurable recovery workflows, cutting manual monitoring overhead by ~45% while improving alert precision and on-call response time by ~35%.",
+            "Built and integrated observability pipelines using New Relic, AWS CloudWatch, and custom telemetry agents, reducing mean time to detection (MTTD) by ~40% and accelerating incident response by ~35%.",
+            "Collaborated with Business Cards & Payments team to align reliability engineering work with 99.99% uptime SLOs and compliance requirements, establishing metrics that drove infrastructure investment decisions."
         ]
-    },
+        },
     {
-        "role": "Technical Director and Engineer",
+        "role": "Technical Director and Backend Engineer",
         "company": "Roblox (Gochi)",
         "duration": "June 2024 - June 2025",
         "location": "Remote",
         "description": [
-            "Designed and deployed a real-time multiplayer architecture (Node.js, Express, Lua) with event-driven APIs, persistence, and analytics to support 2,500+ monthly active users at sub-150 ms average latency.",
-            "Led a small engineering team to improve concurrency and network throughput with the Knit framework, delivering ~35% higher gameplay stability and ~20% increased player retention.",
-            "Shipped live-ops features and performance fixes based on analytics insights, translating player feedback into measurable engagement gains."
+            "Led development of a real-time multiplayer Roblox experience using Node.js, Lua, and service-oriented architecture supporting 2,500+ MAUs, improving stability by 35% and retention by 20%."
         ]
     },
     {
-        "role": "Co-founder & President",
+        "role": "Co-founder & Technical Lead",
         "company": "Computer Science Honor Society",
         "duration": "September 2023 - June 2024",
         "location": "Herndon, VA",
         "description": [
-            "Founded and scaled a CS Honor Society chapter recognized by the national organization, growing to 70+ active members and mentoring 150+ students in Python, Java, and full-stack web development.",
-            "Built an internal portal (Flask, HTML/CSS, SQLite) for event registration, attendance analytics, and membership tracking, reducing administrative workload by ~70%.",
-            "Increased participation in advanced CS topics by ~40% through a student-led hackathon and recurring algorithm workshops.",
-            "Introduced Git/GitHub workflows and AI/ML fundamentals to modernize project collaboration and curriculum design."
+            "Founded and scaled CS Honor Society chapter, growing to 70+ active members while maintaining operational infrastructure for member communications and event tracking.",
+            "Built internal portal (Flask, SQLite, HTML/CSS) automating member registration, attendance tracking, and analytics—reduced administrative overhead by ~70% and created measurable engagement metrics.",
+            "Increased student participation in advanced CS topics by ~40% by organizing an annual hackathon and leading algorithmic problem-solving workshops."
         ]
     }
 ]
