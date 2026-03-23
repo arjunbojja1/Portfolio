@@ -119,7 +119,7 @@ profile_data = {
         "university": "University of Maryland, College Park",
         "gpa": "3.88",
         "grad_year": 2027,
-        "awards": ["Presidential Scholar", "Distinguished Dean's List (Fall 2024, Spring 2025)"],
+        "awards": ["Presidential Scholar", "Dean's List (Fall 2024, Spring 2025, Fall 2025)"],
         "coursework": ["Data Structures and Algorithms", "Database Design (MySQL)", "Object-Oriented Programming", "Machine Learning in Communication", "Statistics for Information Science (R)", "Information Organization", "Organizations, Management, and Teamwork", "Entrepreneurial Opportunity Analysis"]
     }
 }

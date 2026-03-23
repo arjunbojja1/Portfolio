@@ -213,10 +213,10 @@ const SafeReactZone: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   return <>{children}</>;
 };
 
-const NetflixParticles: React.FC = () => {
+const NetflixParticles: React.FC<{ count?: number }> = ({ count = 30 }) => {
   return (
     <div className="netflix-particles-container">
-      {[...Array(80)].map((_, i) => (
+      {[...Array(count)].map((_, i) => (
         <motion.div
           key={i}
           className="netflix-particle"
@@ -257,7 +257,9 @@ const NetflixParticles: React.FC = () => {
   );
 };
 
-const NetflixCodeRain: React.FC = () => {
+const NetflixCodeRain: React.FC<{ disabled?: boolean }> = ({ disabled = false }) => {
+  if (disabled) return null;
+  
   const codeSnippets = [
     'const portfolio = () => experience',
     'async function innovate() { return solutions; }',
@@ -399,6 +401,22 @@ const App: React.FC = () => {
       setLoading(true);
       setError(null);
       
+      // Check cache first (5 minute expiry for faster loads)
+      const cacheKey = 'portfolio_data';
+      const cachedData = localStorage.getItem(cacheKey);
+      const cacheTimestamp = localStorage.getItem(cacheKey + '_time');
+      const cacheExpiry = 5 * 60 * 1000; // 5 minutes
+      
+      if (cachedData && cacheTimestamp && Date.now() - parseInt(cacheTimestamp) < cacheExpiry) {
+        const { profile, experience, projects } = JSON.parse(cachedData);
+        setProfile(profile);
+        setExperience(experience);
+        setProjects(projects);
+        console.log('Portfolio data loaded from cache');
+        setLoading(false);
+        return;
+      }
+      
       let profileUrl, experienceUrl, projectsUrl;
       
       if (process.env.NODE_ENV === 'production') {
@@ -417,9 +435,19 @@ const App: React.FC = () => {
         axios.get(projectsUrl),
       ]);
       
-      setProfile(profileRes.data);
-      setExperience(experienceRes.data);
-      setProjects(projectsRes.data);
+      const data = {
+        profile: profileRes.data,
+        experience: experienceRes.data,
+        projects: projectsRes.data
+      };
+      
+      // Cache the response for 5 minutes
+      localStorage.setItem(cacheKey, JSON.stringify(data));
+      localStorage.setItem(cacheKey + '_time', Date.now().toString());
+      
+      setProfile(data.profile);
+      setExperience(data.experience);
+      setProjects(data.projects);
       console.log('Portfolio data refreshed at:', new Date().toLocaleTimeString());
     } catch (err: any) {
       const errorMessage = err.response?.status === 404 
@@ -503,13 +531,13 @@ const App: React.FC = () => {
     );
   }
 
-  // Show loading state for data
+  // Show loading state for data (minimal animations during load)
   if (loading && !profile) {
     return (
       <SafeReactZone>
         <div className="app-netflix">
-          <NetflixParticles />
-          <NetflixCodeRain />
+          <NetflixParticles count={15} />
+          <NetflixCodeRain disabled={true} />
           <div className="loading-overlay">
             <LoadingSpinner message="Loading portfolio data..." />
           </div>
@@ -518,13 +546,13 @@ const App: React.FC = () => {
     );
   }
 
-  // Show error state
+  // Show error state (minimal animations during error)
   if (error) {
     return (
       <SafeReactZone>
         <div className="app-netflix">
-          <NetflixParticles />
-          <NetflixCodeRain />
+          <NetflixParticles count={15} />
+          <NetflixCodeRain disabled={true} />
           <div className="error-overlay">
             <ErrorFallback error={error} onRetry={fetchData} />
           </div>
@@ -543,9 +571,9 @@ const App: React.FC = () => {
             animate={appReady ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.8 }}
           >
-            {/* Background Effects */}
-            <NetflixParticles />
-            <NetflixCodeRain />
+            {/* Background Effects - lazy load after app is ready */}
+            {appReady && <NetflixParticles count={30} />}
+            {appReady && <NetflixCodeRain disabled={false} />}
             
             {/* Main Content */}
             {profile && appReady && (

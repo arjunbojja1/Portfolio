@@ -5,17 +5,20 @@
   "scripts": {
     "start": "cd frontend && npm start",
     "build": "cd frontend && npm run build && cd .. && cp -r frontend/build/* .",
-    "backend": "cd backend && python main.py",
-    "install-all": "cd frontend && npm install && cd ../functions && pip install -r requirements.txt",
+    "backend": "cd backend && /Users/arjunbojja/Documents/Portfolio/backend/venv/bin/python main.py",
+    "backend:dev": "cd backend && DEBUG=True /Users/arjunbojja/Documents/Portfolio/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 --reload",
+    "backend:setup": "cd backend && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
+    "install-all": "npm install && cd frontend && npm install",
+    "setup": "npm install && npm run backend:setup",
+    "dev": "concurrently \"npm start\" \"npm run backend:dev\" --names \"frontend,backend\" --prefix \"[{name}]\" --colors blue,yellow",
+    "test": "cd frontend && npm test",
+    "docker:build": "docker build -t arjun-portfolio .",
+    "docker:run": "docker run -p 3000:3000 -p 8000:8000 arjun-portfolio",
+    "docker:dev": "docker-compose -f docker-compose.yml up --build",
     "firebase:serve": "firebase serve",
     "firebase:deploy": "npm run build && firebase deploy",
     "firebase:deploy:functions": "firebase deploy --only functions",
-    "firebase:deploy:hosting": "npm run build && firebase deploy --only hosting",
-    "dev": "concurrently \"npm run start\" \"npm run backend\"",
-    "test": "cd frontend && npm test",
-    "docker:build": "docker build -t arjun-portfolio .",
-    "docker:run": "docker run -p 3000:3000 arjun-portfolio",
-    "docker:dev": "docker-compose up --build"
+    "firebase:deploy:hosting": "npm run build && firebase deploy --only hosting"
   },
   "keywords": [
     "portfolio",

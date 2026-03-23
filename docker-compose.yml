@@ -1,23 +1,59 @@
 version: '3.8'
 
 services:
+  # Backend API service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: portfolio-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - portfolio-network
+    depends_on:
+      - frontend
+
+  # Frontend service (production)
   frontend:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: portfolio-frontend
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+      - REACT_APP_API_URL=http://localhost:8000
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     networks:
       - portfolio-network
+    depends_on:
+      backend:
+        condition: service_healthy
 
-  # Optional: Add a development service
+  # Optional: Development service with hot reload
   frontend-dev:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    container_name: portfolio-frontend-dev
     ports:
       - "3001:3000"
     volumes:
@@ -26,11 +62,16 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
+      - REACT_APP_API_URL=http://localhost:8000
     profiles:
       - dev
     networks:
       - portfolio-network
+    depends_on:
+      backend:
+        condition: service_healthy
 
 networks:
   portfolio-network:
     driver: bridge
+    name: portfolio-network
