@@ -12,7 +12,88 @@ interface ProjectData {
   description: string[];
   challenge?: string;
   technologies?: string[];
+  featured?: boolean;
+  metrics?: string[];
+  duration?: string;
 }
+
+const FeaturedProjectCard: React.FC<{ project: ProjectData }> = ({ project }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.2 });
+
+  return (
+    <motion.div
+      ref={ref}
+      className="featured-project-card card-netflix"
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7 }}
+    >
+      <div className="featured-project-inner">
+        <div className="featured-project-left">
+          <div className="featured-badge-new">
+            <span>⭐ Featured · In Progress</span>
+          </div>
+          <h3 className="featured-project-title">{project.title}</h3>
+          {project.duration && (
+            <div className="featured-duration">{project.duration}</div>
+          )}
+          <p className="featured-project-desc">{project.description[0]}</p>
+
+          {project.technologies && (
+            <div className="featured-tech-tags">
+              {project.technologies.map((tech, i) => (
+                <span key={i} className="featured-tech-tag">{tech}</span>
+              ))}
+            </div>
+          )}
+
+          {project.metrics && (
+            <div className="featured-metrics-row">
+              {project.metrics.map((m, i) => (
+                <span key={i} className="featured-metric-pill">{m}</span>
+              ))}
+            </div>
+          )}
+
+          <div className="featured-project-footer">
+            {project.github_link && (
+              <a
+                href={project.github_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-netflix btn-netflix-secondary"
+              >
+                <span className="btn-icon">📁</span>
+                Source Code
+                <div className="btn-shimmer"></div>
+              </a>
+            )}
+            <span className="featured-active-badge">● Active</span>
+          </div>
+        </div>
+
+        <div className="featured-project-right">
+          <h4 style={{ marginBottom: '0.8rem', fontSize: '0.9rem', color: 'var(--ink-600)' }}>
+            📋 All Highlights
+          </h4>
+          <ul className="featured-desc-list">
+            {project.description.map((point, i) => (
+              <motion.li
+                key={i}
+                initial={{ opacity: 0, x: -15 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
+              >
+                {point}
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 interface Props {
   data: ProjectData[];
@@ -242,33 +323,19 @@ const ProjectCard: React.FC<{ project: ProjectData; index: number }> = ({ projec
 };
 
 const Projects: React.FC<Props> = ({ data, loading, onRefresh }) => {
-  const [filter, setFilter] = useState<string>('all');
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
-  
-  // Extract unique technologies for filtering
-  const allTechs = Array.from(new Set(data.flatMap(project => project.technologies || [])));
-  
-  const filteredProjects = filter === 'all' 
-    ? data 
-    : data.filter(project => project.technologies?.includes(filter));
 
-  // Calculate portfolio stats
-  const portfolioStats = {
-    totalProjects: data.length,
-    technologies: allTechs.length,
-    featured: data.filter(p => p.challenge).length
-  };
+  const featuredProject = data.find(p => p.featured);
+  const otherProjects = data.filter(p => !p.featured);
 
   if (loading && data.length === 0) {
     return (
       <section id="projects" className="section-netflix">
         <div className="container-netflix">
-          <h2 className="heading-netflix">Featured Projects</h2>
+          <h2 className="heading-netflix">Projects</h2>
           <div className="project-grid-enhanced">
-            {[...Array(3)].map((_, i) => (
-              <SkeletonCard key={i} />
-            ))}
+            {[...Array(3)].map((_, i) => <SkeletonCard key={i} />)}
           </div>
         </div>
       </section>
@@ -279,11 +346,8 @@ const Projects: React.FC<Props> = ({ data, loading, onRefresh }) => {
     return (
       <section id="projects" className="section-netflix">
         <div className="container-netflix">
-          <h2 className="heading-netflix">Featured Projects</h2>
-          <ErrorFallback 
-            error="No projects found. Please check back later." 
-            onRetry={onRefresh || (() => {})} 
-          />
+          <h2 className="heading-netflix">Projects</h2>
+          <ErrorFallback error="No projects found." onRetry={onRefresh || (() => {})} />
         </div>
       </section>
     );
@@ -298,89 +362,21 @@ const Projects: React.FC<Props> = ({ data, loading, onRefresh }) => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="heading-netflix">Featured Projects</h2>
-          
-          {/* Portfolio Stats */}
-          <motion.div 
-            className="portfolio-stats"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <div className="stat-item-small">
-              <span className="stat-number-small">{portfolioStats.totalProjects}</span>
-              <span className="stat-label-small">Projects</span>
-            </div>
-            <div className="stat-item-small">
-              <span className="stat-number-small">{portfolioStats.technologies}</span>
-              <span className="stat-label-small">Technologies</span>
-            </div>
-            <div className="stat-item-small">
-              <span className="stat-number-small">{portfolioStats.featured}</span>
-              <span className="stat-label-small">Case Studies</span>
-            </div>
-          </motion.div>
+          <h2 className="heading-netflix">Projects</h2>
 
-          {/* Enhanced Technology Filter */}
-          {allTechs.length > 0 && (
-            <motion.div 
-              className="project-filters-enhanced"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
+          {featuredProject && <FeaturedProjectCard project={featuredProject} />}
+
+          {otherProjects.length > 0 && (
+            <motion.div
+              className="project-grid-enhanced"
+              style={{ marginTop: '1.5rem' }}
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <button 
-                className={`filter-btn-enhanced ${filter === 'all' ? 'active' : ''}`}
-                onClick={() => setFilter('all')}
-              >
-                <span className="filter-icon">🎯</span>
-                All Projects
-                <span className="filter-count">({data.length})</span>
-              </button>
-              {allTechs.map(tech => (
-                <button 
-                  key={tech}
-                  className={`filter-btn-enhanced ${filter === tech ? 'active' : ''}`}
-                  onClick={() => setFilter(tech)}
-                >
-                  <span className="filter-icon">⚡</span>
-                  {tech}
-                  <span className="filter-count">({data.filter(p => p.technologies?.includes(tech)).length})</span>
-                </button>
+              {otherProjects.map((project, index) => (
+                <ProjectCard key={index} project={project} index={index} />
               ))}
-            </motion.div>
-          )}
-          
-          {/* Enhanced Project Grid */}
-          <motion.div 
-            className="project-grid-enhanced"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            {filteredProjects.map((project, index) => (
-              <ProjectCard key={index} project={project} index={index} />
-            ))}
-          </motion.div>
-          
-          {/* No Results Message */}
-          {filteredProjects.length === 0 && filter !== 'all' && (
-            <motion.div 
-              className="no-results-enhanced"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="no-results-icon">🔍</div>
-              <h3>No projects found</h3>
-              <p>No projects match the "{filter}" filter.</p>
-              <button 
-                onClick={() => setFilter('all')} 
-                className="btn-netflix btn-netflix-primary"
-              >
-                <span className="btn-icon">👁️</span>
-                Show All Projects
-              </button>
             </motion.div>
           )}
         </motion.div>

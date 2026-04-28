@@ -2231,6 +2231,134 @@ section,
   color: var(--mint-400);
 }
 
+/* ── Featured Project Card ── */
+.featured-project-card {
+  margin-bottom: 1.5rem;
+  padding: 2rem;
+}
+
+.featured-project-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.featured-badge-new {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(34, 211, 238, 0.15));
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  color: var(--sky-400);
+  margin-bottom: 0.8rem;
+  width: fit-content;
+}
+
+.featured-project-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 0.3rem;
+  color: var(--ink-900);
+}
+
+.featured-duration {
+  font-size: 0.8rem;
+  color: var(--ink-400);
+  margin-bottom: 0.8rem;
+}
+
+.featured-project-desc {
+  color: var(--ink-500);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+
+.featured-tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.featured-tech-tag {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--surface-3);
+  border: 1px solid var(--border-subtle);
+  color: var(--ink-600);
+}
+
+.featured-metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.featured-metric-pill {
+  padding: 0.22rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  color: var(--mint-400);
+}
+
+.featured-project-footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.featured-active-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+}
+
+.featured-desc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.featured-desc-list li {
+  position: relative;
+  padding-left: 1.2rem;
+  color: var(--ink-500);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.featured-desc-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.6);
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .nav-links-center {
@@ -2285,6 +2413,10 @@ section,
 @media (max-width: 768px) {
   .navbar-simple {
     padding: 0.9rem 1.5rem;
+  }
+
+  .featured-project-inner {
+    grid-template-columns: 1fr;
   }
 
   .hero-netflix {
