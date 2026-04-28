@@ -1895,6 +1895,285 @@ section,
   opacity: 1;
 }
 
+/* ── Hero — new styles ── */
+.hero-grid {
+  grid-template-columns: 1fr 340px;
+}
+
+.hero-badge-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.38rem 1rem;
+  border-radius: 999px;
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  color: var(--sky-400);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  width: fit-content;
+  margin-bottom: 0.5rem;
+}
+
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sky-400);
+  box-shadow: 0 0 8px var(--sky-400);
+  flex-shrink: 0;
+}
+
+.hero-specialization-line {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-600);
+}
+
+.spec-rule {
+  width: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--sky-500), var(--mint-400));
+  flex-shrink: 0;
+}
+
+.spec-label {
+  color: var(--ink-600);
+}
+
+.hero-subtitle {
+  color: var(--ink-500);
+  font-size: 0.97rem;
+  max-width: 500px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.hero-internship-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.intern-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.2s ease;
+}
+
+.intern-card:hover {
+  border-color: rgba(124, 58, 237, 0.25);
+}
+
+.intern-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.intern-ms {
+  background: rgba(0, 120, 212, 0.15);
+  border: 1px solid rgba(0, 120, 212, 0.28);
+  color: #60a5fa;
+}
+
+.intern-c1 {
+  background: rgba(204, 0, 0, 0.12);
+  border: 1px solid rgba(204, 0, 0, 0.22);
+  color: #f87171;
+}
+
+.intern-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.intern-role {
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: var(--ink-800);
+}
+
+.intern-detail {
+  font-size: 0.75rem;
+  color: var(--ink-500);
+  line-height: 1.5;
+}
+
+.intern-badge {
+  display: inline-block;
+  margin-top: 0.3rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.67rem;
+  font-weight: 700;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(124, 58, 237, 0.28);
+  color: var(--sky-400);
+}
+
+.intern-badge.cyan {
+  background: rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.25);
+  color: var(--mint-400);
+}
+
+/* Profile Card */
+.profile-card-new {
+  width: min(300px, 80vw);
+}
+
+.profile-card-inner {
+  border-radius: 24px;
+  background: var(--surface-1);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25), 0 0 40px rgba(124, 58, 237, 0.07);
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.profile-photo-frame {
+  height: 260px;
+  background: rgba(124, 58, 237, 0.07);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-glow-primary {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 75%, rgba(124, 58, 237, 0.25), transparent 60%);
+}
+
+.profile-glow-secondary {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 60% 20%, rgba(34, 211, 238, 0.1), transparent 50%);
+}
+
+.profile-ring-outer {
+  position: absolute;
+  inset: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(124, 58, 237, 0.15);
+}
+
+.profile-ring-inner {
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  border: 1px dashed rgba(34, 211, 238, 0.08);
+}
+
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+
+.profile-card-body {
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.profile-card-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink-900);
+}
+
+.profile-card-spec {
+  font-size: 0.74rem;
+  color: var(--sky-500);
+  font-weight: 600;
+}
+
+.profile-card-tags {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.profile-card-tag {
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  color: var(--sky-400);
+}
+
+.profile-card-tag.cyan {
+  background: rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.22);
+  color: var(--mint-400);
+}
+
+.profile-card-companies {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.company-badge {
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.company-badge.ms {
+  background: rgba(0, 120, 212, 0.12);
+  border: 1px solid rgba(0, 120, 212, 0.22);
+  color: #60a5fa;
+}
+
+.company-badge.c1 {
+  background: rgba(204, 0, 0, 0.1);
+  border: 1px solid rgba(204, 0, 0, 0.18);
+  color: #f87171;
+}
+
+.company-badge.umd {
+  background: rgba(224, 0, 0, 0.08);
+  border: 1px solid rgba(224, 0, 0, 0.14);
+  color: #fca5a5;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .nav-links-center {
@@ -1911,6 +2190,10 @@ section,
 
   .hero-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hero-profile-section {
+    order: -1;
   }
 
   .education-skills-grid {
