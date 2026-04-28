@@ -393,7 +393,11 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showNetflixLoader] = useState(false);
   const [appReady, setAppReady] = useState(true);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    const stored = localStorage.getItem('theme');
+    if (stored === 'light' || stored === 'dark') return stored;
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
 
   const fetchData = useCallback(async () => {
     try {
@@ -466,14 +470,8 @@ const App: React.FC = () => {
   }, [fetchData]);
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-    const initialTheme = storedTheme === 'light' || storedTheme === 'dark'
-      ? storedTheme
-      : (prefersDark ? 'dark' : 'light');
-    setTheme(initialTheme);
-    document.documentElement.setAttribute('data-theme', initialTheme);
-  }, []);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {

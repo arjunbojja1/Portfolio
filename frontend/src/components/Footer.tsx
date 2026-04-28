@@ -31,7 +31,7 @@ const Footer: React.FC<Props> = ({ linkedin, github }) => {
           <h3>Connect</h3>
           <div className="contact-item">
             <span className="contact-icon">📍</span>
-            <span>Herndon, VA</span>
+            <span>College Park, MD</span>
           </div>
           <div className="contact-item">
             <span className="contact-icon">🎓</span>
