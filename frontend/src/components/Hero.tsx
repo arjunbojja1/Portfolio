@@ -87,7 +87,7 @@ const ProfileCard: React.FC<{ imageSrc: string; name: string }> = ({ imageSrc, n
           <div className="profile-card-name">{name}</div>
           <div className="profile-card-spec">Distributed Systems · AI Infrastructure</div>
           <div className="profile-card-tags">
-            {['Python', 'Distributed Systems', 'AWS', 'Real-time', 'TypeScript'].map((tag, i) => (
+            {['Python', 'Distributed Systems', 'AWS', 'AI Infrastructure', 'FastAPI'].map((tag, i) => (
               <span key={i} className={`profile-card-tag ${i % 2 === 1 ? 'cyan' : ''}`}>{tag}</span>
             ))}
           </div>
@@ -209,7 +209,7 @@ const Hero: React.FC<Props> = ({ name, title }) => {
               animate={inView ? { opacity: 1 } : {}}
               transition={{ duration: 0.8, delay: 1.4 }}
             >
-              Building real-time, low-latency systems at scale. Incoming at Microsoft on Teams AI infrastructure — previously engineered serverless observability platforms at Capital One.
+              Distributed Systems Engineer focused on AI infrastructure. Incoming at Microsoft engineering real-time systems for Teams AI — previously built serverless observability platforms at Capital One.
             </motion.p>
 
             {/* Internship highlights */}
@@ -249,11 +249,15 @@ const Hero: React.FC<Props> = ({ name, title }) => {
                 View My Work
                 <div className="btn-glow"></div>
               </button>
-              <button onClick={() => handleSmoothScroll('contact')} className="netflix-btn secondary">
-                <span className="btn-icon">✉</span>
-                Get In Touch
+              <a
+                href="/Arjun_Bojja_Resume.pdf"
+                download
+                className="netflix-btn secondary"
+              >
+                <span className="btn-icon">↓</span>
+                Download Resume
                 <div className="btn-shimmer"></div>
-              </button>
+              </a>
             </motion.div>
           </div>
 

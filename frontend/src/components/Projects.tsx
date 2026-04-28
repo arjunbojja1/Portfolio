@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { SkeletonCard, ErrorFallback } from './LoadingComponents';
 
@@ -101,223 +101,50 @@ interface Props {
   onRefresh?: () => void;
 }
 
-// Enhanced Project Card Component
+const ACCENT_COLORS = ['var(--sky-500)', 'var(--mint-400)', 'var(--sky-500)'];
+
 const ProjectCard: React.FC<{ project: ProjectData; index: number }> = ({ project, index }) => {
-  const [isHovered, setIsHovered] = useState(false);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
+  const accent = ACCENT_COLORS[index % ACCENT_COLORS.length];
   const demoUrl = project.demo?.url || project.external_link;
-  const demoLabel = project.demo?.label || (project.external_link ? 'Live Demo' : 'View Demo');
-
-  // Calculate project impact metrics based on description content
-  const getProjectMetrics = (description: string[]) => {
-    const metrics: { label: string; icon: string }[] = [];
-    const addedLabels = new Set<string>(); // Track added labels to prevent duplicates
-    
-    // Look for common impact indicators
-    description.forEach(desc => {
-      const lowerDesc = desc.toLowerCase();
-      
-      if ((lowerDesc.includes('user') || lowerDesc.includes('experience')) && !addedLabels.has('User Experience')) {
-        metrics.push({ label: 'User Experience', icon: '👥' });
-        addedLabels.add('User Experience');
-      }
-      if ((lowerDesc.includes('performance') || lowerDesc.includes('speed') || lowerDesc.includes('fast') || lowerDesc.includes('latency')) && !addedLabels.has('Performance')) {
-        metrics.push({ label: 'Performance', icon: '⚡' });
-        addedLabels.add('Performance');
-      }
-      if ((lowerDesc.includes('secure') || lowerDesc.includes('security')) && !addedLabels.has('Security')) {
-        metrics.push({ label: 'Security', icon: '🔒' });
-        addedLabels.add('Security');
-      }
-      if ((lowerDesc.includes('responsive') || lowerDesc.includes('mobile')) && !addedLabels.has('Responsive')) {
-        metrics.push({ label: 'Responsive', icon: '📱' });
-        addedLabels.add('Responsive');
-      }
-      if ((lowerDesc.includes('scalable') || lowerDesc.includes('scale')) && !addedLabels.has('Scalability')) {
-        metrics.push({ label: 'Scalability', icon: '📈' });
-        addedLabels.add('Scalability');
-      }
-    });
-
-    return metrics.slice(0, 3); // Limit to 3 metrics
-  };
-
-  const metrics = getProjectMetrics(project.description);
 
   return (
     <motion.div
       ref={ref}
-      className="project-card-enhanced card-netflix"
-      initial={{ opacity: 0, y: 30 }}
+      className="proj-card-b"
+      style={{ '--proj-accent': accent } as React.CSSProperties}
+      initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ x: 3 }}
     >
-      {/* Project Header */}
-      <div className="project-header-enhanced">
-        <motion.h3 
-          className="project-title"
-          animate={isHovered ? { x: 5 } : { x: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {project.title}
-        </motion.h3>
-        
-        {project.technologies && (
-          <motion.div 
-            className="project-tech-stack-enhanced"
-            initial={{ opacity: 0, y: 10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
-          >
-            {project.technologies.map((tech, i) => (
-              <motion.span 
-                key={i} 
-                className="tech-tag-enhanced"
-                whileHover={{ scale: 1.05, y: -2 }}
-                transition={{ duration: 0.2 }}
-              >
-                {tech}
-              </motion.span>
-            ))}
-          </motion.div>
-        )}
-
-        {/* Project Metrics */}
-        {metrics.length > 0 && (
-          <div className="project-metrics">
-            {metrics.map((metric, i) => (
-              <div key={i} className="metric-badge">
-                <span className="metric-icon">{metric.icon}</span>
-                <span className="metric-label">{metric.label}</span>
-              </div>
-            ))}
-          </div>
-        )}
+      <div className="proj-card-b-top">
+        <h3 className="proj-card-b-title">{project.title}</h3>
       </div>
-
-      {/* Project Content */}
-      <div className="project-content-enhanced">
-        <div className="project-overview">
-          <h4>📋 Project Overview</h4>
-          <ul className="project-description-enhanced">
-            {project.description.map((desc, i) => (
-              <motion.li 
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 + 0.3 + i * 0.1 }}
-              >
-                {desc}
-              </motion.li>
-            ))}
-          </ul>
+      <p className="proj-card-b-desc">{project.description[0]}</p>
+      {project.technologies && (
+        <div className="proj-card-b-tech">
+          {project.technologies.slice(0, 5).map((tech, i) => (
+            <span key={i} className="proj-card-b-pill">{tech}</span>
+          ))}
         </div>
-
-        {project.challenge && (
-          <motion.div 
-            className="project-challenge-enhanced"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5, delay: index * 0.1 + 0.5 }}
-          >
-            <h4>🎯 Challenge & Solution</h4>
-            <p>{project.challenge}</p>
-          </motion.div>
-        )}
-
-        <div className="project-demo">
-          <h4>🎬 Demo</h4>
-          {project.demo_media?.type === 'video' && (
-            <video
-              className="demo-media"
-              src={project.demo_media.url}
-              controls
-              preload="metadata"
-            />
-          )}
-          {project.demo_media?.type === 'image' && (
-            <img
-              className="demo-media"
-              src={project.demo_media.url}
-              alt={project.demo_media.alt || `${project.title} demo preview`}
-              loading="lazy"
-            />
-          )}
-          {!project.demo_media && (
-            <div className="demo-placeholder">
-              {project.demo_note || 'Demo coming soon.'}
-            </div>
+      )}
+      <div className="proj-card-b-footer">
+        <span className="proj-card-b-date">{project.duration || ''}</span>
+        <div style={{ display: 'flex', gap: '0.6rem' }}>
+          {project.github_link && (
+            <a href={project.github_link} target="_blank" rel="noopener noreferrer" className="proj-card-b-link">
+              GitHub →
+            </a>
           )}
           {demoUrl && (
-            <div className="demo-actions">
-              <a
-                href={demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-netflix btn-netflix-secondary demo-link"
-                aria-label={`View ${project.title} demo`}
-              >
-                <span className="btn-icon">🎞️</span>
-                {demoLabel}
-              </a>
-            </div>
+            <a href={demoUrl} target="_blank" rel="noopener noreferrer" className="proj-card-b-link">
+              Live →
+            </a>
           )}
         </div>
       </div>
-
-      {/* Project Footer */}
-      <motion.div 
-        className="project-footer-enhanced"
-        initial={{ opacity: 0, y: 20 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, delay: index * 0.1 + 0.6 }}
-      >
-        {project.title === "Portfolio Website" ? (
-          <div className="current-viewing-enhanced">
-            <motion.span 
-              className="viewing-text-enhanced"
-              animate={{ 
-                scale: [1, 1.05, 1],
-                textShadow: [
-                  '0 0 10px rgba(0, 212, 255, 0.5)',
-                  '0 0 20px rgba(0, 212, 255, 0.8)',
-                  '0 0 10px rgba(0, 212, 255, 0.5)'
-                ]
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              🌟 You're viewing this right now!
-            </motion.span>
-          </div>
-        ) : (
-          <div className="project-links-enhanced">
-            {project.github_link && (
-              <a
-                href={project.github_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-netflix btn-netflix-secondary"
-                aria-label={`View ${project.title} source code on GitHub`}
-              >
-                <span className="btn-icon">📁</span>
-                Source Code
-                <div className="btn-shimmer"></div>
-              </a>
-            )}
-          </div>
-        )}
-      </motion.div>
-
-      {/* Hover Effect Overlay */}
-      <motion.div
-        className="project-hover-overlay"
-        initial={{ opacity: 0 }}
-        animate={isHovered ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      />
     </motion.div>
   );
 };

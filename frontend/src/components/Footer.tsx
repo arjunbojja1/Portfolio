@@ -14,8 +14,8 @@ const Footer: React.FC<Props> = ({ linkedin, github }) => {
         <div className="footer-section footer-about">
           <h3>About</h3>
           <p>
-            Aspiring Software Engineer passionate about building reliable, scalable systems
-            and turning complex problems into clean, impactful solutions.
+            Distributed Systems Engineer focused on AI infrastructure. Building low-latency,
+            observable systems at scale — from real-time signaling to geospatial engines.
           </p>
           <div className="footer-socials-new">
             <a href={linkedin} target="_blank" rel="noopener noreferrer" className="social-link">
@@ -39,7 +39,7 @@ const Footer: React.FC<Props> = ({ linkedin, github }) => {
           </div>
           <div className="contact-item">
             <span className="contact-icon">💼</span>
-            <span>Seeking Internships</span>
+            <span>Incoming @ Microsoft · Summer 2026</span>
           </div>
         </div>
       </div>
@@ -47,11 +47,11 @@ const Footer: React.FC<Props> = ({ linkedin, github }) => {
       <div className="footer-bottom">
         <p>&copy; {currentYear} Arjun Bojja. All Rights Reserved.</p>
         <div className="footer-tech-stack">
-          <span className="tech-badge">Python</span>
-          <span className="tech-badge">Java</span>
-          <span className="tech-badge">JavaScript</span>
-          <span className="tech-badge">React</span>
+          <span className="tech-badge">Distributed Systems</span>
+          <span className="tech-badge">AI Infrastructure</span>
+          <span className="tech-badge">FastAPI</span>
           <span className="tech-badge">AWS</span>
+          <span className="tech-badge">Python</span>
         </div>
       </div>
     </footer>
