@@ -35,7 +35,7 @@ experience_data = [
         "duration": "May 2026 - August 2026",
         "location": "Mountain View, CA",
         "description": [
-            "Selected by Principal-level leadership to engineer mission-critical, low-latency signaling microservices for the Teams global infrastructure, contributing to Microsoft's Teams/AI investments in the Meeting space."
+            "Incoming Software Engineering Intern selected by Principal-level leadership to engineer mission-critical, low-latency signaling microservices for the Teams global infrastructure, contributing to Microsoft's Teams/AI investments in the Meeting space."
         ]
     },
     {
@@ -69,7 +69,7 @@ projects_data = [
         "technologies": ["FastAPI", "SQLite", "Python", "Geospatial", "Write-Through Cache", "Telemetry"],
         "featured": True,
         "description": [
-            "Architectured a high-performance backend using FastAPI with a write-through caching strategy, utilizing in-memory dictionaries as a hot-path store to achieve <20ms average latency for active listing retrieval.",
+            "Architected a high-performance backend using FastAPI with a write-through caching strategy, utilizing in-memory dictionaries as a hot-path store to achieve <20ms average latency for active listing retrieval.",
             "Engineered a geospatial \"Smart Match\" engine that ranks listings by proximity and urgency, integrating Google Geocoding and Haversine algorithms to optimize food distribution efficiency by ~30%.",
             "Developed a robust telemetry and observability framework, implementing automated error-logging pipelines for remote map diagnostics and a role-gated audit system to ensure data integrity across 1,000+ concurrent listing pins.",
             "Validated system throughput under simulated load, achieving ~250 claims per second while maintaining sub-second consistency between the in-memory state and the persistent SQLite layer."
@@ -81,6 +81,7 @@ projects_data = [
         "github_link": "https://github.com/arjunbojja1/Niche",
         "demo_note": "Demo available on request.",
         "technologies": ["Flask", "Node.js", "Express", "MongoDB", "React", "React Native", "JWT", "Jest", "PyTest"],
+        "featured": False,
         "description": [
             "Built a full-stack application featuring a machine learning-based recommendation system (collaborative filtering), improving recommendation relevance and increasing user engagement by ~25%.",
             "Developed React and React Native frontends with caching, lazy loading, and database indexing, reducing average load time by ~1.5 seconds (~30-40%).",
@@ -93,6 +94,7 @@ projects_data = [
         "github_link": "https://github.com/arjunbojja1/studybuddy_scheduler",
         "demo_note": "Demo coming soon.",
         "technologies": ["Python", "ReactPy", "FastAPI", "PyTest", "Matplotlib", "ZenQuotes API"],
+        "featured": False,
         "description": [
             "Engineered a full-stack scheduling platform using FastAPI and ReactPy, implementing priority queues and greedy algorithms to generate schedules ~35% faster.",
             "Optimized backend performance and data structures, reducing API response time by ~30% and improving system efficiency.",
@@ -109,6 +111,7 @@ projects_data = [
         },
         "external_link": "https://arjun-bojja-portfolio.web.app",
         "technologies": ["React", "TypeScript", "Firebase Functions", "Python", "CSS3", "Firebase Hosting"],
+        "featured": False,
         "description": [
             "Built a modern, responsive portfolio website using React and TypeScript with Firebase Functions backend for dynamic content management.",
             "Implemented advanced UI features including skeleton loading states, animated components, and a dark/light theme system with smooth transitions.",
