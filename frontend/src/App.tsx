@@ -401,7 +401,7 @@ const App: React.FC = () => {
       setError(null);
       
       // Check cache first (5 minute expiry for faster loads)
-      const cacheKey = 'portfolio_data';
+      const cacheKey = 'portfolio_data_v2';
       const cachedData = localStorage.getItem(cacheKey);
       const cacheTimestamp = localStorage.getItem(cacheKey + '_time');
       const cacheExpiry = 5 * 60 * 1000; // 5 minutes

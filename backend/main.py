@@ -222,6 +222,10 @@ class Project(BaseModel):
     technologies: list[str] | None = None
     description: list[str]
     challenge: str | None = None
+    featured: bool | None = None
+    metrics: list[str] | None = None
+    duration: str | None = None
+    demo_note: str | None = None
 
 class ProfileData(BaseModel):
     name: str

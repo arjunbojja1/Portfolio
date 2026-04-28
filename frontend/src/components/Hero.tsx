@@ -1,6 +1,29 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
+const MicrosoftLogo: React.FC<{ size?: number }> = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+    <rect x="1" y="1" width="9" height="9" fill="#F25022"/>
+    <rect x="11" y="1" width="9" height="9" fill="#7FBA00"/>
+    <rect x="1" y="11" width="9" height="9" fill="#00A4EF"/>
+    <rect x="11" y="11" width="9" height="9" fill="#FFB900"/>
+  </svg>
+);
+
+const CapitalOneLogo: React.FC<{ size?: number }> = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#D03027"/>
+    <text x="50" y="67" textAnchor="middle" fill="white" fontSize="42" fontWeight="bold" fontFamily="Arial, sans-serif">C1</text>
+  </svg>
+);
+
+const UMDLogo: React.FC<{ size?: number }> = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#E03A3E"/>
+    <text x="50" y="58" textAnchor="middle" fill="#FFD200" fontSize="32" fontWeight="bold" fontFamily="Arial, sans-serif">UMD</text>
+  </svg>
+);
+
 interface Props {
   name: string;
   title: string;
@@ -92,9 +115,9 @@ const ProfileCard: React.FC<{ imageSrc: string; name: string }> = ({ imageSrc, n
             ))}
           </div>
           <div className="profile-card-companies">
-            <span className="company-badge ms">Microsoft</span>
-            <span className="company-badge c1">Capital One</span>
-            <span className="company-badge umd">UMD '27</span>
+            <span className="company-badge"><MicrosoftLogo size={16} /> Microsoft</span>
+            <span className="company-badge"><CapitalOneLogo size={16} /> Capital One</span>
+            <span className="company-badge"><UMDLogo size={16} /> UMD '27</span>
           </div>
         </div>
       </div>
@@ -175,19 +198,7 @@ const Hero: React.FC<Props> = ({ name, title }) => {
             >
               <h1 className="hero-name-netflix">
                 <span className="greeting">Hi, I'm</span>
-                <span className="name">
-                  {name.split('').map((char, index) => (
-                    <motion.span
-                      key={index}
-                      className="name-char"
-                      initial={{ opacity: 0, y: 40 }}
-                      animate={inView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.5, delay: 0.8 + index * 0.06, ease: 'easeOut' }}
-                    >
-                      {char === ' ' ? ' ' : char}
-                    </motion.span>
-                  ))}
-                </span>
+                <span className="name">{name}</span>
               </h1>
             </motion.div>
 
@@ -220,7 +231,9 @@ const Hero: React.FC<Props> = ({ name, title }) => {
               transition={{ duration: 0.7, delay: 1.6 }}
             >
               <div className="intern-card">
-                <div className="intern-logo intern-ms">MS</div>
+                <div className="intern-logo">
+                  <MicrosoftLogo size={28} />
+                </div>
                 <div className="intern-body">
                   <div className="intern-role">Microsoft — Software Engineering Intern</div>
                   <div className="intern-detail">Real-time distributed systems for Teams global infrastructure · Teams/AI investments</div>
@@ -228,7 +241,9 @@ const Hero: React.FC<Props> = ({ name, title }) => {
                 </div>
               </div>
               <div className="intern-card">
-                <div className="intern-logo intern-c1">C1</div>
+                <div className="intern-logo">
+                  <CapitalOneLogo size={28} />
+                </div>
                 <div className="intern-body">
                   <div className="intern-role">Capital One — Software Engineering Intern</div>
                   <div className="intern-detail">Serverless monitoring platform · ~25% uptime ↑ · ~60% downtime risk ↓ · 99.99% SLO</div>

@@ -615,14 +615,7 @@ section,
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 1.15rem 1.3rem;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(160deg, var(--surface-2), transparent);
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-soft);
-  max-width: 640px;
   align-self: flex-start;
-  backdrop-filter: blur(10px);
 }
 
 .hero-intro,
@@ -675,10 +668,10 @@ section,
 
 .hero-name-netflix {
   font-family: var(--font-display);
-  font-size: clamp(2.8rem, 5vw, 4.8rem);
+  font-size: clamp(2.4rem, 4vw, 3.8rem);
   margin: 0;
   color: var(--ink-900);
-  line-height: 1.05;
+  line-height: 1.1;
 }
 
 .greeting {
@@ -691,13 +684,7 @@ section,
 }
 
 .name {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.05em;
-}
-
-.name-char {
-  display: inline-block;
+  display: block;
 }
 
 .cinematic-typewriter {
@@ -1977,28 +1964,15 @@ section,
 }
 
 .intern-logo {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.62rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-
-.intern-ms {
-  background: rgba(0, 120, 212, 0.15);
-  border: 1px solid rgba(0, 120, 212, 0.28);
-  color: #60a5fa;
-}
-
-.intern-c1 {
-  background: rgba(204, 0, 0, 0.12);
-  border: 1px solid rgba(204, 0, 0, 0.22);
-  color: #f87171;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
 }
 
 .intern-body {
@@ -2152,29 +2126,17 @@ section,
 }
 
 .company-badge {
-  padding: 0.2rem 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
   border-radius: 6px;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-}
-
-.company-badge.ms {
-  background: rgba(0, 120, 212, 0.12);
-  border: 1px solid rgba(0, 120, 212, 0.22);
-  color: #60a5fa;
-}
-
-.company-badge.c1 {
-  background: rgba(204, 0, 0, 0.1);
-  border: 1px solid rgba(204, 0, 0, 0.18);
-  color: #f87171;
-}
-
-.company-badge.umd {
-  background: rgba(224, 0, 0, 0.08);
-  border: 1px solid rgba(224, 0, 0, 0.14);
-  color: #fca5a5;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--ink-600);
 }
 
 /* ── Skills pill grid ── */
