@@ -81,9 +81,9 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh, theme, onToggleTheme }) => {
   return (
     <nav className={`navbar-simple ${scrolled ? 'scrolled' : ''}`}>
       {/* Brand Logo */}
-      <a 
-        href="#home" 
-        className="nav-brand" 
+      <a
+        href="#home"
+        className="nav-brand"
         onClick={(e) => handleNavClick('home', e)}
       >
         <div className="brand-logo">
@@ -93,22 +93,24 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh, theme, onToggleTheme }) => {
         </div>
       </a>
 
-      {/* Desktop Navigation */}
-      <div className="nav-desktop">
-        <ul className="nav-links">
-          {navItems.map((item) => (
-            <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                className={`nav-link ${activeSection === item.id ? 'active' : ''}`}
-                onClick={(e) => handleNavClick(item.id, e)}
-              >
-                <span className="nav-icon">{item.icon}</span>
-                <span className="nav-text">{item.label}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
+      {/* Desktop Navigation — center */}
+      <ul className="nav-links nav-links-center">
+        {navItems.map((item) => (
+          <li key={item.id}>
+            <a
+              href={`#${item.id}`}
+              className={`nav-link ${activeSection === item.id ? 'active' : ''}`}
+              onClick={(e) => handleNavClick(item.id, e)}
+            >
+              <span className="nav-icon">{item.icon}</span>
+              <span className="nav-text">{item.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {/* Right zone: theme toggle + mobile menu button */}
+      <div className="nav-right">
         <button
           className="theme-toggle"
           onClick={(event) => onToggleTheme(event)}
@@ -118,21 +120,20 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh, theme, onToggleTheme }) => {
           <span className="theme-toggle-icon">{theme === 'light' ? '🌙' : '☀️'}</span>
           <span className="theme-toggle-text">{theme === 'light' ? 'Dark' : 'Light'}</span>
         </button>
-      </div>
 
-      {/* Mobile Menu Button */}
-      <button 
-        className="mobile-menu-btn"
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        aria-label="Toggle navigation menu"
-        aria-expanded={isMenuOpen}
-      >
-        <div className={`hamburger ${isMenuOpen ? 'active' : ''}`}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </button>
+        <button
+          className="mobile-menu-btn"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={isMenuOpen}
+        >
+          <div className={`hamburger ${isMenuOpen ? 'active' : ''}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+      </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
@@ -148,12 +149,7 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh, theme, onToggleTheme }) => {
               >
                 <span className="theme-toggle-icon">{theme === 'light' ? '🌙' : '☀️'}</span>
               </button>
-              <button
-                className="close-btn"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                ✕
-              </button>
+              <button className="close-btn" onClick={() => setIsMenuOpen(false)}>✕</button>
             </div>
 
             <ul className="mobile-nav-links">

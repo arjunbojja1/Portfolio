@@ -176,9 +176,15 @@ section,
   border-bottom: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-soft);
   transition: all 0.3s ease;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
+  gap: 1rem;
+}
+
+.navbar-simple.scrolled {
+  background: var(--surface-nav-scrolled);
+  padding: 0.8rem 2.5rem;
 }
 
 .navbar-simple,
@@ -192,9 +198,20 @@ section,
   transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
-.navbar-simple.scrolled {
-  background: var(--surface-nav-scrolled);
-  padding: 0.8rem 2.5rem;
+.nav-links-center {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: flex-end;
 }
 
 .nav-brand {
@@ -227,12 +244,6 @@ section,
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-
-.nav-desktop {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
 }
 
 .nav-links {
@@ -1886,7 +1897,11 @@ section,
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .nav-desktop {
+  .nav-links-center {
+    display: none;
+  }
+
+  .theme-toggle:not(.mobile) {
     display: none;
   }
 
