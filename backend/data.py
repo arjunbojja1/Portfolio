@@ -1,23 +1,22 @@
 profile_data = {
     "name": "Arjun Bojja",
-    "title": "Backend & Cloud Infrastructure Engineer",
-    "location": "Washington, D.C. Metro Area", 
+    "title": "Distributed Systems Engineer · AI Infrastructure",
+    "location": "Washington, D.C. Metro Area",
     "email": "arjunbojja1@gmail.com",
     "phone": "571-471-0563",
     "linkedin": "https://www.linkedin.com/in/arjun-bojja/",
     "github_user": "arjunbojja1",
     "about": {
-        "passion": "Backend engineer passionate about designing reliable, observable systems that scale. I love turning operational chaos into measured, automated reliability—building the infrastructure that teams depend on.",
-        "seeking": "Seeking opportunities in Backend Engineering, SRE, or Cloud Infrastructure where I can ship reliable systems, own operational excellence, and drive measurable reliability improvements."
+        "passion": "Software engineer focused on real-time distributed systems and AI infrastructure. I build low-latency, observable systems that scale — from serverless monitoring platforms to geospatial engines — and care deeply about reliability and measurable impact.",
+        "seeking": "Seeking full-time roles in distributed systems, backend infrastructure, or AI systems engineering where I can ship reliable software, own operational excellence, and work at the intersection of systems and AI."
     },
     "skills": {
-        "Backend & APIs": ["Python", "JavaScript/Node.js", "TypeScript", "FastAPI", "Express.js", "RESTful APIs"],
-        "Cloud & Infrastructure": ["AWS (Lambda, ECS Fargate, DynamoDB, CloudWatch)", "Docker", "Docker Compose", "Serverless Architecture", "CI/CD (GitHub Actions)"],
-        "Observability & Reliability": ["New Relic", "CloudWatch", "Custom Telemetry", "Structured Logging", "Health Checks", "Incident Response"],
-        "Data & Persistence": ["SQL", "MongoDB", "DynamoDB", "Event-Driven Systems", "Caching Patterns"],
-        "Systems Design": ["Microservices", "EventEmitters", "Async/Concurrency", "Rate Limiting", "Load Balancing"],
-        "Testing & Quality": ["PyTest", "Jest", "Unit Testing", "Integration Testing"],
-        "Other Languages": ["Java", "Lua", "R", "SQL"]
+        "Languages": ["Python", "TypeScript", "JavaScript", "Java", "C#", "Lua", "R", "SQL"],
+        "Frameworks & APIs": ["FastAPI", "Flask", "Express.js", "React", "React Native", ".NET"],
+        "Cloud & Infrastructure": ["AWS Lambda", "ECS Fargate", "DynamoDB", "CloudWatch", "Microsoft Azure", "Docker", "Serverless", "CI/CD (GitHub Actions)", "WebSockets"],
+        "Distributed Systems": ["Real-time Systems", "Microservices", "Event-Driven Architecture", "Caching Strategies", "Low-Latency Design", "Async/Concurrency"],
+        "Data & Observability": ["MongoDB", "PostgreSQL", "SQLite", "New Relic", "CloudWatch", "Custom Telemetry", "Structured Logging"],
+        "Testing & Other": ["PyTest", "Jest", "JWT Authentication", "AI/ML Fundamentals", "Data Structures & Algorithms"]
     },
     "education": {
         "degree": "Bachelor of Science in Information Science",
@@ -36,21 +35,21 @@ experience_data = [
         "duration": "May 2026 - August 2026",
         "location": "Mountain View, CA",
         "description": [
-            "Incoming Software Engineering Intern for Summer 2026 in Mountain View, CA."
+            "Selected by Principal-level leadership to engineer mission-critical, low-latency signaling microservices for the Teams global infrastructure, contributing to Microsoft's Teams/AI investments in the Meeting space."
         ]
-        },
+    },
     {
         "role": "Software Engineering Intern",
         "company": "Capital One",
         "duration": "June 2025 - August 2025",
         "location": "McLean, VA",
         "description": [
-            "Owned full-stack development of a serverless health monitoring platform (Python, AWS Lambda, ECS Fargate, DynamoDB) that reduced system downtime risk by ~60% across mission-critical systems supporting 1,000+ employees.",
-            "Designed event-driven health checks with configurable recovery workflows, cutting manual monitoring overhead by ~45% while improving alert precision and on-call response time by ~35%.",
+            "Engineered a serverless monitoring system (AWS Lambda, ECS, DynamoDB), improving uptime by ~25% and reducing downtime risk by ~60% across mission-critical systems supporting 1,000+ employees.",
+            "Architected Dockerized, event-driven microservices for automated health checks and failure recovery, reducing manual monitoring effort by ~45% and enabling near real-time issue detection.",
             "Built and integrated observability pipelines using New Relic, AWS CloudWatch, and custom telemetry agents, reducing mean time to detection (MTTD) by ~40% and accelerating incident response by ~35%.",
-            "Collaborated with Business Cards & Payments team to align reliability engineering work with 99.99% uptime SLOs and compliance requirements, establishing metrics that drove infrastructure investment decisions."
+            "Collaborated with the Business Cards & Payments Tech team to deliver highly reliable systems meeting 99.99% uptime SLOs and internal compliance standards."
         ]
-        },
+    },
     {
         "role": "Technical Director and Backend Engineer",
         "company": "Roblox (Gochi)",
@@ -59,46 +58,47 @@ experience_data = [
         "description": [
             "Led development of a real-time multiplayer Roblox experience using Node.js, Lua, and service-oriented architecture supporting 2,500+ MAUs, improving stability by 35% and retention by 20%."
         ]
-    },
-    {
-        "role": "Co-founder & Technical Lead",
-        "company": "Computer Science Honor Society",
-        "duration": "September 2023 - June 2024",
-        "location": "Herndon, VA",
-        "description": [
-            "Founded and scaled CS Honor Society chapter, growing to 70+ active members while maintaining operational infrastructure for member communications and event tracking.",
-            "Built internal portal (Flask, SQLite, HTML/CSS) automating member registration, attendance tracking, and analytics—reduced administrative overhead by ~70% and created measurable engagement metrics.",
-            "Increased student participation in advanced CS topics by ~40% by organizing an annual hackathon and leading algorithmic problem-solving workshops."
-        ]
     }
 ]
 
 projects_data = [
     {
-        "title": "Niche - AI Event Discovery Platform",
+        "title": "MealMatch",
+        "github_link": "https://github.com/arjunbojja1/mealmatch",
+        "demo_note": "Demo available on request.",
+        "technologies": ["FastAPI", "SQLite", "Python", "Geospatial", "Write-Through Cache", "Telemetry"],
+        "featured": True,
+        "description": [
+            "Architectured a high-performance backend using FastAPI with a write-through caching strategy, utilizing in-memory dictionaries as a hot-path store to achieve <20ms average latency for active listing retrieval.",
+            "Engineered a geospatial \"Smart Match\" engine that ranks listings by proximity and urgency, integrating Google Geocoding and Haversine algorithms to optimize food distribution efficiency by ~30%.",
+            "Developed a robust telemetry and observability framework, implementing automated error-logging pipelines for remote map diagnostics and a role-gated audit system to ensure data integrity across 1,000+ concurrent listing pins.",
+            "Validated system throughput under simulated load, achieving ~250 claims per second while maintaining sub-second consistency between the in-memory state and the persistent SQLite layer."
+        ],
+        "metrics": ["<20ms latency", "~250 claims/sec", "~30% efficiency ↑", "1,000+ concurrent pins"]
+    },
+    {
+        "title": "Niche",
         "github_link": "https://github.com/arjunbojja1/Niche",
         "demo_note": "Demo available on request.",
-        "technologies": ["Flask", "Node.js", "Express", "MongoDB", "React", "React Native", "JWT", "Jest", "PyTest", "PWA", "Geospatial Indexing"],
+        "technologies": ["Flask", "Node.js", "Express", "MongoDB", "React", "React Native", "JWT", "Jest", "PyTest"],
         "description": [
-            "Built a full-stack web and iOS application using Flask, Node.js/Express, and MongoDB (geospatial indexing) with a collaborative-filtering engine and a custom \"Niche Score\" for personalized event recommendations.",
-            "Designed the discovery flow to surface near-me events fast, adding PWA support and JWT auth; performance work (lazy loading, caching, indexing) reduced average load time by ~1.5 seconds.",
-            "Implemented automated tests with Jest and PyTest to keep recommendation logic and API responses stable as features shipped.",
-            "Highlights: geospatial search, explainable scoring, and a mobile-first UX built for quick browsing."
+            "Built a full-stack application featuring a machine learning-based recommendation system (collaborative filtering), improving recommendation relevance and increasing user engagement by ~25%.",
+            "Developed React and React Native frontends with caching, lazy loading, and database indexing, reducing average load time by ~1.5 seconds (~30-40%).",
+            "Designed backend services using Flask, Node.js, and MongoDB (geospatial indexing) to support low-latency, scalable recommendation queries."
         ],
-        "challenge": "The primary technical challenge was developing an AI recommendation engine that accurately matches users with relevant niche events while balancing multiple factors like geographic proximity, interest alignment, and community connections. Implementing the proprietary Niche Score algorithm required careful optimization to process real-time data and provide personalized suggestions at scale."
+        "duration": "September 2025 - Present"
     },
     {
         "title": "StudyBuddy Scheduler",
         "github_link": "https://github.com/arjunbojja1/studybuddy_scheduler",
         "demo_note": "Demo coming soon.",
-        "technologies": ["Python", "ReactPy", "FastAPI", "PyTest", "Matplotlib", "ZenQuotes API", "CSV", "TXT"],
+        "technologies": ["Python", "ReactPy", "FastAPI", "PyTest", "Matplotlib", "ZenQuotes API"],
         "description": [
-            "Engineered a full-stack scheduling platform using ReactPy and FastAPI with multiple algorithmic strategies (priority queues, greedy heuristics) to optimize study sessions.",
-            "Visualized productivity metrics with Matplotlib and optimized algorithm runtime to achieve ~35% faster schedule generation.",
-            "Integrated ZenQuotes API, built CSV/TXT export, and used PyTest for reliability, contributing to ~20% higher daily user engagement.",
-            "Highlights: algorithm trade-offs, explainable schedules, and a lightweight UI built for quick rescheduling."
+            "Engineered a full-stack scheduling platform using FastAPI and ReactPy, implementing priority queues and greedy algorithms to generate schedules ~35% faster.",
+            "Optimized backend performance and data structures, reducing API response time by ~30% and improving system efficiency.",
+            "Built data visualizations and integrated external APIs, contributing to ~20% increase in daily user engagement."
         ],
-        "challenge": "The most interesting technical challenge was implementing multiple scheduling algorithms (priority queues, greedy heuristics) while maintaining an intuitive user interface and ensuring reliable data export functionality with optimized performance."
+        "duration": "January 2025 - June 2025"
     },
     {
         "title": "Portfolio Website",
@@ -111,10 +111,9 @@ projects_data = [
         "technologies": ["React", "TypeScript", "Firebase Functions", "Python", "CSS3", "Firebase Hosting"],
         "description": [
             "Built a modern, responsive portfolio website using React and TypeScript with Firebase Functions backend for dynamic content management.",
-            "Implemented advanced UI features including skeleton loading states, animated components, and a theme system with smooth transitions.",
+            "Implemented advanced UI features including skeleton loading states, animated components, and a dark/light theme system with smooth transitions.",
             "Integrated a real-time contact form with email notifications and resilient error handling.",
             "Deployed using Firebase hosting with serverless functions for scalable, reliable performance."
-        ],
-        "challenge": "Created an engaging user experience with smooth animations and interactive elements while maintaining excellent performance and accessibility standards across all devices."
+        ]
     }
 ]
