@@ -127,16 +127,16 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
   const metrics = getJobMetrics(job.description);
   const isCurrentRole = index === 0;
   const companyIconMap: Record<string, string> = {
+    'Microsoft': '🖥️',
     'Capital One': '🏦',
     'Roblox (Gochi)': '🕹️',
-    'Computer Science Honor Society': '💻'
   };
   const companyIcon = companyIconMap[job.company] || '🏢';
   const timelineIcon = isCurrentRole ? '🚀' : companyIcon;
 
   const focusText = isCurrentRole
-    ? 'Current focus: leadership, problem-solving, and innovation.'
-    : 'Focus areas: leadership, problem-solving, and innovation.';
+    ? 'Current focus: real-time distributed systems, AI infrastructure, and low-latency design.'
+    : 'Focus areas: reliability engineering, observability, and scalable backend systems.';
 
   return (
     <motion.div
