@@ -1,14 +1,10 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import {
-  SiPython, SiTypescript, SiJavascript, SiDotnet, SiLua, SiR, SiMysql,
-  SiFastapi, SiFlask, SiExpress, SiReact,
-  SiAwslambda, SiAmazondynamodb, SiAmazoncloudwatch, SiMicrosoftazure, SiDocker,
-  SiGithubactions, SiSocketdotio,
-  SiMongodb, SiPostgresql, SiSqlite, SiNewrelic,
-  SiPytest, SiJest,
-} from 'react-icons/si';
-import { FaJava, FaNetworkWired, FaMicrochip, FaLayerGroup, FaClock, FaServer } from 'react-icons/fa';
+import * as Si from 'react-icons/si';
+import * as Fa from 'react-icons/fa';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const SkillIcon = ({ ic }: { ic: any }) => React.createElement(ic, { size: 13 });
 
 interface Education {
   degree: string;
@@ -36,44 +32,45 @@ const SKILL_CATEGORY_VARIANTS: Record<string, 'purple' | 'cyan'> = {
   'Testing & Other': 'cyan',
 };
 
-const SKILL_ICON_MAP: Record<string, React.ReactElement> = {
-  'Python': <SiPython />,
-  'TypeScript': <SiTypescript />,
-  'JavaScript': <SiJavascript />,
-  'Java': <FaJava />,
-  'C#': <SiDotnet />,
-  'Lua': <SiLua />,
-  'R': <SiR />,
-  'SQL': <SiMysql />,
-  'FastAPI': <SiFastapi />,
-  'Flask': <SiFlask />,
-  'Express.js': <SiExpress />,
-  'React': <SiReact />,
-  'React Native': <SiReact />,
-  '.NET': <SiDotnet />,
-  'AWS Lambda': <SiAwslambda />,
-  'ECS Fargate': <SiDocker />,
-  'DynamoDB': <SiAmazondynamodb />,
-  'CloudWatch': <SiAmazoncloudwatch />,
-  'Microsoft Azure': <SiMicrosoftazure />,
-  'Docker': <SiDocker />,
-  'CI/CD (GitHub Actions)': <SiGithubactions />,
-  'WebSockets': <SiSocketdotio />,
-  'Serverless': <SiAwslambda />,
-  'Real-time Systems': <FaClock />,
-  'Microservices': <FaLayerGroup />,
-  'Event-Driven Architecture': <FaNetworkWired />,
-  'Caching Strategies': <FaMicrochip />,
-  'Low-Latency Design': <FaClock />,
-  'Async/Concurrency': <FaServer />,
-  'MongoDB': <SiMongodb />,
-  'PostgreSQL': <SiPostgresql />,
-  'SQLite': <SiSqlite />,
-  'New Relic': <SiNewrelic />,
-  'Custom Telemetry': <FaNetworkWired />,
-  'Structured Logging': <FaServer />,
-  'PyTest': <SiPytest />,
-  'Jest': <SiJest />,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const SKILL_ICON_MAP: Record<string, any> = {
+  'Python': Si.SiPython,
+  'TypeScript': Si.SiTypescript,
+  'JavaScript': Si.SiJavascript,
+  'Java': Fa.FaJava,
+  'C#': Si.SiDotnet,
+  'Lua': Si.SiLua,
+  'R': Si.SiR,
+  'SQL': Si.SiMysql,
+  'FastAPI': Si.SiFastapi,
+  'Flask': Si.SiFlask,
+  'Express.js': Si.SiExpress,
+  'React': Si.SiReact,
+  'React Native': Si.SiReact,
+  '.NET': Si.SiDotnet,
+  'AWS Lambda': (Si as any).SiAwslambda,
+  'ECS Fargate': Si.SiDocker,
+  'DynamoDB': (Si as any).SiAmazondynamodb,
+  'CloudWatch': (Si as any).SiAmazoncloudwatch,
+  'Microsoft Azure': (Si as any).SiMicrosoftazure,
+  'Docker': Si.SiDocker,
+  'CI/CD (GitHub Actions)': Si.SiGithubactions,
+  'WebSockets': Si.SiSocketdotio,
+  'Serverless': (Si as any).SiAwslambda,
+  'Real-time Systems': Fa.FaClock,
+  'Microservices': Fa.FaLayerGroup,
+  'Event-Driven Architecture': Fa.FaNetworkWired,
+  'Caching Strategies': Fa.FaMicrochip,
+  'Low-Latency Design': Fa.FaClock,
+  'Async/Concurrency': Fa.FaServer,
+  'MongoDB': Si.SiMongodb,
+  'PostgreSQL': Si.SiPostgresql,
+  'SQLite': Si.SiSqlite,
+  'New Relic': Si.SiNewrelic,
+  'Custom Telemetry': Fa.FaNetworkWired,
+  'Structured Logging': Fa.FaServer,
+  'PyTest': Si.SiPytest,
+  'Jest': Si.SiJest,
 };
 
 const About: React.FC<Props> = ({ passion, seeking, location, skills, education }) => {
@@ -140,7 +137,7 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
                               whileHover={{ scale: 1.05, y: -2 }}
                               transition={{ duration: 0.2 }}
                             >
-                              {icon && <span className="skill-pill-icon">{icon}</span>}
+                              {icon && <span className="skill-pill-icon"><SkillIcon ic={icon} /></span>}
                               {skill}
                             </motion.span>
                           );
