@@ -14,10 +14,13 @@ interface Props {
   data: ExperienceData[];
   loading?: boolean;
   onRefresh?: () => void;
+  theme?: 'light' | 'dark';
 }
 
+const LOGO_TOKEN = 'pk_VZGrte1ZRUCeHhcZhQ4HpQ';
+
 // Enhanced Timeline Item Component
-const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boolean }> = ({ job, index, isLast }) => {
+const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boolean; theme: 'light' | 'dark' }> = ({ job, index, isLast, theme }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.3 });
   const [isHovered, setIsHovered] = useState(false);
@@ -126,13 +129,12 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
 
   const metrics = getJobMetrics(job.description);
   const isCurrentRole = index === 0;
-  const companyIconMap: Record<string, string> = {
-    'Microsoft': '🖥️',
-    'Capital One': '🏦',
-    'Roblox (Gochi)': '🕹️',
+  const companyLogoMap: Record<string, string> = {
+    'Microsoft': `https://img.logo.dev/microsoft.com?token=${LOGO_TOKEN}&theme=${theme}&format=png`,
+    'Capital One': `https://img.logo.dev/capitalone.com?token=${LOGO_TOKEN}&theme=${theme}&format=png`,
+    'Roblox (Gochi)': `https://img.logo.dev/roblox.com?token=${LOGO_TOKEN}&theme=${theme}&format=png`,
   };
-  const companyIcon = companyIconMap[job.company] || '🏢';
-  const timelineIcon = isCurrentRole ? '🚀' : companyIcon;
+  const companyLogo = companyLogoMap[job.company];
 
   const focusText = isCurrentRole
     ? 'Current focus: real-time distributed systems, AI infrastructure, and low-latency design.'
@@ -164,7 +166,11 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
           animate={inView ? { scale: 1, rotate: 0 } : {}}
           transition={{ duration: 0.5, delay: index * 0.2 + 0.5 }}
         >
-          <div className="node-icon">{timelineIcon}</div>
+          <div className="node-icon">
+            {companyLogo
+              ? <img src={companyLogo} alt={job.company} width={22} height={22} style={{ objectFit: 'contain', borderRadius: 6 }} />
+              : '🏢'}
+          </div>
           {isCurrentRole && (
             <motion.div
               className="current-indicator"
@@ -211,7 +217,9 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: index * 0.2 + 0.5 }}
           >
-            <span className="company-icon" aria-hidden="true">{companyIcon}</span>
+            {companyLogo && (
+              <img src={companyLogo} alt={job.company} width={20} height={20} style={{ objectFit: 'contain', borderRadius: 5, flexShrink: 0 }} />
+            )}
             <span>{job.company}</span>
           </motion.h4>
 
@@ -348,7 +356,7 @@ const CareerStats: React.FC<{ data: ExperienceData[] }> = ({ data }) => {
   );
 };
 
-const Experience: React.FC<Props> = ({ data, loading, onRefresh }) => {
+const Experience: React.FC<Props> = ({ data, loading, onRefresh, theme = 'light' }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
@@ -415,6 +423,7 @@ const Experience: React.FC<Props> = ({ data, loading, onRefresh }) => {
                   job={job}
                   index={index}
                   isLast={index === data.length - 1}
+                  theme={theme}
                 />
               ))}
             </div>

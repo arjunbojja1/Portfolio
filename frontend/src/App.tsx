@@ -391,8 +391,8 @@ const App: React.FC = () => {
   const [projects, setProjects] = useState<ProjectData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showNetflixLoader, setShowNetflixLoader] = useState(true);
-  const [appReady, setAppReady] = useState(false);
+  const [showNetflixLoader] = useState(false);
+  const [appReady, setAppReady] = useState(true);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   const fetchData = useCallback(async () => {
@@ -486,7 +486,6 @@ const App: React.FC = () => {
   }, [fetchData]);
 
   const handleNetflixLoaderComplete = () => {
-    setShowNetflixLoader(false);
     setTimeout(() => setAppReady(true), 300);
   };
 
@@ -585,7 +584,7 @@ const App: React.FC = () => {
                   <Navbar theme={theme} onToggleTheme={handleToggleTheme} />
                 </ErrorBoundary>
                 <ErrorBoundary>
-                  <Hero name={profile.name} title={profile.title} />
+                  <Hero name={profile.name} title={profile.title} theme={theme} />
                 </ErrorBoundary>
                 <ErrorBoundary>
                   <About 
@@ -597,7 +596,7 @@ const App: React.FC = () => {
                   />
                 </ErrorBoundary>
                 <ErrorBoundary>
-                  <Experience data={experience} loading={loading} onRefresh={fetchData} />
+                  <Experience data={experience} loading={loading} onRefresh={fetchData} theme={theme} />
                 </ErrorBoundary>
                 <ErrorBoundary>
                   <Projects data={projects} loading={loading} onRefresh={fetchData} />
