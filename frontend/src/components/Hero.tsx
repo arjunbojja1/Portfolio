@@ -3,25 +3,22 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
 const LOGO_TOKEN = 'pk_VZGrte1ZRUCeHhcZhQ4HpQ';
 
-const logoUrl = (domain: string, theme: 'light' | 'dark') =>
-  `https://img.logo.dev/${domain}?token=${LOGO_TOKEN}&theme=${theme}&format=png`;
+const logoUrl = (domain: string) =>
+  `https://img.logo.dev/${domain}?token=${LOGO_TOKEN}&format=png`;
 
-const CompanyLogo: React.FC<{ domain: string; alt: string; theme: 'light' | 'dark'; size?: number; radius?: number }> = ({
-  domain, alt, theme, size = 20, radius = 6,
-}) => (
+const CompanyLogo: React.FC<{ domain: string; alt: string; size?: number }> = ({ domain, alt, size = 20 }) => (
   <img
-    src={logoUrl(domain, theme)}
+    src={logoUrl(domain)}
     alt={alt}
     width={size}
     height={size}
-    style={{ objectFit: 'contain', display: 'block', borderRadius: radius }}
+    style={{ objectFit: 'contain', display: 'block' }}
   />
 );
 
 interface Props {
   name: string;
   title: string;
-  theme: 'light' | 'dark';
 }
 
 // Floating Orbs Component
@@ -64,7 +61,7 @@ const FloatingOrbs: React.FC = () => {
   );
 };
 
-const ProfileCard: React.FC<{ imageSrc: string; name: string; theme: 'light' | 'dark' }> = ({ imageSrc, name, theme }) => {
+const ProfileCard: React.FC<{ imageSrc: string; name: string }> = ({ imageSrc, name }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.3 });
 
@@ -110,9 +107,9 @@ const ProfileCard: React.FC<{ imageSrc: string; name: string; theme: 'light' | '
             ))}
           </div>
           <div className="profile-card-companies">
-            <span className="company-badge"><CompanyLogo domain="microsoft.com" alt="Microsoft" theme={theme} size={16} radius={4} /> Microsoft</span>
-            <span className="company-badge"><CompanyLogo domain="capitalone.com" alt="Capital One" theme={theme} size={16} radius={4} /> Capital One</span>
-            <span className="company-badge"><CompanyLogo domain="umd.edu" alt="UMD" theme={theme} size={16} radius={4} /> UMD '27</span>
+            <span className="company-badge"><CompanyLogo domain="microsoft.com" alt="Microsoft" size={16} /> Microsoft</span>
+            <span className="company-badge"><CompanyLogo domain="capitalone.com" alt="Capital One" size={16} /> Capital One</span>
+            <span className="company-badge"><CompanyLogo domain="umd.edu" alt="UMD" size={16} /> UMD '27</span>
           </div>
         </div>
       </div>
@@ -120,7 +117,7 @@ const ProfileCard: React.FC<{ imageSrc: string; name: string; theme: 'light' | '
   );
 };
 
-const Hero: React.FC<Props> = ({ name, title, theme }) => {
+const Hero: React.FC<Props> = ({ name, title }) => {
   const containerRef = useRef<HTMLElement>(null);
   const heroRef = useRef(null);
 
@@ -170,6 +167,7 @@ const Hero: React.FC<Props> = ({ name, title, theme }) => {
 
       {/* Main Hero Content */}
       <motion.div ref={heroRef} className="hero-content-netflix" style={{ y: contentY }}>
+        <div className="container-netflix">
         <div className="hero-grid">
           {/* Left — Text */}
           <div className="hero-text-section">
@@ -227,7 +225,7 @@ const Hero: React.FC<Props> = ({ name, title, theme }) => {
             >
               <div className="intern-card">
                 <div className="intern-logo">
-                  <CompanyLogo domain="microsoft.com" alt="Microsoft" theme={theme} size={28} radius={8} />
+                  <CompanyLogo domain="microsoft.com" alt="Microsoft" size={28} />
                 </div>
                 <div className="intern-body">
                   <div className="intern-role">Microsoft — Software Engineering Intern</div>
@@ -237,7 +235,7 @@ const Hero: React.FC<Props> = ({ name, title, theme }) => {
               </div>
               <div className="intern-card">
                 <div className="intern-logo">
-                  <CompanyLogo domain="capitalone.com" alt="Capital One" theme={theme} size={28} radius={8} />
+                  <CompanyLogo domain="capitalone.com" alt="Capital One" size={28} />
                 </div>
                 <div className="intern-body">
                   <div className="intern-role">Capital One — Software Engineering Intern</div>
@@ -273,8 +271,9 @@ const Hero: React.FC<Props> = ({ name, title, theme }) => {
 
           {/* Right — Profile Card */}
           <div className="hero-profile-section">
-            <ProfileCard imageSrc="/headshot.png" name={name} theme={theme} />
+            <ProfileCard imageSrc="/headshot.png" name={name} />
           </div>
+        </div>
         </div>
       </motion.div>
     </motion.section>

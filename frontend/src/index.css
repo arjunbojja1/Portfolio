@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 :root {
   color-scheme: light;
   --vt-x: 92vw;
   --vt-y: 6vh;
-  --font-sans: "Manrope", "SF Pro Text", "Avenir Next", "Helvetica Neue", sans-serif;
-  --font-display: "Space Grotesk", "SF Pro Display", "Manrope", "Avenir Next", "Helvetica Neue", sans-serif;
+  --font-sans: "Inter", "SF Pro Text", system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", "SF Pro Display", sans-serif;
 
   --ink-900: #0b0d12;
   --ink-800: #141824;

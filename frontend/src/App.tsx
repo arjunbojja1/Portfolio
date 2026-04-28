@@ -584,7 +584,7 @@ const App: React.FC = () => {
                   <Navbar theme={theme} onToggleTheme={handleToggleTheme} />
                 </ErrorBoundary>
                 <ErrorBoundary>
-                  <Hero name={profile.name} title={profile.title} theme={theme} />
+                  <Hero name={profile.name} title={profile.title} />
                 </ErrorBoundary>
                 <ErrorBoundary>
                   <About 
@@ -596,7 +596,7 @@ const App: React.FC = () => {
                   />
                 </ErrorBoundary>
                 <ErrorBoundary>
-                  <Experience data={experience} loading={loading} onRefresh={fetchData} theme={theme} />
+                  <Experience data={experience} loading={loading} onRefresh={fetchData} />
                 </ErrorBoundary>
                 <ErrorBoundary>
                   <Projects data={projects} loading={loading} onRefresh={fetchData} />

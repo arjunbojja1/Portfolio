@@ -1139,6 +1139,9 @@ section,
 
 .node-icon {
   font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .current-indicator {
@@ -1966,13 +1969,10 @@ section,
 .intern-logo {
   width: 36px;
   height: 36px;
-  border-radius: 8px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border-subtle);
 }
 
 .intern-body {
@@ -2177,11 +2177,21 @@ section,
 }
 
 .skill-pill-new {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   padding: 0.22rem 0.65rem;
   border-radius: 999px;
   font-size: 0.73rem;
   font-weight: 600;
   cursor: default;
+}
+
+.skill-pill-icon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.85rem;
+  opacity: 0.9;
 }
 
 .skill-pill-new.purple {

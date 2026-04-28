@@ -1,5 +1,14 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import {
+  SiPython, SiTypescript, SiJavascript, SiDotnet, SiLua, SiR, SiMysql,
+  SiFastapi, SiFlask, SiExpress, SiReact,
+  SiAwslambda, SiAmazondynamodb, SiAmazoncloudwatch, SiMicrosoftazure, SiDocker,
+  SiGithubactions, SiSocketdotio,
+  SiMongodb, SiPostgresql, SiSqlite, SiNewrelic,
+  SiPytest, SiJest,
+} from 'react-icons/si';
+import { FaJava, FaNetworkWired, FaMicrochip, FaLayerGroup, FaClock, FaServer } from 'react-icons/fa';
 
 interface Education {
   degree: string;
@@ -25,6 +34,46 @@ const SKILL_CATEGORY_VARIANTS: Record<string, 'purple' | 'cyan'> = {
   'Distributed Systems': 'cyan',
   'Data & Observability': 'purple',
   'Testing & Other': 'cyan',
+};
+
+const SKILL_ICON_MAP: Record<string, React.ReactElement> = {
+  'Python': <SiPython />,
+  'TypeScript': <SiTypescript />,
+  'JavaScript': <SiJavascript />,
+  'Java': <FaJava />,
+  'C#': <SiDotnet />,
+  'Lua': <SiLua />,
+  'R': <SiR />,
+  'SQL': <SiMysql />,
+  'FastAPI': <SiFastapi />,
+  'Flask': <SiFlask />,
+  'Express.js': <SiExpress />,
+  'React': <SiReact />,
+  'React Native': <SiReact />,
+  '.NET': <SiDotnet />,
+  'AWS Lambda': <SiAwslambda />,
+  'ECS Fargate': <SiDocker />,
+  'DynamoDB': <SiAmazondynamodb />,
+  'CloudWatch': <SiAmazoncloudwatch />,
+  'Microsoft Azure': <SiMicrosoftazure />,
+  'Docker': <SiDocker />,
+  'CI/CD (GitHub Actions)': <SiGithubactions />,
+  'WebSockets': <SiSocketdotio />,
+  'Serverless': <SiAwslambda />,
+  'Real-time Systems': <FaClock />,
+  'Microservices': <FaLayerGroup />,
+  'Event-Driven Architecture': <FaNetworkWired />,
+  'Caching Strategies': <FaMicrochip />,
+  'Low-Latency Design': <FaClock />,
+  'Async/Concurrency': <FaServer />,
+  'MongoDB': <SiMongodb />,
+  'PostgreSQL': <SiPostgresql />,
+  'SQLite': <SiSqlite />,
+  'New Relic': <SiNewrelic />,
+  'Custom Telemetry': <FaNetworkWired />,
+  'Structured Logging': <FaServer />,
+  'PyTest': <SiPytest />,
+  'Jest': <SiJest />,
 };
 
 const About: React.FC<Props> = ({ passion, seeking, location, skills, education }) => {
@@ -56,7 +105,6 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
               <p className="passion-statement">{passion}</p>
               <p className="seeking-statement">{seeking}</p>
               <div className="location-badge">
-                <span className="location-icon">📍</span>
                 <span>{location}</span>
               </div>
             </div>
@@ -83,16 +131,20 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
                     >
                       <div className={`skill-cat-label-new ${variant}`}>{category}</div>
                       <div className="skill-pills-row">
-                        {skillList.map((skill, i) => (
-                          <motion.span
-                            key={`${category}-${i}`}
-                            className={`skill-pill-new ${variant}`}
-                            whileHover={{ scale: 1.05, y: -2 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            {skill}
-                          </motion.span>
-                        ))}
+                        {skillList.map((skill, i) => {
+                          const icon = SKILL_ICON_MAP[skill];
+                          return (
+                            <motion.span
+                              key={`${category}-${i}`}
+                              className={`skill-pill-new ${variant}`}
+                              whileHover={{ scale: 1.05, y: -2 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              {icon && <span className="skill-pill-icon">{icon}</span>}
+                              {skill}
+                            </motion.span>
+                          );
+                        })}
                       </div>
                     </motion.div>
                   );
@@ -111,7 +163,6 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
             >
               <div className="education-header">
                 <h3>Education</h3>
-                <div className="education-icon">🎓</div>
               </div>
               <div className="education-content">
                 <div className="degree-info">
@@ -123,7 +174,7 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
                 </div>
                 {education.awards && education.awards.length > 0 && (
                   <div className="education-group">
-                    <h4>🏆 Academic Recognition</h4>
+                    <h4>Academic Recognition</h4>
                     <div className="education-tags">
                       {education.awards.map((award, i) => (
                         <span key={i} className="education-tag award-tag">{award}</span>
@@ -134,7 +185,7 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
                 )}
                 {education.coursework && education.coursework.length > 0 && (
                   <div className="education-group">
-                    <h4>📚 Relevant Coursework</h4>
+                    <h4>Relevant Coursework</h4>
                     <div className="education-tags">
                       {education.coursework.map((course, i) => (
                         <span key={i} className="education-tag course-tag">{course}</span>
@@ -153,7 +204,6 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
             >
               <div className="skills-header">
                 <h3>Specializations</h3>
-                <div className="skills-icon">⚡</div>
               </div>
               <div className="skills-grid-enhanced">
                 {[

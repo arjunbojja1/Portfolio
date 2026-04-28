@@ -14,13 +14,12 @@ interface Props {
   data: ExperienceData[];
   loading?: boolean;
   onRefresh?: () => void;
-  theme?: 'light' | 'dark';
 }
 
 const LOGO_TOKEN = 'pk_VZGrte1ZRUCeHhcZhQ4HpQ';
 
 // Enhanced Timeline Item Component
-const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boolean; theme: 'light' | 'dark' }> = ({ job, index, isLast, theme }) => {
+const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boolean }> = ({ job, index, isLast }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.3 });
   const [isHovered, setIsHovered] = useState(false);
@@ -130,9 +129,9 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
   const metrics = getJobMetrics(job.description);
   const isCurrentRole = index === 0;
   const companyLogoMap: Record<string, string> = {
-    'Microsoft': `https://img.logo.dev/microsoft.com?token=${LOGO_TOKEN}&theme=${theme}&format=png`,
-    'Capital One': `https://img.logo.dev/capitalone.com?token=${LOGO_TOKEN}&theme=${theme}&format=png`,
-    'Roblox (Gochi)': `https://img.logo.dev/roblox.com?token=${LOGO_TOKEN}&theme=${theme}&format=png`,
+    'Microsoft': `https://img.logo.dev/microsoft.com?token=${LOGO_TOKEN}&format=png`,
+    'Capital One': `https://img.logo.dev/capitalone.com?token=${LOGO_TOKEN}&format=png`,
+    'Roblox (Gochi)': `https://img.logo.dev/roblox.com?token=${LOGO_TOKEN}&format=png`,
   };
   const companyLogo = companyLogoMap[job.company];
 
@@ -168,7 +167,7 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
         >
           <div className="node-icon">
             {companyLogo
-              ? <img src={companyLogo} alt={job.company} width={22} height={22} style={{ objectFit: 'contain', borderRadius: 6 }} />
+              ? <img src={companyLogo} alt={job.company} width={22} height={22} style={{ objectFit: 'contain' }} />
               : '🏢'}
           </div>
           {isCurrentRole && (
@@ -218,7 +217,7 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
             transition={{ duration: 0.5, delay: index * 0.2 + 0.5 }}
           >
             {companyLogo && (
-              <img src={companyLogo} alt={job.company} width={20} height={20} style={{ objectFit: 'contain', borderRadius: 5, flexShrink: 0 }} />
+              <img src={companyLogo} alt={job.company} width={20} height={20} style={{ objectFit: 'contain', flexShrink: 0 }} />
             )}
             <span>{job.company}</span>
           </motion.h4>
@@ -356,7 +355,7 @@ const CareerStats: React.FC<{ data: ExperienceData[] }> = ({ data }) => {
   );
 };
 
-const Experience: React.FC<Props> = ({ data, loading, onRefresh, theme = 'light' }) => {
+const Experience: React.FC<Props> = ({ data, loading, onRefresh }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
@@ -423,7 +422,6 @@ const Experience: React.FC<Props> = ({ data, loading, onRefresh, theme = 'light'
                   job={job}
                   index={index}
                   isLast={index === data.length - 1}
-                  theme={theme}
                 />
               ))}
             </div>
