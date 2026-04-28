@@ -15,9 +15,9 @@
   --ink-400: #7b8797;
   --ink-300: #9aa5b4;
 
-  --sky-500: #0071e3;
-  --sky-400: #2f8cff;
-  --mint-400: #40c9a2;
+  --sky-500: #7c3aed;
+  --sky-400: #a78bfa;
+  --mint-400: #22d3ee;
 
   --surface-1: rgba(255, 255, 255, 0.85);
   --surface-2: rgba(255, 255, 255, 0.7);
@@ -37,7 +37,7 @@
   --radius-sm: 12px;
 
   --accent-color: var(--sky-500);
-  --accent-hover: #005bb5;
+  --accent-hover: #6d28d9;
 
   --text-light: var(--ink-900);
   --text-medium: var(--ink-500);
@@ -52,16 +52,16 @@
 
   --overlay-dim: rgba(15, 23, 42, 0.2);
   --page-bg-light:
-    radial-gradient(1200px circle at 10% -10%, rgba(0, 113, 227, 0.12), transparent 60%),
-    radial-gradient(900px circle at 100% 20%, rgba(64, 201, 162, 0.15), transparent 60%),
-    linear-gradient(180deg, #f7f8fb 0%, #eef2f7 50%, #f5f7fb 100%);
+    radial-gradient(1200px circle at 10% -10%, rgba(124, 58, 237, 0.08), transparent 60%),
+    radial-gradient(900px circle at 100% 20%, rgba(34, 211, 238, 0.1), transparent 60%),
+    linear-gradient(180deg, #f8f9ff 0%, #eef0f8 50%, #f5f7fd 100%);
   --page-bg-dark:
-    radial-gradient(1200px circle at 10% -10%, rgba(10, 132, 255, 0.12), transparent 60%),
-    radial-gradient(900px circle at 100% 20%, rgba(56, 208, 161, 0.16), transparent 60%),
-    linear-gradient(180deg, #0b0f16 0%, #0f141e 55%, #101826 100%);
+    radial-gradient(1200px circle at 10% -10%, rgba(124, 58, 237, 0.14), transparent 60%),
+    radial-gradient(900px circle at 100% 20%, rgba(34, 211, 238, 0.1), transparent 60%),
+    linear-gradient(180deg, #080a0e 0%, #0d1020 55%, #0a0d18 100%);
   --page-bg: var(--page-bg-light);
-  --glow-1: radial-gradient(circle, rgba(0, 113, 227, 0.18), transparent 70%);
-  --glow-2: radial-gradient(circle, rgba(64, 201, 162, 0.2), transparent 70%);
+  --glow-1: radial-gradient(circle, rgba(124, 58, 237, 0.18), transparent 70%);
+  --glow-2: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 70%);
   --footer-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(240, 242, 247, 0.9));
   --overlay-bg: rgba(248, 249, 252, 0.75);
   --skeleton-base: rgba(15, 23, 42, 0.08);
@@ -78,9 +78,9 @@
   --ink-400: #697286;
   --ink-300: #565f72;
 
-  --sky-500: #0a84ff;
-  --sky-400: #4c9eff;
-  --mint-400: #38d0a1;
+  --sky-500: #7c3aed;
+  --sky-400: #a78bfa;
+  --mint-400: #22d3ee;
 
   --surface-1: rgba(16, 20, 28, 0.88);
   --surface-2: rgba(12, 16, 24, 0.75);
@@ -101,8 +101,8 @@
 
   --overlay-dim: rgba(0, 0, 0, 0.55);
   --page-bg: var(--page-bg-dark);
-  --glow-1: radial-gradient(circle, rgba(10, 132, 255, 0.2), transparent 70%);
-  --glow-2: radial-gradient(circle, rgba(56, 208, 161, 0.2), transparent 70%);
+  --glow-1: radial-gradient(circle, rgba(124, 58, 237, 0.18), transparent 70%);
+  --glow-2: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 70%);
   --footer-bg: linear-gradient(180deg, rgba(8, 12, 20, 0.8), rgba(10, 14, 22, 0.95));
   --overlay-bg: rgba(10, 14, 22, 0.75);
   --skeleton-base: rgba(255, 255, 255, 0.08);
