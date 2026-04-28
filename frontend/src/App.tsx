@@ -248,7 +248,7 @@ const NetflixParticles: React.FC<{ count?: number }> = ({ count = 30 }) => {
           }}
           style={{
             background: `radial-gradient(circle, ${
-              Math.random() > 0.5 ? 'rgba(0, 113, 227, 0.35)' : 'rgba(64, 201, 162, 0.35)'
+              Math.random() > 0.5 ? 'rgba(124, 58, 237, 0.3)' : 'rgba(34, 211, 238, 0.25)'
             } 0%, transparent 70%)`
           }}
         />
@@ -292,7 +292,7 @@ const NetflixCodeRain: React.FC<{ disabled?: boolean }> = ({ disabled = false })
           }}
           style={{
             left: `${(i / 15) * 100}%`,
-            color: Math.random() > 0.7 ? 'rgba(0, 113, 227, 0.35)' : 'rgba(15, 23, 42, 0.25)'
+            color: Math.random() > 0.7 ? 'rgba(124, 58, 237, 0.3)' : 'rgba(15, 23, 42, 0.25)'
           }}
         >
           {codeSnippets[Math.floor(Math.random() * codeSnippets.length)]}
