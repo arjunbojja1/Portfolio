@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { SkeletonCard, ErrorFallback } from './LoadingComponents';
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
 interface ProjectData {
   title: string;
@@ -32,7 +33,8 @@ const FeaturedProjectCard: React.FC<{ project: ProjectData }> = ({ project }) =>
       <div className="featured-project-inner">
         <div className="featured-project-left">
           <div className="featured-badge-new">
-            <span>⭐ Featured · In Progress</span>
+            <span className="featured-badge-dot" />
+            Featured · In Progress
           </div>
           <h3 className="featured-project-title">{project.title}</h3>
           {project.duration && (
@@ -64,18 +66,21 @@ const FeaturedProjectCard: React.FC<{ project: ProjectData }> = ({ project }) =>
                 rel="noopener noreferrer"
                 className="btn-netflix btn-netflix-secondary"
               >
-                <span className="btn-icon">📁</span>
+                {React.createElement(FaGithub as any, { size: 14 })}
                 Source Code
                 <div className="btn-shimmer"></div>
               </a>
             )}
-            <span className="featured-active-badge">● Active</span>
+            <span className="featured-active-badge">
+              <span className="featured-active-dot" />
+              Active
+            </span>
           </div>
         </div>
 
         <div className="featured-project-right">
           <h4 style={{ marginBottom: '0.8rem', fontSize: '0.9rem', color: 'var(--ink-600)' }}>
-            📋 All Highlights
+            Highlights
           </h4>
           <ul className="featured-desc-list">
             {project.description.map((point, i) => (
@@ -132,15 +137,15 @@ const ProjectCard: React.FC<{ project: ProjectData; index: number }> = ({ projec
       )}
       <div className="proj-card-b-footer">
         <span className="proj-card-b-date">{project.duration || ''}</span>
-        <div style={{ display: 'flex', gap: '0.6rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
           {project.github_link && (
-            <a href={project.github_link} target="_blank" rel="noopener noreferrer" className="proj-card-b-link">
-              GitHub →
+            <a href={project.github_link} target="_blank" rel="noopener noreferrer" className="proj-icon-link" aria-label="GitHub" title="GitHub">
+              {React.createElement(FaGithub as any, { size: 15 })}
             </a>
           )}
           {demoUrl && (
-            <a href={demoUrl} target="_blank" rel="noopener noreferrer" className="proj-card-b-link">
-              Live →
+            <a href={demoUrl} target="_blank" rel="noopener noreferrer" className="proj-icon-link" aria-label="Live demo" title="Live Demo">
+              {React.createElement(FaExternalLinkAlt as any, { size: 13 })}
             </a>
           )}
         </div>

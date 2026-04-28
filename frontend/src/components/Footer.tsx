@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaLinkedin, FaGithub, FaMapMarkerAlt, FaGraduationCap, FaBriefcase } from 'react-icons/fa';
 
 interface Props {
   linkedin: string;
@@ -14,15 +15,15 @@ const Footer: React.FC<Props> = ({ linkedin, github }) => {
         <div className="footer-section footer-about">
           <h3>About</h3>
           <p>
-            Distributed Systems Engineer focused on AI infrastructure. Building low-latency,
-            observable systems at scale — from real-time signaling to geospatial engines.
+            Information Science student at UMD building systems that matter — real-time infrastructure,
+            serverless platforms, and tools that keep distributed services observable at scale.
           </p>
           <div className="footer-socials-new">
-            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="social-link">
-              in
+            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="social-link" aria-label="LinkedIn">
+              {React.createElement(FaLinkedin as any, { size: 16 })}
             </a>
-            <a href={github} target="_blank" rel="noopener noreferrer" className="social-link">
-              gh
+            <a href={github} target="_blank" rel="noopener noreferrer" className="social-link" aria-label="GitHub">
+              {React.createElement(FaGithub as any, { size: 16 })}
             </a>
           </div>
         </div>
@@ -30,15 +31,15 @@ const Footer: React.FC<Props> = ({ linkedin, github }) => {
         <div className="footer-section footer-contact">
           <h3>Connect</h3>
           <div className="contact-item">
-            <span className="contact-icon">📍</span>
-            <span>College Park, MD</span>
+            <span className="contact-icon">{React.createElement(FaMapMarkerAlt as any, { size: 13 })}</span>
+            <span>Washington, D.C. Metro Area</span>
           </div>
           <div className="contact-item">
-            <span className="contact-icon">🎓</span>
+            <span className="contact-icon">{React.createElement(FaGraduationCap as any, { size: 13 })}</span>
             <span>University of Maryland</span>
           </div>
           <div className="contact-item">
-            <span className="contact-icon">💼</span>
+            <span className="contact-icon">{React.createElement(FaBriefcase as any, { size: 13 })}</span>
             <span>Incoming @ Microsoft · Summer 2026</span>
           </div>
         </div>

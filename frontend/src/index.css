@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
   color-scheme: light;
   --vt-x: 92vw;
   --vt-y: 6vh;
   --font-sans: "Inter", "SF Pro Text", system-ui, sans-serif;
-  --font-display: "Bricolage Grotesque", "Inter", "SF Pro Display", sans-serif;
+  --font-display: "Arial", "Helvetica Neue", sans-serif;
 
   --ink-900: #0b0d12;
   --ink-800: #141824;

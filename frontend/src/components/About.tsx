@@ -3,6 +3,9 @@ import { motion, useInView } from 'framer-motion';
 import * as Si from 'react-icons/si';
 import * as Fa from 'react-icons/fa';
 
+const LOGO_TOKEN = 'pk_VZGrte1ZRUCeHhcZhQ4HpQ';
+const logoUrl = (domain: string) => `https://img.logo.dev/${domain}?token=${LOGO_TOKEN}&format=png`;
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SkillIcon = ({ ic }: { ic: any }) => React.createElement(ic, { size: 13 });
 
@@ -98,7 +101,7 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="intro-card">
-              <h3>Distributed Systems Engineer · AI Infrastructure</h3>
+
               <p className="passion-statement">{passion}</p>
               <p className="seeking-statement">{seeking}</p>
               <div className="location-badge">
@@ -152,47 +155,60 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
 
           {/* Education & specializations grid */}
           <div className="education-skills-grid">
+            {/* Education card */}
             <motion.div
               className="education-section"
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <div className="education-header">
-                <h3>Education</h3>
+              {/* School header */}
+              <div className="edu-school-header">
+                <img src="https://upload.wikimedia.org/wikipedia/en/3/3e/University_of_Maryland_seal.svg" alt="UMD" width={36} height={36} style={{ objectFit: 'contain', flexShrink: 0 }} />
+                <div>
+                  <div className="edu-school-name">{education.university}</div>
+                  <div className="edu-degree">{education.degree}</div>
+                </div>
               </div>
-              <div className="education-content">
-                <div className="degree-info">
-                  <h4>{education.degree}</h4>
-                  <p className="university">{education.university}</p>
-                  <div className="education-metrics">
-                    <span className="grad-badge">Class of {education.grad_year}</span>
+
+              {/* Stat pills */}
+              <div className="edu-stats-row">
+                <div className="edu-stat-pill purple">
+                  <span className="edu-stat-value">{education.gpa}</span>
+                  <span className="edu-stat-label">GPA</span>
+                </div>
+                <div className="edu-stat-pill cyan">
+                  <span className="edu-stat-value">{education.grad_year}</span>
+                  <span className="edu-stat-label">Grad Year</span>
+                </div>
+              </div>
+
+              {/* Awards */}
+              {education.awards && education.awards.length > 0 && (
+                <div className="edu-block">
+                  <div className="edu-block-label">Academic Recognition</div>
+                  <div className="education-tags">
+                    {education.awards.map((award, i) => (
+                      <span key={i} className="education-tag award-tag">{award}</span>
+                    ))}
                   </div>
                 </div>
-                {education.awards && education.awards.length > 0 && (
-                  <div className="education-group">
-                    <h4>Academic Recognition</h4>
-                    <div className="education-tags">
-                      {education.awards.map((award, i) => (
-                        <span key={i} className="education-tag award-tag">{award}</span>
-                      ))}
-                      <span className="education-tag award-tag">{education.gpa} GPA</span>
-                    </div>
+              )}
+
+              {/* Coursework */}
+              {education.coursework && education.coursework.length > 0 && (
+                <div className="edu-block">
+                  <div className="edu-block-label">Relevant Coursework</div>
+                  <div className="education-tags">
+                    {education.coursework.map((course, i) => (
+                      <span key={i} className="education-tag course-tag">{course}</span>
+                    ))}
                   </div>
-                )}
-                {education.coursework && education.coursework.length > 0 && (
-                  <div className="education-group">
-                    <h4>Relevant Coursework</h4>
-                    <div className="education-tags">
-                      {education.coursework.map((course, i) => (
-                        <span key={i} className="education-tag course-tag">{course}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
             </motion.div>
 
+            {/* Specializations 2×2 grid */}
             <motion.div
               className="skills-section"
               initial={{ opacity: 0, y: 30 }}
@@ -202,22 +218,26 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
               <div className="skills-header">
                 <h3>Specializations</h3>
               </div>
-              <div className="skills-grid-enhanced">
-                {[
-                  { label: 'Real-time Distributed Systems', desc: 'Low-latency signaling, event-driven architecture, service-oriented design' },
-                  { label: 'AI Infrastructure', desc: 'Systems that support AI/ML workloads at scale — Microsoft Teams AI investments' },
-                  { label: 'Cloud Observability', desc: 'New Relic, CloudWatch, custom telemetry, MTTD reduction, 99.99% SLO delivery' },
-                  { label: 'Backend Engineering', desc: 'FastAPI, Flask, Express, serverless platforms, geospatial engines' },
-                ].map((item, i) => (
+              <div className="spec-grid-2x2">
+                {([
+                  { label: 'Real-time Distributed Systems', desc: 'Low-latency signaling, event-driven architecture, service-oriented design', icon: Fa.FaNetworkWired, accent: 'purple' },
+                  { label: 'AI Infrastructure', desc: 'Systems supporting AI/ML at scale — Microsoft Teams AI investments', icon: Fa.FaMicrochip, accent: 'cyan' },
+                  { label: 'Cloud Observability', desc: 'New Relic, CloudWatch, custom telemetry, MTTD reduction, 99.99% SLO', icon: Si.SiNewrelic, accent: 'cyan' },
+                  { label: 'Backend Engineering', desc: 'FastAPI, Flask, Express, serverless platforms, geospatial engines', icon: Si.SiFastapi, accent: 'purple' },
+                ] as const).map((item, i) => (
                   <motion.div
                     key={i}
-                    className="skill-category-enhanced"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={inView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.6, delay: 0.8 + i * 0.1 }}
+                    className={`spec-card spec-card-${item.accent}`}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: 0.8 + i * 0.1 }}
+                    whileHover={{ y: -3 }}
                   >
-                    <h4>{item.label}</h4>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--ink-500)', margin: 0 }}>{item.desc}</p>
+                    <div className={`spec-card-icon spec-icon-${item.accent}`}>
+                      {React.createElement(item.icon as any, { size: 18 })}
+                    </div>
+                    <div className="spec-card-label">{item.label}</div>
+                    <div className="spec-card-desc">{item.desc}</div>
                   </motion.div>
                 ))}
               </div>

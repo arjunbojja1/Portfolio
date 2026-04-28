@@ -1,14 +1,19 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { FaEnvelope, FaGithub, FaCode } from 'react-icons/fa';
 
 const LOGO_TOKEN = 'pk_VZGrte1ZRUCeHhcZhQ4HpQ';
 
 const logoUrl = (domain: string) =>
   `https://img.logo.dev/${domain}?token=${LOGO_TOKEN}&format=png`;
 
+const CUSTOM_LOGOS: Record<string, string> = {
+  'umd.edu': 'https://upload.wikimedia.org/wikipedia/en/3/3e/University_of_Maryland_seal.svg',
+};
+
 const CompanyLogo: React.FC<{ domain: string; alt: string; size?: number }> = ({ domain, alt, size = 20 }) => (
   <img
-    src={logoUrl(domain)}
+    src={CUSTOM_LOGOS[domain] ?? logoUrl(domain)}
     alt={alt}
     width={size}
     height={size}
@@ -19,47 +24,16 @@ const CompanyLogo: React.FC<{ domain: string; alt: string; size?: number }> = ({
 interface Props {
   name: string;
   title: string;
+  github: string;
 }
 
-// Floating Orbs Component
-const FloatingOrbs: React.FC = () => {
-  return (
-    <div className="floating-orbs-container">
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className={`floating-orb orb-${i + 1}`}
-          initial={{
-            scale: 0,
-            opacity: 0,
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight
-          }}
-          animate={{
-            scale: [0, 1, 0.8, 1],
-            opacity: [0, 0.6, 0.8, 0.6],
-            x: [
-              Math.random() * window.innerWidth,
-              Math.random() * window.innerWidth,
-              Math.random() * window.innerWidth
-            ],
-            y: [
-              Math.random() * window.innerHeight,
-              Math.random() * window.innerHeight,
-              Math.random() * window.innerHeight
-            ]
-          }}
-          transition={{
-            duration: 10 + i * 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.5
-          }}
-        />
-      ))}
-    </div>
-  );
-};
+const FloatingOrbs: React.FC = () => (
+  <div className="floating-orbs-container">
+    {[1, 2, 3].map((i) => (
+      <div key={i} className={`floating-orb orb-${i}`} />
+    ))}
+  </div>
+);
 
 const ProfileCard: React.FC<{ imageSrc: string; name: string }> = ({ imageSrc, name }) => {
   const ref = useRef(null);
@@ -117,7 +91,7 @@ const ProfileCard: React.FC<{ imageSrc: string; name: string }> = ({ imageSrc, n
   );
 };
 
-const Hero: React.FC<Props> = ({ name, title }) => {
+const Hero: React.FC<Props> = ({ name, title, github }) => {
   const containerRef = useRef<HTMLElement>(null);
   const heroRef = useRef(null);
 
@@ -148,22 +122,6 @@ const Hero: React.FC<Props> = ({ name, title }) => {
         <div className="gradient-overlay"></div>
         <FloatingOrbs />
       </motion.div>
-
-      {/* Matrix Rain */}
-      <div className="matrix-rain">
-        {[...Array(50)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="matrix-column"
-            style={{ left: `${(i / 50) * 100}%` }}
-            initial={{ y: -100 }}
-            animate={{ y: window.innerHeight + 100 }}
-            transition={{ duration: 3 + Math.random() * 2, repeat: Infinity, delay: Math.random() * 5, ease: 'linear' }}
-          >
-            {Math.random().toString(36).substr(2, 1)}
-          </motion.div>
-        ))}
-      </div>
 
       {/* Main Hero Content */}
       <motion.div ref={heroRef} className="hero-content-netflix" style={{ y: contentY }}>
@@ -200,48 +158,39 @@ const Hero: React.FC<Props> = ({ name, title }) => {
               className="hero-specialization-line"
               initial={{ opacity: 0, x: -20 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.7, delay: 1.2 }}
+              transition={{ duration: 0.7, delay: 1.0 }}
             >
               <div className="spec-rule"></div>
               <span className="spec-label">{title}</span>
             </motion.div>
 
-            {/* Subtitle */}
-            <motion.p
-              className="hero-subtitle"
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.8, delay: 1.4 }}
-            >
-              Distributed Systems Engineer focused on AI infrastructure. Incoming at Microsoft engineering real-time systems for Teams AI — previously built serverless observability platforms at Capital One.
-            </motion.p>
-
-            {/* Internship highlights */}
+            {/* Internship cards */}
             <motion.div
-              className="hero-internship-cards"
-              initial={{ opacity: 0, y: 20 }}
+              className="hero-intern-grid"
+              initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 1.6 }}
+              transition={{ duration: 0.7, delay: 1.2 }}
             >
-              <div className="intern-card">
-                <div className="intern-logo">
-                  <CompanyLogo domain="microsoft.com" alt="Microsoft" size={28} />
+              <div className="hero-intern-card">
+                <div className="hero-intern-header">
+                  <CompanyLogo domain="microsoft.com" alt="Microsoft" size={20} />
+                  <span className="hero-intern-company">Microsoft</span>
+                  <span className="hero-intern-badge upcoming">Upcoming</span>
                 </div>
-                <div className="intern-body">
-                  <div className="intern-role">Microsoft — Software Engineering Intern</div>
-                  <div className="intern-detail">Real-time distributed systems for Teams global infrastructure · Teams/AI investments</div>
-                  <span className="intern-badge">May 2026 · Mountain View, CA</span>
-                </div>
+                <div className="hero-intern-role">Software Engineering Intern</div>
+                <div className="hero-intern-detail">Distributed Systems for Teams AI Investments</div>
+                <div className="hero-intern-meta">May – Aug 2026 · Mountain View, CA</div>
               </div>
-              <div className="intern-card">
-                <div className="intern-logo">
-                  <CompanyLogo domain="capitalone.com" alt="Capital One" size={28} />
+
+              <div className="hero-intern-card">
+                <div className="hero-intern-header">
+                  <CompanyLogo domain="capitalone.com" alt="Capital One" size={20} />
+                  <span className="hero-intern-company">Capital One</span>
+                  <span className="hero-intern-badge past">2025</span>
                 </div>
-                <div className="intern-body">
-                  <div className="intern-role">Capital One — Software Engineering Intern</div>
-                  <div className="intern-detail">Serverless monitoring platform · ~25% uptime ↑ · ~60% downtime risk ↓ · 99.99% SLO</div>
-                  <span className="intern-badge cyan">June–Aug 2025 · McLean, VA</span>
-                </div>
+                <div className="hero-intern-role">Software Engineering Intern</div>
+                <div className="hero-intern-detail">Serverless observability platform · 99.99% SLO</div>
+                <div className="hero-intern-meta">Jun – Aug 2025 · McLean, VA</div>
               </div>
             </motion.div>
 
@@ -250,21 +199,33 @@ const Hero: React.FC<Props> = ({ name, title }) => {
               className="hero-actions-netflix"
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 1.9 }}
+              transition={{ duration: 0.7, delay: 1.4 }}
             >
-              <button onClick={() => handleSmoothScroll('projects')} className="netflix-btn primary">
-                <span className="btn-icon">▶</span>
-                View My Work
-                <div className="btn-glow"></div>
+              <button
+                onClick={() => handleSmoothScroll('projects')}
+                className="hero-icon-btn"
+                aria-label="View my work"
+                title="View My Work"
+              >
+                {React.createElement(FaCode as any, { size: 20 })}
               </button>
               <a
-                href="/Arjun_Bojja_Resume.pdf"
-                download
-                className="netflix-btn secondary"
+                href={github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-icon-btn"
+                aria-label="GitHub"
+                title="GitHub"
               >
-                <span className="btn-icon">↓</span>
-                Download Resume
-                <div className="btn-shimmer"></div>
+                {React.createElement(FaGithub as any, { size: 20 })}
+              </a>
+              <a
+                href="mailto:arjunbojja1@gmail.com"
+                className="hero-icon-btn"
+                aria-label="Get in touch"
+                title="Get in Touch"
+              >
+                {React.createElement(FaEnvelope as any, { size: 20 })}
               </a>
             </motion.div>
           </div>

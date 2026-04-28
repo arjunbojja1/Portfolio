@@ -7,11 +7,10 @@ import About from './components/About';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Footer from './components/Footer';
-import { NetflixLoader, LoadingSpinner, ErrorFallback } from './components/LoadingComponents';
+import { LoadingSpinner, ErrorFallback } from './components/LoadingComponents';
 import { motion, AnimatePresence } from 'framer-motion';
 import './App.css';
 
-// Enhanced Error Boundary Component with better external script protection
 class ErrorBoundary extends React.Component<
   { children: React.ReactNode; fallback?: React.ComponentType<{ error: Error; resetError: () => void }> },
   { hasError: boolean; error: Error | null }
@@ -22,58 +21,28 @@ class ErrorBoundary extends React.Component<
   }
 
   static getDerivedStateFromError(error: Error) {
-    // Don't catch external script errors
-    if (this.isExternalScriptError(error)) {
-      return null; // Don't update state for external errors
-    }
     return { hasError: true, error };
   }
 
-  static isExternalScriptError(error: Error): boolean {
-    const errorMessage = error.message?.toLowerCase() || '';
-    const errorStack = error.stack?.toLowerCase() || '';
-    
-    const externalErrorPatterns = [
-      'getCurrentActiveEditorState',
-      'editorId',
-      'chrome-extension',
-      'moz-extension',
-      'safari-extension',
-      'extension://',
-      'null is not an object (evaluating',
-      'cannot read properties of null',
-      'cannot read property',
-      'scriptError'
-    ];
-    
-    return externalErrorPatterns.some(pattern => 
-      errorMessage.includes(pattern) || errorStack.includes(pattern)
-    );
-  }
-
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Only log errors that are actually from our code
-    if (!ErrorBoundary.isExternalScriptError(error)) {
-      console.error('Portfolio Error:', error, errorInfo);
-    }
+    console.error('Portfolio Error:', error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
       const FallbackComponent = this.props.fallback || DefaultErrorFallback;
       return (
-        <FallbackComponent 
-          error={this.state.error!} 
-          resetError={() => this.setState({ hasError: false, error: null })} 
+        <FallbackComponent
+          error={this.state.error!}
+          resetError={() => this.setState({ hasError: false, error: null })}
         />
       );
     }
-
     return this.props.children;
   }
 }
 
-const DefaultErrorFallback: React.FC<{ error: Error; resetError: () => void }> = ({ error, resetError }) => (
+const DefaultErrorFallback: React.FC<{ error: Error; resetError: () => void }> = ({ resetError }) => (
   <div className="error-fallback">
     <h2>Something went wrong</h2>
     <p>Don't worry, this might be caused by browser extensions.</p>
@@ -81,244 +50,66 @@ const DefaultErrorFallback: React.FC<{ error: Error; resetError: () => void }> =
   </div>
 );
 
-// Enhanced global error handler with more comprehensive filtering
-const setupGlobalErrorHandling = () => {
-  // Store original console.error to avoid infinite loops
-  const originalConsoleError = console.error;
-  
-  // Handle window errors (including external scripts)
-  window.addEventListener('error', (event) => {
-    const errorMessage = event.message?.toLowerCase() || '';
-    const errorFilename = event.filename?.toLowerCase() || '';
-    const errorSource = event.error?.stack?.toLowerCase() || '';
-    
-    const externalErrorPatterns = [
-      'getCurrentActiveEditorState',
-      'editorId',
-      'chrome-extension',
-      'moz-extension', 
-      'safari-extension',
-      'extension://',
-      'contentscript',
-      'script error',
-      'non-error promise rejection'
-    ];
-    
-    // Check if this is an external script error
-    const isExternalError = externalErrorPatterns.some(pattern => 
-      errorMessage.includes(pattern) || 
-      errorFilename.includes(pattern) || 
-      errorSource.includes(pattern)
-    );
-    
-    if (isExternalError) {
-      event.preventDefault();
-      event.stopPropagation();
-      return false; // Prevent default error handling
-    }
-  }, true); // Use capture phase
-  
-  // Handle unhandled promise rejections
-  window.addEventListener('unhandledrejection', (event) => {
-    const reasonMessage = String(event.reason?.message || event.reason || '').toLowerCase();
-    const reasonStack = String(event.reason?.stack || '').toLowerCase();
-    
-    const externalErrorPatterns = [
-      'getCurrentActiveEditorState',
-      'editorId',
-      'chrome-extension',
-      'moz-extension',
-      'safari-extension',
-      'extension://',
-      'contentscript'
-    ];
-    
-    const isExternalError = externalErrorPatterns.some(pattern => 
-      reasonMessage.includes(pattern) || reasonStack.includes(pattern)
-    );
-    
-    if (isExternalError) {
-      event.preventDefault();
-      return false;
-    }
-  });
-  
-  // Override console.error to filter out external script errors
-  console.error = (...args: any[]) => {
-    const errorString = args.join(' ').toLowerCase();
-    
-    const externalErrorPatterns = [
-      'getCurrentActiveEditorState',
-      'editorId',
-      'chrome-extension',
-      'moz-extension',
-      'safari-extension',
-      'extension://',
-      'contentscript'
-    ];
-    
-    const isExternalError = externalErrorPatterns.some(pattern => 
-      errorString.includes(pattern)
-    );
-    
-    if (!isExternalError) {
-      originalConsoleError.apply(console, args);
-    }
-  };
-  
-  // Additional protection against extension injection
-  try {
-    // Create a protective wrapper around sensitive globals
-    const originalDefineProperty = Object.defineProperty;
-    const protectedProperties = ['A', 'getInstance', 'getCurrentActiveEditorState'];
-    
-    protectedProperties.forEach(prop => {
-      try {
-        if (!(prop in window)) {
-          originalDefineProperty(window, prop, {
-            get() { return undefined; },
-            set() { return false; },
-            configurable: false,
-            enumerable: false
-          });
-        }
-      } catch (e) {
-        // Silently ignore if we can't protect this property
-      }
-    });
-  } catch (e) {
-    // Silently ignore if protection setup fails
-  }
-};
+const NetflixParticles: React.FC<{ count?: number }> = ({ count = 30 }) => (
+  <div className="netflix-particles-container">
+    {[...Array(count)].map((_, i) => (
+      <motion.div
+        key={i}
+        className="netflix-particle"
+        initial={{ opacity: 0, scale: 0, x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight }}
+        animate={{
+          opacity: [0, 1, 0],
+          scale: [0, 1, 0],
+          x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth, Math.random() * window.innerWidth],
+          y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight + 100, Math.random() * window.innerHeight + 200],
+        }}
+        transition={{ duration: 8 + Math.random() * 4, repeat: Infinity, ease: 'easeInOut', delay: Math.random() * 5 }}
+        style={{ background: `radial-gradient(circle, ${Math.random() > 0.5 ? 'rgba(124, 58, 237, 0.3)' : 'rgba(34, 211, 238, 0.25)'} 0%, transparent 70%)` }}
+      />
+    ))}
+  </div>
+);
 
-// Create a safe zone for React components
-const SafeReactZone: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  useEffect(() => {
-    // Additional runtime protection for this component tree
-    const handleComponentError = (event: ErrorEvent) => {
-      const errorMessage = event.message?.toLowerCase() || '';
-      if (errorMessage.includes('getCurrentActiveEditorState') || 
-          errorMessage.includes('editorId')) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        return false;
-      }
-    };
-    
-    window.addEventListener('error', handleComponentError, true);
-    return () => window.removeEventListener('error', handleComponentError, true);
-  }, []);
-  
-  return <>{children}</>;
-};
+const CODE_SNIPPETS = [
+  'const portfolio = () => experience',
+  'async function innovate() { return solutions; }',
+  'let skills = [...frontend, ...backend, ...ai];',
+  'while(creating) { value++; }',
+  'git push origin future',
+  'npm run build-dreams',
+  'const impact = code * creativity;',
+  'if(challenge) { overcome(); }',
+  'React.useEffect(() => { inspire(); }, [passion]);',
+  'const success = persistence + learning;',
+];
 
-const NetflixParticles: React.FC<{ count?: number }> = ({ count = 30 }) => {
-  return (
-    <div className="netflix-particles-container">
-      {[...Array(count)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="netflix-particle"
-          initial={{ 
-            opacity: 0,
-            scale: 0,
-            x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
-            y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800)
-          }}
-          animate={{ 
-            opacity: [0, 1, 0],
-            scale: [0, 1, 0],
-            x: [
-              Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
-              Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
-              Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200)
-            ],
-            y: [
-              Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800),
-              Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800) + 100,
-              Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800) + 200
-            ]
-          }}
-          transition={{ 
-            duration: 8 + Math.random() * 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: Math.random() * 5
-          }}
-          style={{
-            background: `radial-gradient(circle, ${
-              Math.random() > 0.5 ? 'rgba(124, 58, 237, 0.3)' : 'rgba(34, 211, 238, 0.25)'
-            } 0%, transparent 70%)`
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
-const NetflixCodeRain: React.FC<{ disabled?: boolean }> = ({ disabled = false }) => {
-  if (disabled) return null;
-  
-  const codeSnippets = [
-    'const portfolio = () => experience',
-    'async function innovate() { return solutions; }',
-    'let skills = [...frontend, ...backend, ...ai];',
-    'while(creating) { value++; }',
-    'git push origin future',
-    'npm run build-dreams',
-    'const impact = code * creativity;',
-    'if(challenge) { overcome(); }',
-    'React.useEffect(() => { inspire(); }, [passion]);',
-    'const success = persistence + learning;'
-  ];
-
-  return (
-    <div className="netflix-code-rain">
-      {[...Array(15)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="netflix-code-line"
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ 
-            y: (typeof window !== 'undefined' ? window.innerHeight : 800) + 100,
-            opacity: [0, 1, 1, 0]
-          }}
-          transition={{
-            duration: 6 + Math.random() * 3,
-            repeat: Infinity,
-            delay: Math.random() * 8,
-            ease: "linear"
-          }}
-          style={{
-            left: `${(i / 15) * 100}%`,
-            color: Math.random() > 0.7 ? 'rgba(124, 58, 237, 0.3)' : 'rgba(15, 23, 42, 0.25)'
-          }}
-        >
-          {codeSnippets[Math.floor(Math.random() * codeSnippets.length)]}
-        </motion.div>
-      ))}
-    </div>
-  );
-};
+const NetflixCodeRain: React.FC = () => (
+  <div className="netflix-code-rain">
+    {[...Array(15)].map((_, i) => (
+      <motion.div
+        key={i}
+        className="netflix-code-line"
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: window.innerHeight + 100, opacity: [0, 1, 1, 0] }}
+        transition={{ duration: 6 + Math.random() * 3, repeat: Infinity, delay: Math.random() * 8, ease: 'linear' }}
+        style={{ left: `${(i / 15) * 100}%`, color: Math.random() > 0.7 ? 'rgba(124, 58, 237, 0.3)' : 'rgba(15, 23, 42, 0.25)' }}
+      >
+        {CODE_SNIPPETS[i % CODE_SNIPPETS.length]}
+      </motion.div>
+    ))}
+  </div>
+);
 
 const ScrollToTop: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const toggleVisibility = () => {
-      setIsVisible(window.pageYOffset > 300);
-    };
-
+    const toggleVisibility = () => setIsVisible(window.pageYOffset > 300);
     window.addEventListener('scroll', toggleVisibility);
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
     <motion.button
@@ -391,8 +182,6 @@ const App: React.FC = () => {
   const [projects, setProjects] = useState<ProjectData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showNetflixLoader] = useState(false);
-  const [appReady, setAppReady] = useState(true);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const stored = localStorage.getItem('theme');
     if (stored === 'light' || stored === 'dark') return stored;
@@ -403,25 +192,23 @@ const App: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      
-      // Check cache first (5 minute expiry for faster loads)
+
       const cacheKey = 'portfolio_data_v2';
       const cachedData = localStorage.getItem(cacheKey);
       const cacheTimestamp = localStorage.getItem(cacheKey + '_time');
-      const cacheExpiry = 5 * 60 * 1000; // 5 minutes
-      
+      const cacheExpiry = 5 * 60 * 1000;
+
       if (cachedData && cacheTimestamp && Date.now() - parseInt(cacheTimestamp) < cacheExpiry) {
         const { profile, experience, projects } = JSON.parse(cachedData);
         setProfile(profile);
         setExperience(experience);
         setProjects(projects);
-        console.log('Portfolio data loaded from cache');
         setLoading(false);
         return;
       }
-      
+
       let profileUrl, experienceUrl, projectsUrl;
-      
+
       if (process.env.NODE_ENV === 'production') {
         profileUrl = 'https://get-profile-twb6hlto6a-uc.a.run.app';
         experienceUrl = 'https://get-experience-twb6hlto6a-uc.a.run.app';
@@ -431,31 +218,30 @@ const App: React.FC = () => {
         experienceUrl = `${API_URL}/experience`;
         projectsUrl = `${API_URL}/projects`;
       }
-      
+
       const [profileRes, experienceRes, projectsRes] = await Promise.all([
         axios.get(profileUrl),
         axios.get(experienceUrl),
         axios.get(projectsUrl),
       ]);
-      
+
       const data = {
         profile: profileRes.data,
         experience: experienceRes.data,
-        projects: projectsRes.data
+        projects: projectsRes.data,
       };
-      
-      // Cache the response for 5 minutes
+
       localStorage.setItem(cacheKey, JSON.stringify(data));
       localStorage.setItem(cacheKey + '_time', Date.now().toString());
-      
+
       setProfile(data.profile);
       setExperience(data.experience);
       setProjects(data.projects);
-      console.log('Portfolio data refreshed at:', new Date().toLocaleTimeString());
     } catch (err: any) {
-      const errorMessage = err.response?.status === 404 
-        ? 'Backend server is not running. Please start the server and try again.'
-        : 'Failed to load portfolio data. Please check your connection and try again.';
+      const errorMessage =
+        err.response?.status === 404
+          ? 'Backend server is not running. Please start the server and try again.'
+          : 'Failed to load portfolio data. Please check your connection and try again.';
       setError(errorMessage);
       console.error('API Error:', err);
     } finally {
@@ -463,9 +249,7 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Setup protection before any other effects
   useEffect(() => {
-    setupGlobalErrorHandling();
     fetchData();
   }, [fetchData]);
 
@@ -475,17 +259,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
-      const interval = setInterval(() => {
-        fetchData();
-      }, 30000);
-
+      const interval = setInterval(fetchData, 30000);
       return () => clearInterval(interval);
     }
   }, [fetchData]);
-
-  const handleNetflixLoaderComplete = () => {
-    setTimeout(() => setAppReady(true), 300);
-  };
 
   const handleToggleTheme = (event?: React.MouseEvent<HTMLButtonElement>) => {
     const nextTheme = theme === 'light' ? 'dark' : 'light';
@@ -497,9 +274,7 @@ const App: React.FC = () => {
     root.style.setProperty('--vt-y', `${y}px`);
 
     const applyTheme = () => {
-      flushSync(() => {
-        setTheme(nextTheme);
-      });
+      flushSync(() => setTheme(nextTheme));
       localStorage.setItem('theme', nextTheme);
       root.setAttribute('data-theme', nextTheme);
     };
@@ -507,109 +282,77 @@ const App: React.FC = () => {
     const doc = document as typeof document & { startViewTransition?: (callback: () => void) => void };
     if (doc.startViewTransition) {
       root.classList.add('theme-transitioning');
-      const transition = doc.startViewTransition(() => {
-        applyTheme();
-      }) as unknown as { finished?: Promise<void> };
-      transition.finished?.finally(() => {
-        root.classList.remove('theme-transitioning');
-      });
+      const transition = doc.startViewTransition(applyTheme) as unknown as { finished?: Promise<void> };
+      transition.finished?.finally(() => root.classList.remove('theme-transitioning'));
     } else {
       applyTheme();
     }
   };
 
-  // Show Netflix loader first
-  if (showNetflixLoader) {
-    return (
-      <SafeReactZone>
-        <NetflixLoader onComplete={handleNetflixLoaderComplete} />
-      </SafeReactZone>
-    );
-  }
-
-  // Show loading state for data (minimal animations during load)
   if (loading && !profile) {
     return (
-      <SafeReactZone>
-        <div className="app-netflix">
-          <NetflixParticles count={15} />
-          <NetflixCodeRain disabled={true} />
-          <div className="loading-overlay">
-            <LoadingSpinner message="Loading portfolio data..." />
-          </div>
+      <div className="app-netflix">
+        <div className="loading-overlay">
+          <LoadingSpinner message="Loading portfolio data..." />
         </div>
-      </SafeReactZone>
+      </div>
     );
   }
 
-  // Show error state (minimal animations during error)
   if (error) {
     return (
-      <SafeReactZone>
-        <div className="app-netflix">
-          <NetflixParticles count={15} />
-          <NetflixCodeRain disabled={true} />
-          <div className="error-overlay">
-            <ErrorFallback error={error} onRetry={fetchData} />
-          </div>
+      <div className="app-netflix">
+        <div className="error-overlay">
+          <ErrorFallback error={error} onRetry={fetchData} />
         </div>
-      </SafeReactZone>
+      </div>
     );
   }
 
   return (
     <ErrorBoundary>
-      <SafeReactZone>
-        <AnimatePresence mode="wait">
-          <motion.div 
-            className="app-netflix"
-            initial={{ opacity: 0 }}
-            animate={appReady ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Background Effects - lazy load after app is ready */}
-            {appReady && <NetflixParticles count={30} />}
-            {appReady && <NetflixCodeRain disabled={false} />}
-            
-            {/* Main Content */}
-            {profile && appReady && (
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 1, delay: 0.2 }}
-              >
-                <ErrorBoundary>
-                  <Navbar theme={theme} onToggleTheme={handleToggleTheme} />
-                </ErrorBoundary>
-                <ErrorBoundary>
-                  <Hero name={profile.name} title={profile.title} />
-                </ErrorBoundary>
-                <ErrorBoundary>
-                  <About 
-                    passion={profile.about.passion} 
-                    seeking={profile.about.seeking}
-                    location={profile.location}
-                    skills={profile.skills}
-                    education={profile.education}
-                  />
-                </ErrorBoundary>
-                <ErrorBoundary>
-                  <Experience data={experience} loading={loading} onRefresh={fetchData} />
-                </ErrorBoundary>
-                <ErrorBoundary>
-                  <Projects data={projects} loading={loading} onRefresh={fetchData} />
-                </ErrorBoundary>
-                <ErrorBoundary>
-                  <Footer linkedin={profile.linkedin} github={`https://github.com/${profile.github_user}`} />
-                </ErrorBoundary>
-                <ErrorBoundary>
-                  <ScrollToTop />
-                </ErrorBoundary>
-              </motion.div>
-            )}
-          </motion.div>
-        </AnimatePresence>
-      </SafeReactZone>
+      <AnimatePresence mode="wait">
+        <motion.div
+          className="app-netflix"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <NetflixParticles count={30} />
+          <NetflixCodeRain />
+          {profile && (
+            <>
+              <ErrorBoundary>
+                <Navbar theme={theme} onToggleTheme={handleToggleTheme} />
+              </ErrorBoundary>
+              <ErrorBoundary>
+                <Hero name={profile.name} title={profile.title} github={`https://github.com/${profile.github_user}`} />
+              </ErrorBoundary>
+              <ErrorBoundary>
+                <About
+                  passion={profile.about.passion}
+                  seeking={profile.about.seeking}
+                  location={profile.location}
+                  skills={profile.skills}
+                  education={profile.education}
+                />
+              </ErrorBoundary>
+              <ErrorBoundary>
+                <Experience data={experience} loading={loading} onRefresh={fetchData} />
+              </ErrorBoundary>
+              <ErrorBoundary>
+                <Projects data={projects} loading={loading} onRefresh={fetchData} />
+              </ErrorBoundary>
+              <ErrorBoundary>
+                <Footer linkedin={profile.linkedin} github={`https://github.com/${profile.github_user}`} />
+              </ErrorBoundary>
+              <ErrorBoundary>
+                <ScrollToTop />
+              </ErrorBoundary>
+            </>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </ErrorBoundary>
   );
 };

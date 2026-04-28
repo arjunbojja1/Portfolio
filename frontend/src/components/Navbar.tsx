@@ -182,11 +182,10 @@ const Navbar: React.FC<NavbarProps> = ({ onRefresh, theme, onToggleTheme }) => {
 
             <div className="mobile-cta">
               <a
-                href="#contact"
+                href="mailto:arjunbojja1@gmail.com"
                 className="mobile-cta-btn"
-                onClick={(e) => handleNavClick('contact', e)}
               >
-                Let's Work Together
+                Get in Touch
               </a>
             </div>
           </div>

@@ -11,26 +11,26 @@
     <link rel="icon" type="image/png" sizes="512x512" href="%PUBLIC_URL%/logo512.png" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#007BFF" />
-    
+    <meta name="theme-color" content="#7c3aed" />
+
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Arjun Bojja - Information Science Student at University of Maryland seeking Software Engineering & Product Management internships. Experience with Python, React, AWS, and full-stack development." />
-    <meta name="keywords" content="Arjun Bojja, Information Science Student, University of Maryland, Internship, Software Engineering, Product Management, Python, React, AWS, Full Stack Development" />
+    <meta name="description" content="Arjun Bojja — Distributed Systems Engineer and AI Infrastructure specialist. Incoming Software Engineering Intern at Microsoft. Previously at Capital One. University of Maryland, Class of 2027." />
+    <meta name="keywords" content="Arjun Bojja, Distributed Systems, AI Infrastructure, Software Engineering, Microsoft, Capital One, University of Maryland, Python, FastAPI, AWS, Real-time Systems" />
     <meta name="author" content="Arjun Bojja" />
     <meta name="robots" content="index, follow" />
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://arjunbojja.dev/" />
-    <meta property="og:title" content="Arjun Bojja - Software Engineer Intern Portfolio" />
-    <meta property="og:description" content="Information Science Student at University of Maryland seeking Software Engineering & Product Management internships. Experience with Python, React, AWS, and full-stack development." />
+    <meta property="og:title" content="Arjun Bojja — Distributed Systems Engineer" />
+    <meta property="og:description" content="Distributed Systems Engineer focused on AI infrastructure. Incoming at Microsoft · Previously at Capital One · University of Maryland." />
     <meta property="og:image" content="%PUBLIC_URL%/headshot.png" />
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://arjunbojja.dev/" />
-    <meta property="twitter:title" content="Arjun Bojja - Software Engineer Intern Portfolio" />
-    <meta property="twitter:description" content="Information Science Student at University of Maryland seeking Software Engineering & Product Management internships. Experience with Python, React, AWS, and full-stack development." />
+    <meta property="twitter:title" content="Arjun Bojja — Distributed Systems Engineer" />
+    <meta property="twitter:description" content="Distributed Systems Engineer focused on AI infrastructure. Incoming at Microsoft · Previously at Capital One · University of Maryland." />
     <meta property="twitter:image" content="%PUBLIC_URL%/headshot.png" />
     
     <!-- Preload critical resources -->
@@ -38,16 +38,16 @@
     
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     
-    <title>Arjun Bojja - Portfolio</title>
-    
+    <title>Arjun Bojja — Distributed Systems Engineer</title>
+
     <!-- Structured Data for Search Engines -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Arjun Bojja",
-      "jobTitle": "Information Science Student",
-      "description": "University of Maryland student studying Information Science, seeking Software Engineering and Product Management internships. Experience with Python, React, AWS, and full-stack development.",
+      "jobTitle": "Distributed Systems Engineer",
+      "description": "Distributed Systems Engineer focused on AI infrastructure. Incoming Software Engineering Intern at Microsoft. Previously built serverless observability platforms at Capital One.",
       "url": "https://arjunbojja.dev",
       "image": "https://arjunbojja.dev/headshot.png",
       "email": "arjunbojja1@gmail.com",
@@ -55,156 +55,12 @@
         "@type": "CollegeOrUniversity",
         "name": "University of Maryland, College Park"
       },
-      "knowsAbout": ["Python", "JavaScript", "React", "AWS", "Full Stack Development", "Machine Learning", "Database Design"],
-      "seeks": "Software Engineering and Product Management Internships",
+      "knowsAbout": ["Distributed Systems", "AI Infrastructure", "Python", "FastAPI", "AWS", "WebSockets", "Real-time Systems", "Microservices"],
       "sameAs": [
         "https://www.linkedin.com/in/arjun-bojja/",
         "https://github.com/arjunbojja1"
       ]
     }
-    </script>
-    
-    <!-- Aggressive Extension Protection Script -->
-    <script>
-      // Immediately isolate the application from external scripts
-      (function() {
-        'use strict';
-        
-        // Store original functions before any extensions can modify them
-        const originalConsoleError = console.error;
-        const originalAddEventListener = window.addEventListener;
-        const originalDefineProperty = Object.defineProperty;
-        
-        // Block specific extension-related globals immediately
-        const blockedGlobals = [
-          'getCurrentActiveEditorState',
-          'getActiveEditorState', 
-          'editorId',
-          '__REACT_DEVTOOLS_GLOBAL_HOOK__',
-          '__REDUX_DEVTOOLS_EXTENSION__'
-        ];
-        
-        blockedGlobals.forEach(prop => {
-          try {
-            if (!(prop in window)) {
-              originalDefineProperty(window, prop, {
-                get() { 
-                  console.warn(`Blocked access to ${prop}`);
-                  return undefined; 
-                },
-                set() { 
-                  console.warn(`Blocked setting of ${prop}`);
-                  return false; 
-                },
-                configurable: false,
-                enumerable: false
-              });
-            }
-          } catch (e) {
-            // Silently ignore if we can't block this property
-          }
-        });
-        
-        // Create a comprehensive error filter
-        function isExternalScriptError(error) {
-          if (!error) return false;
-          
-          const message = String(error.message || '').toLowerCase();
-          const stack = String(error.stack || '').toLowerCase();
-          const filename = String(error.filename || '').toLowerCase();
-          
-          const patterns = [
-            'getCurrentActiveEditorState',
-            'getActiveEditorState',
-            'editorId',
-            'null is not an object (evaluating \'n.a.getinstance',
-            'chrome-extension',
-            'moz-extension',
-            'safari-extension',
-            'extension://',
-            'contentscript',
-            'react-devtools',
-            'redux-devtools',
-            '__react_devtools',
-            '__redux_devtools',
-            'script error',
-            'non-error promise rejection'
-          ];
-          
-          return patterns.some(pattern => 
-            message.includes(pattern) || 
-            stack.includes(pattern) || 
-            filename.includes(pattern)
-          );
-        }
-        
-        // Override window.addEventListener to filter external script errors
-        window.addEventListener = function(type, listener, options) {
-          if (type === 'error') {
-            const wrappedListener = function(event) {
-              if (isExternalScriptError(event.error || event)) {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-                return false;
-              }
-              return listener.call(this, event);
-            };
-            return originalAddEventListener.call(this, type, wrappedListener, options);
-          }
-          return originalAddEventListener.call(this, type, listener, options);
-        };
-        
-        // Override console.error to filter external errors
-        console.error = function(...args) {
-          const errorString = args.join(' ').toLowerCase();
-          if (!isExternalScriptError({ message: errorString })) {
-            originalConsoleError.apply(console, args);
-          }
-        };
-        
-        // Intercept and block external script errors at the earliest possible stage
-        window.onerror = function(message, source, lineno, colno, error) {
-          if (isExternalScriptError({ message, stack: error?.stack, filename: source })) {
-            return true; // Prevent default error handling
-          }
-          return false; // Allow normal error handling for our code
-        };
-        
-        // Handle unhandled promise rejections
-        window.onunhandledrejection = function(event) {
-          if (isExternalScriptError(event.reason)) {
-            event.preventDefault();
-            return true;
-          }
-          return false;
-        };
-        
-        // Prevent extensions from accessing React internals
-        const protectReactInternals = () => {
-          const reactPatterns = ['__reactInternalInstance', '_reactInternalFiber', '__reactInternalMemoizedProps'];
-          reactPatterns.forEach(pattern => {
-            try {
-              if (!(pattern in window)) {
-                originalDefineProperty(window, pattern, {
-                  get() { return undefined; },
-                  set() { return false; },
-                  configurable: false
-                });
-              }
-            } catch (e) {
-              // Ignore
-            }
-          });
-        };
-        
-        // Run protection immediately and after DOM loads
-        protectReactInternals();
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', protectReactInternals);
-        }
-        
-        console.log('🛡️ Portfolio protected from external script interference');
-      })();
     </script>
   </head>
   <body>
