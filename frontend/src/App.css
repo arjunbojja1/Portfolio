@@ -728,8 +728,10 @@ section,
   border: none;
   padding: 0.85rem 1.6rem;
   border-radius: 999px;
+  font-size: 0.95rem;
   font-weight: 600;
   font-family: var(--font-sans);
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
