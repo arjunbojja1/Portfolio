@@ -57,6 +57,7 @@ const ProfileCard: React.FC<{ imageSrc: string; name: string }> = ({ imageSrc, n
             src={imageSrc}
             alt={`${name} — Professional Portrait`}
             className="profile-photo"
+            fetchPriority="high"
           />
           <div className="profile-particles">
             {[...Array(12)].map((_, i) => (
@@ -74,9 +75,9 @@ const ProfileCard: React.FC<{ imageSrc: string; name: string }> = ({ imageSrc, n
 
         <div className="profile-card-body">
           <div className="profile-card-name">{name}</div>
-          <div className="profile-card-spec">Distributed Systems · AI Infrastructure</div>
+          <div className="profile-card-spec">Backend Infrastructure · AI Infrastructure</div>
           <div className="profile-card-tags">
-            {['Python', 'Distributed Systems', 'AWS', 'AI Infrastructure', 'FastAPI'].map((tag, i) => (
+            {['Python', 'Backend Systems', 'AWS', 'AI Infrastructure', 'FastAPI'].map((tag, i) => (
               <span key={i} className={`profile-card-tag ${i % 2 === 1 ? 'cyan' : ''}`}>{tag}</span>
             ))}
           </div>
@@ -175,10 +176,10 @@ const Hero: React.FC<Props> = ({ name, title, github }) => {
                 <div className="hero-intern-header">
                   <CompanyLogo domain="microsoft.com" alt="Microsoft" size={20} />
                   <span className="hero-intern-company">Microsoft</span>
-                  <span className="hero-intern-badge upcoming">Upcoming</span>
+                  <span className="hero-intern-badge active">Active</span>
                 </div>
                 <div className="hero-intern-role">Software Engineering Intern</div>
-                <div className="hero-intern-detail">Distributed Systems for Teams AI Investments</div>
+                <div className="hero-intern-detail">Autonomous AI Diagnostics · Teams Meeting Copilot</div>
                 <div className="hero-intern-meta">May – Aug 2026 · Mountain View, CA</div>
               </div>
 

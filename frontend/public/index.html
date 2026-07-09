@@ -13,6 +13,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#7c3aed" />
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://img.logo.dev" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+
     <!-- SEO Meta Tags -->
     <meta name="description" content="Arjun Bojja — Distributed Systems Engineer and AI Infrastructure specialist. Incoming Software Engineering Intern at Microsoft. Previously at Capital One. University of Maryland, Class of 2027." />
     <meta name="keywords" content="Arjun Bojja, Distributed Systems, AI Infrastructure, Software Engineering, Microsoft, Capital One, University of Maryland, Python, FastAPI, AWS, Real-time Systems" />
@@ -34,7 +40,7 @@
     <meta property="twitter:image" content="%PUBLIC_URL%/headshot.png" />
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="%PUBLIC_URL%/headshot.png" as="image" />
+    <link rel="preload" href="%PUBLIC_URL%/headshot.png" as="image" fetchpriority="high" />
     
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     

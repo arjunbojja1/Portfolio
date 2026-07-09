@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaLinkedin, FaGithub, FaMapMarkerAlt, FaGraduationCap, FaBriefcase } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaGraduationCap, FaBriefcase } from 'react-icons/fa';
 
 interface Props {
   linkedin: string;
@@ -15,7 +15,7 @@ const Footer: React.FC<Props> = ({ linkedin, github }) => {
         <div className="footer-section footer-about">
           <h3>About</h3>
           <p>
-            Information Science student at UMD building systems that matter — real-time infrastructure,
+            Information Science student at UMD building systems that matter: real-time infrastructure,
             serverless platforms, and tools that keep distributed services observable at scale.
           </p>
           <div className="footer-socials-new">
@@ -30,10 +30,6 @@ const Footer: React.FC<Props> = ({ linkedin, github }) => {
 
         <div className="footer-section footer-contact">
           <h3>Connect</h3>
-          <div className="contact-item">
-            <span className="contact-icon">{React.createElement(FaMapMarkerAlt as any, { size: 13 })}</span>
-            <span>Washington, D.C. Metro Area</span>
-          </div>
           <div className="contact-item">
             <span className="contact-icon">{React.createElement(FaGraduationCap as any, { size: 13 })}</span>
             <span>University of Maryland</span>

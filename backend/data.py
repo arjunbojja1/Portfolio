@@ -1,21 +1,22 @@
 profile_data = {
     "name": "Arjun Bojja",
-    "title": "Distributed Systems Engineer · AI Infrastructure",
+    "title": "Backend Infrastructure Engineer · AI Infrastructure",
     "location": "Washington, D.C. Metro Area",
     "email": "arjunbojja1@gmail.com",
     "phone": "571-471-0563",
     "linkedin": "https://www.linkedin.com/in/arjun-bojja/",
     "github_user": "arjunbojja1",
     "about": {
-        "passion": "Software engineer focused on real-time distributed systems and AI infrastructure. I build low-latency, observable systems that scale — from serverless monitoring platforms to geospatial engines — and care deeply about reliability and measurable impact.",
+        "passion": "Software Engineering Intern at Microsoft (Teams), building autonomous AI diagnostic infrastructure for Teams Meeting Copilot, including a Text-to-KQL translation layer powered by LLMs and deterministic safety rails for production database protection. Backend and distributed systems engineer focused on LLM-powered pipelines, event-driven architectures, observability, and low-latency systems. Previously at Capital One, built a distributed monitoring system on AWS (Lambda, ECS, DynamoDB) to automate health checks, improve telemetry, and accelerate incident response for production systems.",
         "seeking": "Seeking full-time roles in distributed systems, backend infrastructure, or AI systems engineering where I can ship reliable software, own operational excellence, and work at the intersection of systems and AI."
     },
     "skills": {
-        "Languages": ["Python", "TypeScript", "JavaScript", "Java", "C#", "Lua", "R", "SQL"],
+        "Languages": ["Python", "TypeScript", "JavaScript", "Java", "C#", "Lua", "R", "SQL", "KQL (Kusto)"],
         "Frameworks & APIs": ["FastAPI", "Flask", "Express.js", "React", "React Native", ".NET"],
-        "Cloud & Infrastructure": ["AWS Lambda", "ECS Fargate", "DynamoDB", "CloudWatch", "Microsoft Azure", "Docker", "Serverless", "CI/CD (GitHub Actions)", "WebSockets"],
+        "Cloud & Infrastructure": ["AWS Lambda", "ECS Fargate", "DynamoDB", "CloudWatch", "Microsoft Azure", "Azure Data Explorer (ADX)", "Docker", "Serverless", "CI/CD (GitHub Actions)", "WebSockets"],
         "Distributed Systems": ["Real-time Systems", "Microservices", "Event-Driven Architecture", "Caching Strategies", "Low-Latency Design", "Async/Concurrency"],
-        "Data & Observability": ["MongoDB", "PostgreSQL", "SQLite", "New Relic", "CloudWatch", "Custom Telemetry", "Structured Logging"],
+        "AI & LLM": ["OpenAI API", "Claude API", "Prompt Engineering", "LLM Evaluation", "LLM Safety Rails"],
+        "Data & Observability": ["MongoDB", "PostgreSQL", "SQLite", "New Relic", "Custom Telemetry", "Structured Logging"],
         "Testing & Other": ["PyTest", "Jest", "JWT Authentication", "AI/ML Fundamentals", "Data Structures & Algorithms"]
     },
     "education": {
@@ -23,7 +24,7 @@ profile_data = {
         "university": "University of Maryland, College Park",
         "gpa": "3.88",
         "grad_year": 2027,
-        "awards": ["Presidential Scholar", "Dean's List (Fall 2024, Spring 2025, Fall 2025)"],
+        "awards": ["Presidential Scholar", "Dean's List (All Semesters)"],
         "coursework": ["Technologies, Infrastructure and Architecture", "Data Structures and Algorithms", "Data Science Techniques", "Database Design (MySQL)", "Object-Oriented Programming", "Machine Learning in Communication", "Statistics for Information Science (R)", "Information Organization", "Organizations, Management, and Teamwork", "Entrepreneurial Opportunity Analysis"]
     }
 }
@@ -34,8 +35,12 @@ experience_data = [
         "company": "Microsoft",
         "duration": "May 2026 - August 2026",
         "location": "Mountain View, CA",
+        "metrics": ["<5 min incident resolution", "Text-to-KQL via LLM", "LLM Safety Rails", "Teams Meeting Copilot"],
         "description": [
-            "Incoming Software Engineering Intern selected by Principal-level leadership to engineer mission-critical, low-latency signaling microservices for the Teams global infrastructure, contributing to Microsoft's Teams/AI investments in the Meeting space."
+            "Architected an end-to-end autonomous diagnostic pipeline to automate multi-service root-cause analysis for Microsoft Teams Meeting Copilot failures, reducing engineering live-site incident investigation times to under 5 minutes.",
+            "Engineered a Text-to-KQL (Kusto Query Language) translation layer leveraging Large Language Models to map natural language developer queries directly to high-throughput log-store telemetry streams across core Teams Meetings experiences.",
+            "Designed an adaptive React dashboard featuring an embedded AI chat assistant that automatically triages session failures, mapping real-time telemetry and user actions into sequential incident timelines.",
+            "Implemented strict schema-mapping boundaries and deterministic safety rails within the LLM prompt layer to eliminate hallucinations and securely protect production database infrastructure."
         ]
     },
     {
@@ -43,6 +48,7 @@ experience_data = [
         "company": "Capital One",
         "duration": "June 2025 - August 2025",
         "location": "McLean, VA",
+        "metrics": ["~25% uptime improvement", "~60% downtime risk ↓", "99.99% SLO", "~40% MTTD ↓"],
         "description": [
             "Engineered a serverless monitoring system (AWS Lambda, ECS, DynamoDB), improving uptime by ~25% and reducing downtime risk by ~60% across mission-critical systems supporting 1,000+ employees.",
             "Architected Dockerized, event-driven microservices for automated health checks and failure recovery, reducing manual monitoring effort by ~45% and enabling near real-time issue detection.",

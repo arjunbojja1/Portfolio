@@ -9,6 +9,7 @@ interface ExperienceData {
   duration: string;
   location: string;
   description: string[];
+  metrics?: string[];
 }
 
 interface Props {
@@ -99,7 +100,7 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
           {isCurrentRole && (
             <span className="current-role-badge">
               <span className="badge-dot" />
-              Upcoming
+              Active
             </span>
           )}
         </div>
@@ -135,6 +136,20 @@ const TimelineItem: React.FC<{ job: ExperienceData; index: number; isLast: boole
             </motion.li>
           ))}
         </motion.ul>
+
+        {/* Impact metrics */}
+        {job.metrics && job.metrics.length > 0 && (
+          <motion.div
+            className="exp-metrics-row"
+            initial={{ opacity: 0, y: 8 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.4, delay: index * 0.2 + 0.9 }}
+          >
+            {job.metrics.map((m, i) => (
+              <span key={i} className={`exp-metric-chip ${index === 0 ? 'amber' : ''}`}>{m}</span>
+            ))}
+          </motion.div>
+        )}
       </motion.div>
     </motion.div>
   );

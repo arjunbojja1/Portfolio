@@ -1,0 +1,23 @@
+# Arjun Bojja
+
+> Backend Infrastructure Engineer / AI Infrastructure specialist. Incoming Software Engineering Intern at Microsoft (Teams), previously at Capital One. University of Maryland, College Park, Class of 2027.
+
+Arjun builds LLM-powered pipelines, event-driven architectures, observability tooling, and low-latency distributed systems. This site is his personal portfolio: background, work experience, projects, and contact information.
+
+## Pages
+
+- [Home](https://arjunbojja.com/): Overview, hero introduction, and navigation to all sections.
+- [About](https://arjunbojja.com/#about): Background, skills (languages, frameworks, cloud, distributed systems, AI/LLM, data & observability), and education.
+- [Experience](https://arjunbojja.com/#experience): Professional experience at Microsoft, Capital One, and prior roles.
+- [Projects](https://arjunbojja.com/#projects): Selected engineering projects with descriptions and impact metrics.
+- [Contact](https://arjunbojja.com/#contact): Ways to get in touch, including email and LinkedIn.
+
+## Resources
+
+- [Resume (PDF)](https://arjunbojja.com/Arjun_Bojja_Resume.pdf): Full resume.
+- [LinkedIn](https://www.linkedin.com/in/arjun-bojja/): Professional profile.
+- [GitHub](https://github.com/arjunbojja1): Code repositories.
+
+## Contact
+
+- Email: arjunbojja1@gmail.com

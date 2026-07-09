@@ -7,7 +7,7 @@ const LOGO_TOKEN = 'pk_VZGrte1ZRUCeHhcZhQ4HpQ';
 const logoUrl = (domain: string) => `https://img.logo.dev/${domain}?token=${LOGO_TOKEN}&format=png`;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const SkillIcon = ({ ic }: { ic: any }) => React.createElement(ic, { size: 13 });
+const SkillIcon = ({ ic }: { ic: any }) => React.createElement(ic, { size: 13, 'aria-hidden': true, focusable: false });
 
 interface Education {
   degree: string;
@@ -21,16 +21,16 @@ interface Education {
 interface Props {
   passion: string;
   seeking: string;
-  location: string;
   skills: { [key: string]: string[] };
   education: Education;
 }
 
-const SKILL_CATEGORY_VARIANTS: Record<string, 'purple' | 'cyan'> = {
+const SKILL_CATEGORY_VARIANTS: Record<string, 'purple' | 'cyan' | 'amber'> = {
   'Languages': 'purple',
   'Frameworks & APIs': 'cyan',
   'Cloud & Infrastructure': 'purple',
   'Distributed Systems': 'cyan',
+  'AI & LLM': 'amber',
   'Data & Observability': 'purple',
   'Testing & Other': 'cyan',
 };
@@ -45,6 +45,7 @@ const SKILL_ICON_MAP: Record<string, any> = {
   'Lua': Si.SiLua,
   'R': Si.SiR,
   'SQL': Si.SiMysql,
+  'KQL (Kusto)': (Si as any).SiMicrosoftazure,
   'FastAPI': Si.SiFastapi,
   'Flask': Si.SiFlask,
   'Express.js': Si.SiExpress,
@@ -56,6 +57,7 @@ const SKILL_ICON_MAP: Record<string, any> = {
   'DynamoDB': (Si as any).SiAmazondynamodb,
   'CloudWatch': (Si as any).SiAmazoncloudwatch,
   'Microsoft Azure': (Si as any).SiMicrosoftazure,
+  'Azure Data Explorer (ADX)': (Si as any).SiMicrosoftazure,
   'Docker': Si.SiDocker,
   'CI/CD (GitHub Actions)': Si.SiGithubactions,
   'WebSockets': Si.SiSocketdotio,
@@ -66,6 +68,11 @@ const SKILL_ICON_MAP: Record<string, any> = {
   'Caching Strategies': Fa.FaMicrochip,
   'Low-Latency Design': Fa.FaClock,
   'Async/Concurrency': Fa.FaServer,
+  'OpenAI API': Fa.FaRobot,
+  'Claude API': Fa.FaRobot,
+  'Prompt Engineering': Fa.FaBrain,
+  'LLM Evaluation': Fa.FaBrain,
+  'LLM Safety Rails': Fa.FaShieldAlt,
   'MongoDB': Si.SiMongodb,
   'PostgreSQL': Si.SiPostgresql,
   'SQLite': Si.SiSqlite,
@@ -76,7 +83,7 @@ const SKILL_ICON_MAP: Record<string, any> = {
   'Jest': Si.SiJest,
 };
 
-const About: React.FC<Props> = ({ passion, seeking, location, skills, education }) => {
+const About: React.FC<Props> = ({ passion, seeking, skills, education }) => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.1 });
 
@@ -104,9 +111,6 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
 
               <p className="passion-statement">{passion}</p>
               <p className="seeking-statement">{seeking}</p>
-              <div className="location-badge">
-                <span>{location}</span>
-              </div>
             </div>
           </motion.div>
 
@@ -120,7 +124,7 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
             >
               <div className="skills-pill-grid">
                 {Object.entries(skills).map(([category, skillList], catIdx) => {
-                  const variant = SKILL_CATEGORY_VARIANTS[category] ?? (catIdx % 2 === 0 ? 'purple' : 'cyan');
+                  const variant: 'purple' | 'cyan' | 'amber' = SKILL_CATEGORY_VARIANTS[category] ?? (catIdx % 2 === 0 ? 'purple' : 'cyan');
                   return (
                     <motion.div
                       key={category}
@@ -221,7 +225,7 @@ const About: React.FC<Props> = ({ passion, seeking, location, skills, education 
               <div className="spec-grid-2x2">
                 {([
                   { label: 'Real-time Distributed Systems', desc: 'Low-latency signaling, event-driven architecture, service-oriented design', icon: Fa.FaNetworkWired, accent: 'purple' },
-                  { label: 'AI Infrastructure', desc: 'Systems supporting AI/ML at scale — Microsoft Teams AI investments', icon: Fa.FaMicrochip, accent: 'cyan' },
+                  { label: 'AI Infrastructure', desc: 'Autonomous diagnostic pipelines, Text-to-KQL via LLM, safety rails for production LLM systems, as demonstrated by my experience working with Microsoft Teams Meeting Copilot', icon: Fa.FaMicrochip, accent: 'cyan' },
                   { label: 'Cloud Observability', desc: 'New Relic, CloudWatch, custom telemetry, MTTD reduction, 99.99% SLO', icon: Si.SiNewrelic, accent: 'cyan' },
                   { label: 'Backend Engineering', desc: 'FastAPI, Flask, Express, serverless platforms, geospatial engines', icon: Si.SiFastapi, accent: 'purple' },
                 ] as const).map((item, i) => (

@@ -83,7 +83,7 @@ const FeaturedProjectCard: React.FC<{ project: ProjectData }> = ({ project }) =>
             Highlights
           </h4>
           <ul className="featured-desc-list">
-            {project.description.map((point, i) => (
+            {project.description.slice(1).map((point, i) => (
               <motion.li
                 key={i}
                 initial={{ opacity: 0, x: -15 }}

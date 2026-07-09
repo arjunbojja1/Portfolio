@@ -1387,6 +1387,29 @@ section,
   margin: 0.9rem 0;
 }
 
+.exp-metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.exp-metric-chip {
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  color: var(--mint-400);
+}
+
+.exp-metric-chip.amber {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  color: #f59e0b;
+}
+
 .current-role-badge {
   display: inline-flex;
   align-items: center;
@@ -2232,6 +2255,18 @@ section,
   border: 1px solid var(--border-subtle);
 }
 
+.hero-intern-badge.active {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  animation: activePulse 2s ease-in-out infinite;
+}
+
+@keyframes activePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
+  50% { box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
+}
+
 .hero-intern-role {
   font-size: 0.78rem;
   color: var(--ink-600);
@@ -2404,6 +2439,7 @@ section,
 
 .skill-cat-label-new.purple { color: var(--sky-500); }
 .skill-cat-label-new.cyan { color: var(--mint-400); }
+.skill-cat-label-new.amber { color: #f59e0b; }
 
 .skill-pills-row {
   display: flex;
@@ -2441,6 +2477,12 @@ section,
   color: var(--mint-400);
 }
 
+.skill-pill-new.amber {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  color: #f59e0b;
+}
+
 /* ── Featured Project Card ── */
 .featured-project-card {
   margin-bottom: 1.5rem;
@@ -2457,6 +2499,7 @@ section,
 .featured-badge-new {
   display: inline-flex;
   align-items: center;
+  gap: 0.4rem;
   padding: 0.22rem 0.7rem;
   border-radius: 999px;
   font-size: 0.68rem;

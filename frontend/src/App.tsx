@@ -153,6 +153,7 @@ interface ExperienceData {
   duration: string;
   location: string;
   description: string[];
+  metrics?: string[];
 }
 
 interface ProjectData {
@@ -332,7 +333,6 @@ const App: React.FC = () => {
                 <About
                   passion={profile.about.passion}
                   seeking={profile.about.seeking}
-                  location={profile.location}
                   skills={profile.skills}
                   education={profile.education}
                 />
