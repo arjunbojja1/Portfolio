@@ -53,21 +53,25 @@ const ProfileCard: React.FC<{ imageSrc: string; name: string }> = ({ imageSrc, n
           <div className="profile-glow-secondary"></div>
           <div className="profile-ring-outer"></div>
           <div className="profile-ring-inner"></div>
-          <img
-            src={imageSrc}
-            alt={`${name} — Professional Portrait`}
-            className="profile-photo"
-            fetchPriority="high"
-          />
+          <picture>
+            <source srcSet={imageSrc.replace(/\.png$/, '.webp')} type="image/webp" />
+            <img
+              src={imageSrc}
+              alt={`${name} — Professional Portrait`}
+              className="profile-photo"
+              fetchPriority="high"
+            />
+          </picture>
           <div className="profile-particles">
             {[...Array(12)].map((_, i) => (
-              <motion.div
+              <div
                 key={i}
                 className="profile-particle"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: [0, 1, 0], opacity: [0, 1, 0], rotate: 360 }}
-                transition={{ duration: 3, repeat: Infinity, delay: i * 0.3, ease: 'easeInOut' }}
-                style={{ left: `${20 + (i % 4) * 20}%`, top: `${20 + Math.floor(i / 4) * 20}%` }}
+                style={{
+                  left: `${20 + (i % 4) * 20}%`,
+                  top: `${20 + Math.floor(i / 4) * 20}%`,
+                  animationDelay: `${i * 0.3}s`,
+                }}
               />
             ))}
           </div>

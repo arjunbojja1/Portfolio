@@ -609,6 +609,14 @@ section,
   border-radius: 50%;
   background: rgba(124, 58, 237, 0.4);
   box-shadow: 0 0 6px rgba(124, 58, 237, 0.3);
+  animation: profile-particle-pulse 3s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes profile-particle-pulse {
+  0% { transform: scale(0) rotate(0deg); opacity: 0; }
+  50% { transform: scale(1) rotate(180deg); opacity: 1; }
+  100% { transform: scale(0) rotate(360deg); opacity: 0; }
 }
 
 .hero-text-section {

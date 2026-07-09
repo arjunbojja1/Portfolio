@@ -36,7 +36,7 @@ const Footer: React.FC<Props> = ({ linkedin, github }) => {
           </div>
           <div className="contact-item">
             <span className="contact-icon">{React.createElement(FaBriefcase as any, { size: 13 })}</span>
-            <span>Incoming @ Microsoft · Summer 2026</span>
+            <span>Software Engineering Intern @ Microsoft, Summer 2026</span>
           </div>
         </div>
       </div>

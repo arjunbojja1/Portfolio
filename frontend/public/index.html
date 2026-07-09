@@ -17,7 +17,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://img.logo.dev" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" /></noscript>
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="Arjun Bojja — Distributed Systems Engineer and AI Infrastructure specialist. Incoming Software Engineering Intern at Microsoft. Previously at Capital One. University of Maryland, Class of 2027." />
@@ -40,7 +41,7 @@
     <meta property="twitter:image" content="%PUBLIC_URL%/headshot.png" />
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="%PUBLIC_URL%/headshot.png" as="image" fetchpriority="high" />
+    <link rel="preload" href="%PUBLIC_URL%/headshot.webp" as="image" type="image/webp" fetchpriority="high" />
     
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     
