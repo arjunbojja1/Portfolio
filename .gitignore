@@ -19,3 +19,4 @@ coverage/
 *.iml
 .github/
 *.map
+.superpowers/

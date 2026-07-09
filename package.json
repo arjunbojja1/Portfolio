@@ -4,7 +4,7 @@
   "description": "Full-stack portfolio application with Firebase backend",
   "scripts": {
     "start": "cd frontend && npm start",
-    "build": "cd frontend && npm run build && cd .. && cp -r frontend/build/* .",
+    "build": "cd frontend && npm run build",
     "backend": "cd backend && /Users/arjunbojja/Documents/Portfolio/backend/venv/bin/python main.py",
     "backend:dev": "cd backend && DEBUG=True /Users/arjunbojja/Documents/Portfolio/backend/venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 --reload",
     "backend:setup": "cd backend && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
