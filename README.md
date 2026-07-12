@@ -1,176 +1,122 @@
-# Arjun Bojja's Portfolio
+# Arjun Bojja | Engineering Portfolio
 
-A modern, full-stack portfolio website built with React, TypeScript, and Firebase Functions. Features dynamic content management, responsive design, and a contact form with email notifications.
+A full-stack portfolio for sharing my software engineering experience, projects, and technical interests. I built it as a React and TypeScript application backed by Python APIs, then deployed it with Firebase Hosting and Firebase Functions.
 
-## 🚀 Features
+**Live site:** [arjun-bojja-portfolio.web.app](https://arjun-bojja-portfolio.web.app)
 
-- **Modern React Frontend**: Built with TypeScript, featuring animations and responsive design
-- **Firebase Functions Backend**: Serverless Python backend with all your existing API endpoints
-- **Dynamic Content**: Easy-to-update portfolio data through Firebase Functions
-- **Contact Form**: Integrated email functionality for visitor inquiries
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Performance Optimized**: Fast loading with proper caching and optimization
+![Portfolio home page showing Arjun's engineering experience and technical focus](docs/screenshots/portfolio-home.png)
 
-## 🛠️ Technology Stack
+## What I built
 
-- **Frontend**: React 19, TypeScript, CSS3, Axios
-- **Backend**: Firebase Functions (Python), Firebase Hosting
-- **Deployment**: Firebase (Functions + Hosting)
-- **Development**: Node.js, npm, Firebase CLI
+- A responsive React interface with animated sections for experience, projects, education, and skills
+- Python APIs that keep portfolio content separate from the presentation layer
+- A contact workflow that validates submissions and sends email notifications through SMTP
+- Five-minute client-side caching to reduce repeated API requests while keeping content current
+- Light and dark themes persisted across visits with browser storage
+- Loading states, error boundaries, and retry paths for a more resilient user experience
+- Firebase and Docker deployment options for both serverless and container-based hosting
 
-## 📦 Project Structure
+## Engineering highlights
 
+### Full-stack architecture
+
+The frontend requests profile, experience, and project data from a Python API instead of hard-coding the content into components. This keeps the site easy to update and lets the same data model work with the local FastAPI service and deployed Firebase Functions.
+
+### Production-minded frontend
+
+The TypeScript client uses reusable components, local caching, explicit loading and error states, responsive layouts, and motion-based transitions. Project cards support source links, live demos, technology tags, and media.
+
+### Deployment flexibility
+
+Firebase Hosting serves the production frontend while Python Firebase Functions expose the content and contact endpoints. The repository also includes Nginx, Docker, and Docker Compose configuration for a containerized deployment path.
+
+## Architecture
+
+```text
+Browser
+  |
+  v
+React + TypeScript frontend
+  |
+  +--> Profile, experience, and project APIs
+  +--> Contact form API
+          |
+          v
+Python FastAPI locally or Firebase Functions in production
 ```
-Portfolio/
-├── frontend/           # React TypeScript application
-│   ├── src/
-│   │   ├── components/ # React components
-│   │   └── App.tsx     # Main application
-│   └── build/          # Production build
-├── functions/          # Firebase Functions (Python)
-│   ├── main.py         # API endpoints
-│   └── requirements.txt
-├── public/             # Firebase Hosting files
-├── backend/            # Original FastAPI backend (for local dev)
-└── firebase.json       # Firebase configuration
-```
 
-## 🚀 Quick Start
+## Technology stack
+
+| Area | Technologies |
+| --- | --- |
+| Frontend | React 19, TypeScript, Axios, Framer Motion, CSS |
+| Backend | Python, FastAPI, Firebase Functions |
+| Hosting | Firebase Hosting, Nginx |
+| Infrastructure | Docker, Docker Compose |
+| Testing | React Testing Library, Jest |
+
+## API surface
+
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /api/profile` | Returns profile, skills, education, and social links |
+| `GET /api/experience` | Returns professional experience |
+| `GET /api/projects` | Returns project details and links |
+| `POST /api/contact` | Validates and sends a contact submission |
+| `GET /api/health` | Reports API health and configuration status |
+
+The deployed Firebase Functions provide equivalent profile, experience, project, contact, and health handlers.
+
+## Run locally
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- Python 3.13+
-- Firebase CLI (`npm install -g firebase-tools`)
 
-### Installation
+- Node.js 18 or newer
+- Python 3.10 or newer
 
-1. **Clone and install dependencies:**
-   ```bash
-   git clone <your-repo-url>
-   cd Portfolio
-   npm run install-all
-   ```
+### Start the API
 
-2. **Firebase Setup:**
-   ```bash
-   firebase login
-   firebase init  # Select Functions and Hosting
-   ```
-
-3. **Configure your Firebase project:**
-   - Update `REACT_APP_FIREBASE_PROJECT_ID` in `frontend/.env.production`
-   - Replace `your-firebase-project-id` with your actual project ID
-
-### Development
-
-**Local Development (with original backend):**
 ```bash
-npm run dev  # Runs both frontend and backend
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-**Firebase Local Development:**
+### Start the frontend
+
+In a second terminal:
+
 ```bash
-npm run firebase:serve  # Test Firebase Functions locally
+cd frontend
+npm install
+npm start
 ```
 
-### Deployment
+Open [http://localhost:3000](http://localhost:3000).
 
-**Deploy everything:**
+## Build and test
+
+```bash
+npm run build
+npm test -- --watchAll=false
+```
+
+Firebase deployment commands are available from the repository root:
+
 ```bash
 npm run firebase:deploy
-```
-
-**Deploy only functions:**
-```bash
 npm run firebase:deploy:functions
-```
-
-**Deploy only hosting:**
-```bash
 npm run firebase:deploy:hosting
 ```
 
-## 🔧 Configuration
+## Repository layout
 
-### Environment Variables
-
-Create `frontend/.env.local` for local development:
-```bash
-REACT_APP_FIREBASE_PROJECT_ID=your-firebase-project-id
-REACT_APP_API_BASE_URL=http://localhost:8000/api
+```text
+frontend/    React and TypeScript application
+backend/     FastAPI service for local development
+functions/   Python Firebase Functions
+docs/        Project documentation and screenshots
+scripts/     Deployment and maintenance scripts
 ```
-
-### Email Configuration
-
-Set up email environment variables in Firebase Functions:
-```bash
-firebase functions:config:set \
-  smtp.host="smtp.gmail.com" \
-  smtp.port="587" \
-  smtp.username="your-email@gmail.com" \
-  smtp.password="your-app-password" \
-  smtp.from_email="your-email@gmail.com" \
-  smtp.to_email="your-email@gmail.com"
-```
-
-## 📝 Content Management
-
-Update your portfolio content by editing the data in `functions/main.py`:
-- `profile_data`: Personal information and skills
-- `experience_data`: Work experience
-- `projects_data`: Project portfolio
-
-After making changes, redeploy functions:
-```bash
-npm run firebase:deploy:functions
-```
-
-## 🔥 Firebase Functions Endpoints
-
-- `GET /get_profile` - Retrieve profile information
-- `GET /get_experience` - Retrieve work experience
-- `GET /get_projects` - Retrieve project portfolio
-- `POST /contact_form` - Handle contact form submissions
-- `GET /health_check` - API health status
-
-## 🎨 Customization
-
-### Styling
-- Main styles: `frontend/src/App.css`
-- Component styles: Individual component files
-
-### Components
-- `Hero`: Landing section with name and title
-- `About`: Skills, education, and personal info
-- `Experience`: Work experience timeline
-- `Projects`: Project showcase with links
-- `Contact`: Contact form with validation
-
-## 📱 Features
-
-- **Responsive Design**: Mobile-first approach
-- **Animated UI**: Particle effects and smooth transitions
-- **Loading States**: Skeleton loading for better UX
-- **Error Handling**: Comprehensive error boundaries
-- **Form Validation**: Client-side form validation
-- **SEO Optimized**: Proper meta tags and structure
-
-## 🚀 Performance
-
-- Static hosting via Firebase
-- Serverless functions for dynamic content
-- Optimized bundle splitting
-- Proper caching headers
-- Image optimization
-
-## 📄 License
-
-MIT License - feel free to use this project as a template for your own portfolio!
-
-## 🤝 Contributing
-
-This is a personal portfolio, but feel free to fork and create your own version!
-
----
-
-Built with ❤️ by Arjun Bojja
